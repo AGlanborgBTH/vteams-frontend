@@ -1,17 +1,26 @@
 <template>
-  <Desktop />
-  <Mobile />
+  <Mobile v-if="mobile" />
+  <Desktop v-else />
 </template>
 
 <script>
 import Desktop from './components/Desktop.vue'
 import Mobile from './components/Mobile.vue'
+import detectMob from '@/lib/mobile'
 
 export default {
   name: 'App',
   components: {
     Desktop,
     Mobile
+  },
+  data() {
+    return {
+      mobile: false
+    }
+  },
+  mounted() {
+    this.mobile = detectMob()
   }
 }
 </script>
