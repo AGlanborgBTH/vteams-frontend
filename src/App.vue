@@ -36,7 +36,8 @@ body {
   font-family: 'Tienne', 'serif';
 }
 
-input {
+input,
+button {
   color: rgb(225, 255, 255);
   font-family: 'Tienne', 'serif';
 }

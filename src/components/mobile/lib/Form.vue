@@ -17,18 +17,23 @@
         <label for="password"> Password </label>
         <input type="password" id="password" placeholder="Password" />
       </div>
-      <div class="sup">
+      <div v-if="sup === '1'" class="sup">
         <div class="rememberContainer">
           <input type="checkbox" id="remember" />
           <label for="remember" class="rememberText"> Remember me </label>
         </div>
         <p class="forgot">Forgot Password?</p>
       </div>
+      <div v-else class="supReplace">
+      </div>
       <input type="submit" :value="submit" />
       <input type="button" :value="submit + ' with Github'" />
       <div class="bot">
         <p>
-          Dont have an account? <span style="color: Blue">Sign up</span>
+          {{ footer }}
+          <button @click="this.$emit('alter')">
+            {{ alt }}
+          </button>
         </p>
       </div>
     </div>
@@ -41,7 +46,10 @@ export default {
   props: {
     title: String,
     excerpt: String,
+    sup: String,
     submit: String,
+    footer: String,
+    alt: String,
   },
   methods: {
     onSubmit(event) {
@@ -79,6 +87,11 @@ input[type="password"] {
   padding: 0 3vw;
 }
 
+input[type="email"]:focus,
+input[type="password"]:focus {
+  outline-color: rgb(248, 158, 158);
+}
+
 input[type="checkbox"] {
   background-color: rgba(0, 0, 0, 0);
   border: none;
@@ -114,6 +127,13 @@ input[type="button"] {
   font-size: 16px;
   padding: 0 3vw;
   margin: 0 6.5vw;
+}
+
+button {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  color: rgb(248, 158, 158);
+  font-size: 16px;
 }
 
 .titleContainer {
@@ -156,6 +176,10 @@ input[type="button"] {
   margin: 20px 35px 6.5vw 6.5vw;
 }
 
+.supReplace {
+  margin: 36px;
+}
+
 .rememberContainer {
   position: relative;
 }
@@ -180,7 +204,7 @@ input[type="button"] {
   justify-content: center;
   margin-top: 21px;
 }
-.bot>p {
+.bot > p {
   margin: 0;
 }
 </style>
