@@ -1,18 +1,18 @@
 <template>
   <div class="mobile">
     <Main v-if="loggedIn" />
-    <Login v-else />
+    <Form v-else />
   </div>
 </template>
 
 <script>
-import Login from "./mobile/Login.vue";
+import Form from "./mobile/Form.vue";
 import Main from "./mobile/Main.vue";
 
 export default {
   name: "MobileMain",
   components: {
-    Login,
+    Form,
     Main,
   },
   data() {

@@ -1,5 +1,5 @@
 <template>
-  <form onsubmit="onSubmit(event)">
+  <form @submit="(event) => event.preventDefault()">
     <div class="titleContainer">
       <h1>Rodent</h1>
       <span class="material-icons main-icon">pest_control_rodent</span>
@@ -26,8 +26,8 @@
       </div>
       <div v-else class="supReplace">
       </div>
-      <input type="submit" :value="submit" />
-      <input type="button" :value="submit + ' with Github'" />
+      <input type="submit" :value="submit" @click="onSubmit" />
+      <input type="button" :value="submit + ' with Github'" @click="onGit" />
       <div class="bot">
         <p>
           {{ footer }}
@@ -52,10 +52,13 @@ export default {
     alt: String,
   },
   methods: {
-    onSubmit(event) {
-      event.preventDefault();
+    onSubmit() {
+
     },
-  },
+    onGit() {
+
+    }
+  }
 };
 </script>
 
