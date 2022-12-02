@@ -1,5 +1,5 @@
 <template>
-  <Form
+  <Login
     v-if="state"
     @alter="alter"
     title="Register"
@@ -9,7 +9,7 @@
     footer="Already have an account?"
     alt="Log in"
   />
-  <Form
+  <Login
     v-else
     @alter="alter"
     title="Login"
@@ -22,12 +22,12 @@
 </template>
 
 <script>
-import Form from "./lib/Form.vue";
+import Login from "./lib/Login.vue";
 
 export default {
   name: "MobileLogin",
   components: {
-    Form,
+    Login,
   },
   data() {
     return {

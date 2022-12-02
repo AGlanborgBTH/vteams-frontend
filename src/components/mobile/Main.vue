@@ -7,7 +7,7 @@
 
 export default {
   name: 'MobileMain',
-  components: {
+  mounted() {
   }
 }
 </script>
