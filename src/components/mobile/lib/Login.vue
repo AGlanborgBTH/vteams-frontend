@@ -27,7 +27,7 @@
       <div v-else class="supReplace">
       </div>
       <input type="submit" :value="submit" @click="onSubmit" />
-      <input type="button" :value="submit + ' with Github'" @click="onGit" />
+      <a href="https://github.com/login/oauth/authorize?client_id=6cf1f637f3f432873249"><input type="button" :value="submit + ' with Github'" @click="onGit" /></a>
       <div class="bot">
         <p>
           {{ footer }}
