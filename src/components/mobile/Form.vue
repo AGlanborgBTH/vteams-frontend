@@ -1,33 +1,17 @@
 <template>
-  <Login
-    v-if="state"
-    @alter="alter"
-    title="Register"
-    excerpt="Register to create a profile"
-    sup="0"
-    submit="Register"
-    footer="Already have an account?"
-    alt="Log in"
-  />
-  <Login
-    v-else
-    @alter="alter"
-    title="Login"
-    excerpt="Login to access your profile"
-    sup="1"
-    submit="Sign in"
-    footer="Don't have an account?"
-    alt="Sign up"
-  />
+  <Register v-if="state" @alter="alter" />
+  <Login v-else @alter="alter" />
 </template>
 
 <script>
 import Login from "./lib/Login.vue";
+import Register from "./lib/Register.vue";
 
 export default {
   name: "MobileLogin",
   components: {
     Login,
+    Register,
   },
   data() {
     return {
@@ -36,9 +20,9 @@ export default {
   },
   methods: {
     alter() {
-      this.state ? this.state = false : this.state = true
-    }
-  }
+      this.state ? (this.state = false) : (this.state = true);
+    },
+  },
 };
 </script>
 

@@ -5,8 +5,17 @@
       <span class="material-icons main-icon">pest_control_rodent</span>
     </div>
     <div class="contentContainer">
-      <h2>E-bike Login</h2>
-      <p class="excerpt">Login to access your profile</p>
+      <div class="registerTitle">
+        <h2>Create Account</h2>
+      </div>
+      <div class="section">
+        <label for="password"> Firstname </label>
+        <input type="password" id="password" placeholder="Firstname" />
+      </div>
+      <div class="section">
+        <label for="password"> Lastname </label>
+        <input type="password" id="password" placeholder="Lastname" />
+      </div>
       <div class="section">
         <label for="username"> Email </label>
         <input type="email" id="username" placeholder="Email" />
@@ -15,23 +24,13 @@
         <label for="password"> Password </label>
         <input type="password" id="password" placeholder="Password" />
       </div>
-      <div class="sup">
-        <div class="rememberContainer">
-          <input type="checkbox" id="remember" />
-          <label for="remember" class="rememberText"> Remember me </label>
-        </div>
-        <p class="forgot">Forgot Password?</p>
+      <div class="signin">
+        <input type="submit" value="Sign in" @click="onSubmit" />
       </div>
-      <input type="submit" value="Sign In" @click="onSubmit" />
-      <a
-        href="https://github.com/login/oauth/authorize?client_id=6cf1f637f3f432873249&scope=user:email"
-      >
-        <input type="button" value="Sign In with Github" @click="onGit" />
-      </a>
       <div class="bot">
         <p>
-          Don't have an account?
-          <button @click="this.$emit('alter')">Sign up</button>
+          Already have an account?
+          <button @click="this.$emit('alter')">Sign in</button>
         </p>
       </div>
     </div>
@@ -136,11 +135,9 @@ button {
   flex-direction: column;
 }
 
-.excerpt {
-  font-size: 16px;
-  margin-left: 6.5vw;
-  margin-bottom: 15px;
-  margin-top: 0;
+.registerTitle > h2 {
+  text-align: center;
+  margin-left: 0;
 }
 
 .section {
@@ -154,36 +151,15 @@ button {
   margin-bottom: 8px;
 }
 
-.sup {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin: 20px 35px 6.5vw 6.5vw;
-}
-
-.rememberContainer {
-  position: relative;
-}
-
-.rememberText {
-  line-height: 0;
-  font-size: 14px;
-  top: 10px;
-  margin-left: 28px;
-}
-
-.forgot {
-  margin: 0;
-  line-height: 24px;
-  font-size: 14px;
-  color: rgb(102, 112, 133);
+.signin {
+  margin-top: 29px;
 }
 
 .bot {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin-top: 21px;
+  margin-top: 12px;
 }
 .bot > p {
   margin: 0;
