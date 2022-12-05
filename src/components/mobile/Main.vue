@@ -1,14 +1,15 @@
 <template>
-  <div>
-  </div>
+  <Select />
 </template>
 
 <script>
+import Select from "./lib/Select.vue"
 
 export default {
   name: 'MobileMain',
-  mounted() {
-  }
+  components: {
+    Select,
+  },
 }
 </script>
 

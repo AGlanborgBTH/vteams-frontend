@@ -25,7 +25,7 @@
         <input type="password" id="password" placeholder="Password" />
       </div>
       <div class="signin">
-        <input type="submit" value="Sign in" @click="onSubmit" />
+        <input type="submit" value="Sign up" @click="onSubmit" />
       </div>
       <div class="bot">
         <p>

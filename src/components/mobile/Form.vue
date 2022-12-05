@@ -1,6 +1,6 @@
 <template>
   <Register v-if="state" @alter="alter" />
-  <Login v-else @alter="alter" />
+  <Login v-else @alter="alter" @logIn="logIn" />
 </template>
 
 <script>
@@ -22,6 +22,9 @@ export default {
     alter() {
       this.state ? (this.state = false) : (this.state = true);
     },
+    logIn() {
+      this.$emit('logIn')
+    }
   },
 };
 </script>

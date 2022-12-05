@@ -1,7 +1,7 @@
 <template>
   <div class="mobile">
     <Main v-if="loggedIn" />
-    <Form v-else />
+    <Form v-else @logIn="logIn" />
   </div>
 </template>
 
@@ -18,6 +18,11 @@ export default {
   data() {
     return {
       loggedIn: false
+    }
+  },
+  methods: {
+    logIn() {
+      this.loggedIn = true
     }
   }
 };
