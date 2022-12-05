@@ -2,7 +2,7 @@
   <form @submit="(event) => event.preventDefault()">
     <div class="titleContainer">
       <h1>Rodent</h1>
-      <span class="material-icons main-icon">pest_control_rodent</span>
+      <span class="material-icons">pest_control_rodent</span>
     </div>
     <div class="contentContainer">
       <div class="registerTitle">

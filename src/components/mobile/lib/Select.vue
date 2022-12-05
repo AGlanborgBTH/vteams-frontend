@@ -2,18 +2,38 @@
   <form @submit="(event) => event.preventDefault()">
     <div class="titleContainer">
       <h1>Rodent</h1>
-      <span class="material-icons main-icon">pest_control_rodent</span>
+      <span class="material-icons">pest_control_rodent</span>
     </div>
     <div class="contentContainer">
       <div class="registerTitle">
         <h2>Choose City</h2>
       </div>
       <div class="content">
-        <div v-for="city in cities" :key="city.id" class="dropDown">
+        <div
+          v-for="city in cities"
+          :key="city._id"
+          @click="current === city._id ? (current = '') : (current = city._id)"
+          class="dropDown"
+        >
           <div class="buttonContainer">
             <div class="button">
               <p>{{ city.name }}</p>
-              <span class="material-icons main-icon">keyboard_arrow_right</span>
+              <div :class="current === city._id ? 'down' : 'right'" class="arrow">
+                <span class="material-icons"> keyboard_arrow_right </span>
+              </div>
+            </div>
+            <div
+              :class="current === city._id ? 'show' : 'hidden'"
+              class="box"
+            >
+            <div class="boxContent">
+              <p>
+                Available bikes: {{ city.scooters.length }}
+              </p>
+            </div>
+            <div class="boxContent">
+              <input type="button" value="Select" />
+            </div>
             </div>
           </div>
         </div>
@@ -29,31 +49,32 @@ export default {
     return {
       cities: [
         {
-          _id: "6384bb54079e5520699909d6",
+          _id: "123",
           name: "Göteborg",
           scooters: [234, 123, 345, 645],
         },
         {
-          _id: "6384bb54079e552069909d6",
+          _id: "234",
           name: "Göteborg",
           scooters: [234, 123, 345, 645],
         },
         {
-          _id: "6384bb5409e5520699909d6",
+          _id: "345",
           name: "Göteborg",
           scooters: [234, 123, 345, 645],
         },
         {
-          _id: "6384bb54079e552069909d6",
+          _id: "456",
           name: "Göteborg",
           scooters: [234, 123, 345, 645],
         },
         {
-          _id: "6384bb54079e552099909d6",
+          _id: "567",
           name: "Göteborg",
           scooters: [234, 123, 345, 645],
         },
       ],
+      current: "",
     };
   },
 };
@@ -64,6 +85,16 @@ export default {
 
 h1 {
   margin: 0;
+  font-size: 16px;
+}
+
+input {
+  border: none;
+  outline: none;
+  background-color: rgba(84, 41, 255, 0.8);
+  border-radius: 8px;
+  height: 40px;
+  width: 140px;
   font-size: 16px;
 }
 
@@ -84,6 +115,7 @@ h1 {
 
 .registerTitle > h2 {
   text-align: center;
+  font-size: 30px;
   margin-left: 0;
 }
 
@@ -95,11 +127,13 @@ h1 {
 }
 
 .buttonContainer {
-  height: 60px;
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+  min-height: 60px;
 }
 
 .button {
-  position: absolute;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -112,7 +146,6 @@ h1 {
 
 .button > p {
   display: inline-block;
-  position: relative;
   font-size: 20px;
   line-height: 24px;
   margin: 0;
@@ -120,7 +153,50 @@ h1 {
 
 .button > span {
   display: inline-block;
-  position: relative;
   line-height: 24px;
+}
+
+.down {
+  transform: rotate3d(0, 0, 1, 90deg);
+}
+
+.right {
+  transform: rotate3d(0, 0, 1, 0deg);
+}
+
+.arrow {
+  transition: 0.5s;
+}
+
+.hidden {
+  height: 0;
+}
+
+.show {
+  height: 160px;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: height 0.5s;
+  width: 87vw;
+  margin: 0 6.5vw 10px;
+  font-size: 18px;
+}
+
+.boxContent {
+  height: 50%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.boxContent > p {
+  width: 80vw;
+  margin: 0 2vw;
 }
 </style>
