@@ -9,11 +9,11 @@
       <p class="excerpt">Login to access your profile</p>
       <div class="section">
         <label for="username"> Email </label>
-        <input type="email" id="username" placeholder="Email" />
+        <input v-model="email" type="email" id="username" placeholder="Email" />
       </div>
       <div class="section">
         <label for="password"> Password </label>
-        <input type="password" id="password" placeholder="Password" />
+        <input v-model="pwd" type="password" id="password" placeholder="Password" />
       </div>
       <div class="sup">
         <div class="rememberContainer">
@@ -22,7 +22,7 @@
         </div>
         <p class="forgot">Forgot Password?</p>
       </div>
-      <input type="submit" value="Sign In" @click="this.$emit('logIn')" />
+      <input type="submit" value="Sign In" @click="this.$emit('logIn', email, pwd)"/>
       <a
         href="https://github.com/login/oauth/authorize?client_id=6cf1f637f3f432873249&scope=user:email"
       >
@@ -41,6 +41,13 @@
 <script>
 export default {
   name: "MobileLogin",
+  data()
+  {
+    return {
+      email:"",
+      pwd:""
+    }
+  }
 };
 </script>
 
