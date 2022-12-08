@@ -1,4 +1,4 @@
-export default async function getUser(email, pwd) {
+export default async function loginUser(email, pwd) {
     let response = await fetch ("http://localhost:3000/v1/users/login", {
         method: "POST",
         headers: {

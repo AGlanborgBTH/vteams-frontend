@@ -7,7 +7,7 @@
 import Login from "./lib/Login.vue";
 import Register from "./lib/Register.vue";
 import { useCookies } from "vue3-cookies";
-import getUser from "./../../requests/login";
+import loginUser from "./../../requests/login";
 
 export default {
   name: "MobileLogin",
@@ -19,6 +19,19 @@ export default {
   setup() {
     const { cookies } = useCookies();
     return { cookies };
+  },
+
+  async mounted() {
+    if (this.cookies.get("GitHubUser")) {
+      let result = await loginUser(this.cookies.get("GitHubUser"), "github forever");
+      this.cookies.remove("GitHubUser")
+      if (result.accessToken) {
+        this.cookies.set("user", {email: result.Email, id: result.id, token: result.accessToken});
+        this.$emit('inlog')
+      } else {
+        this.emit("logIn")
+      }
+    }
   },
 
   data() {
@@ -33,17 +46,15 @@ export default {
     },
 
     async logIn(email, pwd) {
-      let result = await getUser(email, pwd);
-      let accessToken = result.accessToken;
+      let result = await loginUser(email, pwd);
 
       if (result.accessToken) {
-        this.cookies.set("access-token", accessToken);
+        this.cookies.set("user", {email: result.Email, id: result.id, token: result.accessToken});
         this.$emit('inlog')
       } else {
         this.emit("logIn")
       }
     }
-
   }
 };
 </script>
