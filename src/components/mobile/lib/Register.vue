@@ -10,22 +10,22 @@
       </div>
       <div class="section">
         <label for="password"> Firstname </label>
-        <input type="password" id="password" placeholder="Firstname" />
+        <input v-model="firstname" type="password" id="password" placeholder="Firstname" />
       </div>
       <div class="section">
         <label for="password"> Lastname </label>
-        <input type="password" id="password" placeholder="Lastname" />
+        <input v-model="lastname" type="password" id="password" placeholder="Lastname" />
       </div>
       <div class="section">
         <label for="username"> Email </label>
-        <input type="email" id="username" placeholder="Email" />
+        <input v-model="email" type="email" id="username" placeholder="Email" />
       </div>
       <div class="section">
         <label for="password"> Password </label>
-        <input type="password" id="password" placeholder="Password" />
+        <input v-model="pwd" type="password" id="password" placeholder="Password" />
       </div>
       <div class="signin">
-        <input type="submit" value="Sign up" @click="onSubmit" />
+        <input type="submit" value="Sign up" @click="onSubmit(firstname, lastname, email, pwd)" />
       </div>
       <div class="bot">
         <p>
@@ -38,8 +38,31 @@
 </template>
 
 <script>
+import signUpUser from "./../../../requests/signup";
+import swal from 'sweetalert';
+
 export default {
   name: "MobileLogin",
+  data()
+  {
+    return {
+      firstname:"",
+      lastname:"",
+      email:"",
+      pwd:""
+    }
+  },
+  methods: {
+    async onSubmit(firstname, lastname, email, pwd) {
+      let result = await signUpUser(firstname, lastname, email, pwd)
+      if (result.status === 201) {
+        swal("Account created");
+        this.$emit('alter')
+      } else {
+        swal("Email already exist");
+      }
+    }
+  }
 };
 </script>
 

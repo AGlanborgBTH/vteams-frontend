@@ -1,6 +1,6 @@
 <template>
   <Register v-if="state" @alter="alter" />
-  <Login v-else @alter="alter" @logIn="logIn" />
+  <Login v-else @alter="alter" @onLogIn="onLogIn" />
 </template>
 
 <script>
@@ -8,6 +8,8 @@ import Login from "./lib/Login.vue";
 import Register from "./lib/Register.vue";
 import { useCookies } from "vue3-cookies";
 import loginUser from "./../../requests/login";
+import swal from 'sweetalert';
+
 
 export default {
   name: "MobileLogin",
@@ -40,7 +42,7 @@ export default {
       this.state ? (this.state = false) : (this.state = true);
     },
 
-    async logIn(email, pwd) {
+    async onLogIn(email, pwd) {
       let result = await loginUser(email, pwd);
       this.checkToken(result.Email, result.id, result.accessToken);
     },
@@ -48,9 +50,10 @@ export default {
     checkToken(email, id, token) {
       if (token) {
         this.cookies.set("user", {email: email, id: id, token: token});
-        this.$emit('inlog')
+        this.$emit('logIn')
       } else {
-        this.emit("logIn")
+        swal("Wrong email or password")
+        this.$emit("onLogIn")
       }
 
     }
