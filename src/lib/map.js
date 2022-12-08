@@ -1,51 +1,62 @@
-
-const api_url = 'http://localhost:3000/v1/cities/6384bb98897c01a69121c994';
-
-
+// This function loads a map using the Leaflet library and displays the city boundaries as defined by the cityId parameter.
+const cityId = '6384bb98897c01a69121c994';
 export default async function map() {
-    const response = await fetch(api_url);
+
+    const apiUrl  = `http://localhost:3000/v1/cities/${cityId}`;
+    const response = await fetch(apiUrl );
     const data = await response.json();
-    const {Geojson } = data;
+    const {Geojson, Center } = data;
 
+    let leaflet = require("leaflet");
 
-    let L = require("leaflet");
-
-    let map = L.map("map", {
+    let mapInstance = leaflet.map("map", {
         scrollWheelZoom: true,
     });
+
+    // The center coordinates and GeoJSON objects are used to set up the map, and the layers are styled using the layerStyling object.
+    mapInstance.setView([Center.Lat, Center.Long], 7);  
     
-    map.setView([47.7, 13.35], 7);
     
-    let tile = L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    // Tile Layer
+    let tile = leaflet.tileLayer("https://api.mapbox.com/styles/v1/silvacastillo/cla30jg7d006e15sez6ruscrt/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1Ijoic2lsdmFjYXN0aWxsbyIsImEiOiJjbGEzMGczbWkwbGVjM25wZXVyZjJ0bnY2In0.biCDV09vUoUSHFppboPtjw", {
         maxZoom: 19,
         attribution:
             '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     });
+    tile.addTo(mapInstance);
 
-
-    tile.addTo(map);
-
-    L.geoJSON(Geojson.Limit,{
-        style:{
-            color: 'black',
-            fillOpacity: 0
+   // Layer Styling
+    const layerStyling = {
+        Limit: {
+            style: {
+                color: 'black',
+                fillOpacity: 0,
+            }
+        },
+        Charging: {
+            style: {
+                color: 'blue',
+                fillOpacity: 0.3
+            }
+        },
+        Parking: {
+            style: {
+                color: 'green',
+                fillOpacity: 0.3
+            }
         }
-    }).addTo(map);
+    }
 
-    L.geoJSON(Geojson.Charging,{
-        style:{
-            color: 'blue',
-            fillOpacity: 0.3
-        }
-    }).addTo(map);
+    // Layer Group
+    let layerGroup = leaflet.layerGroup();
 
+     // Adding GeoJSONs to Map
+    for (let key in Geojson) {
+        layerGroup.addLayer(leaflet.geoJSON(Geojson[key], layerStyling[key]));
+    }
 
-    L.geoJSON(Geojson.Parking,{
-        style:{
-            color: 'green',
-            fillOpacity: 0.3
-        }
-    }).addTo(map);
-
-
+    layerGroup.addTo(mapInstance);
+    // Finally, the map is fit to the bounds of the layerGroup.
+    
+    mapInstance.fitBounds(layerGroup.getLayers().reduce((bounds, layer) => bounds.extend(layer.getBounds()), leaflet.latLngBounds([])));
 }
