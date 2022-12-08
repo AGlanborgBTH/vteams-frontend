@@ -1,7 +1,7 @@
 <template>
   <div class="mobile">
     <Main v-if="loggedIn" />
-    <Form v-else @inlog="inlog" />
+    <Form v-else @logIn="logIn" />
   </div>
 </template>
 
@@ -21,7 +21,7 @@ export default {
     }
   },
   methods: {
-    inlog() {
+    logIn() {
       this.loggedIn = true
     }
   }
