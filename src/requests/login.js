@@ -10,5 +10,9 @@ export default async function loginUser(email, pwd) {
       })
 
       let result = await response;
+      if (response.status === 400) {
+        throw new Error("failed")
+      }
+
       return result.json();
 }

@@ -43,8 +43,12 @@ export default {
     },
 
     async onLogIn(email, pwd) {
-      let result = await loginUser(email, pwd);
-      this.checkToken(result.Email, result.id, result.accessToken);
+      try {
+        let result = await loginUser(email, pwd);
+        this.checkToken(result.Email, result.id, result.accessToken);
+      } catch(err) {
+        swal("Wrong email or password, try again...")
+      }
     },
 
     checkToken(email, id, token) {
@@ -53,7 +57,6 @@ export default {
         this.$emit('logIn')
       } else {
         swal("Wrong email or password")
-        this.$emit("onLogIn")
       }
 
     }
