@@ -12,11 +12,10 @@
         <div
           v-for="city in cities"
           :key="city._id"
-          @click="current === city._id ? (current = '') : (current = city._id)"
           class="dropDown"
         >
           <div class="buttonContainer">
-            <div class="button">
+            <div class="button" @click="current === city._id ? (current = '') : (current = city._id)">
               <p>{{ city.name }}</p>
               <div :class="current === city._id ? 'down' : 'right'" class="arrow">
                 <span class="material-icons"> keyboard_arrow_right </span>
@@ -32,7 +31,7 @@
               </p>
             </div>
             <div class="boxContent">
-              <input type="button" value="Select" />
+              <input type="button" value="Select" @click="this.$emit('select')" />
             </div>
             </div>
           </div>
