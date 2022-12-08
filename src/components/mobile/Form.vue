@@ -23,14 +23,9 @@ export default {
 
   async mounted() {
     if (this.cookies.get("GitHubUser")) {
-      let result = await loginUser(this.cookies.get("GitHubUser"), "github forever");
+      let result = await loginUser(this.cookies.get("GitHubUser"), process.env.VUE_APP_GITHUBPWD);
       this.cookies.remove("GitHubUser")
-      if (result.accessToken) {
-        this.cookies.set("user", {email: result.Email, id: result.id, token: result.accessToken});
-        this.$emit('inlog')
-      } else {
-        this.emit("logIn")
-      }
+      this.checkToken(result.Email, result.id, result.accessToken);
     }
   },
 
@@ -47,13 +42,17 @@ export default {
 
     async logIn(email, pwd) {
       let result = await loginUser(email, pwd);
+      this.checkToken(result.Email, result.id, result.accessToken);
+    },
 
-      if (result.accessToken) {
-        this.cookies.set("user", {email: result.Email, id: result.id, token: result.accessToken});
+    checkToken(email, id, token) {
+      if (token) {
+        this.cookies.set("user", {email: email, id: id, token: token});
         this.$emit('inlog')
       } else {
         this.emit("logIn")
       }
+
     }
   }
 };
