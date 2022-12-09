@@ -1,6 +1,6 @@
 // This function loads a map using the Leaflet library and displays the city boundaries as defined by the cityId parameter.
-const cityId = '6384bb98897c01a69121c994';
-export default async function map() {
+
+export default async function map(cityId) {
 
     const apiUrl  = `http://localhost:3000/v1/cities/${cityId}`;
     const response = await fetch(apiUrl );
