@@ -22,7 +22,7 @@
         </div>
         <p class="forgot">Forgot Password?</p>
       </div>
-      <input type="submit" value="Sign In" @click="this.$emit('logIn', email, pwd)"/>
+      <input type="submit" value="Sign In" @click="this.$emit('onLogIn', email, pwd)"/>
       <a
         href="https://github.com/login/oauth/authorize?client_id=6cf1f637f3f432873249&scope=user:email"
       >
