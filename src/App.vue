@@ -41,4 +41,13 @@ button {
   color: rgb(225, 255, 255);
   font-family: 'Tienne', 'serif';
 }
+
+.leaflet-left {
+  right: 0;
+  left: revert;
+}
+
+.leaflet-control {
+  margin-right: 10px;
+}
 </style>
