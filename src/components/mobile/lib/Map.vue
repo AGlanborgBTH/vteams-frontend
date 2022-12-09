@@ -38,6 +38,24 @@
           </div>
         </div>
       </div>
+      <div class="footer">
+        <div class="logoutContainer">
+          <input type="button" class="logout" value="Logout" />
+        </div>
+        <div class="legal">
+          <p>
+            Term Of Use
+          </p>
+          <p>
+            Privacy $ Service
+          </p>
+        </div>
+        <div class="version">
+          <p>
+            Rodent v1.0.1
+          </p>
+        </div>
+      </div>
     </div>
     <div id="map" @click="open = false" />
   </div>
@@ -51,7 +69,7 @@ export default {
   data() {
     return {
       current: "",
-      open: true,
+      open: false,
       options: [
         {
           icon: "person",
@@ -94,7 +112,7 @@ h2 {
   position: absolute;
   display: inline-block;
   line-height: 24px;
-  margin: 3px 0 0 10px;
+  margin: 2px 0 0 10px;
 }
 
 span {
@@ -103,6 +121,7 @@ span {
 }
 
 .container {
+  white-space: nowrap;
   height: 100%;
   width: 100%;
 }
@@ -136,14 +155,14 @@ span {
 
 .hidden {
   visibility: hidden;
-  opacity: 0;
   transition: visibility 0s 0.1s, opacity 0.1s linear;
+  opacity: 0;
 }
 
 .visible {
   visibility: visible;
-  opacity: 1;
   transition: opacity 0.1s linear;
+  opacity: 1;
 }
 
 .stripe:first-child {
@@ -173,6 +192,7 @@ span {
   position: absolute;
   overflow: hidden;
   background-color: rgb(46, 59, 97);
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.4);
   height: 100%;
   z-index: 9;
   transition: 0.5s;
@@ -180,15 +200,21 @@ span {
 
 .title {
   display: flex;
-  flex-direction: column-reverse;
-  width: 100%;
+  justify-content: center;
+  align-items: center;
+  width: 50vw;
   height: 10vh;
-  padding-left: 15vw;
 }
 
 .content {
-  height: 55vh;
-  padding-top: 9vh;
+  height: 60vh;
+  padding-top: 5vh;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  height: 30vh;
 }
 
 .opt-icon {
@@ -208,5 +234,32 @@ span {
 .option {
   display: flex;
   flex-direction: row;
+}
+
+.logoutContainer {
+  padding-left: 17.5vw;
+  width: 100%;
+}
+
+.logout {
+  border: none;
+  background-color: rgb(84, 41, 255);
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+  width: 40vw;
+  height: 30px;
+  font-size: 16px;
+}
+
+.legal {
+  margin-top: 3vh;
+  padding-left: 10vw;
+  font-size: 15px;
+}
+
+.version {
+  padding-left: 10vw;
+  font-size: 14px;
+  color: rgb(102, 112, 133);
 }
 </style>
