@@ -31,7 +31,7 @@
               </p>
             </div>
             <div class="boxContent">
-              <input type="button" value="Select" @click="this.$emit('select')" />
+              <input type="button" value="Select" @click="this.$emit('select', city._id)" />
             </div>
             </div>
           </div>
@@ -46,35 +46,15 @@ export default {
   name: "MobileLogin",
   data() {
     return {
-      cities: [
-        {
-          _id: "123",
-          name: "Göteborg",
-          scooters: [234, 123, 345, 645],
-        },
-        {
-          _id: "234",
-          name: "Göteborg",
-          scooters: [234, 123, 345, 645],
-        },
-        {
-          _id: "345",
-          name: "Göteborg",
-          scooters: [234, 123, 345, 645],
-        },
-        {
-          _id: "456",
-          name: "Göteborg",
-          scooters: [234, 123, 345, 645],
-        },
-        {
-          _id: "567",
-          name: "Göteborg",
-          scooters: [234, 123, 345, 645],
-        },
-      ],
+      cities: [ ],
       current: "",
     };
+  },
+  async mounted() {
+    const apiUrl  = `http://localhost:3000/v1/cities`;
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+    this.cities = data.data;
   },
 };
 </script>
