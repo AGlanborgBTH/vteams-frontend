@@ -31,7 +31,7 @@
               </p>
             </div>
             <div class="boxContent">
-              <input type="button" value="Select" @click="this.$emit('select')" />
+              <input type="button" value="Select" @click="this.$emit('select', city._id)" />
             </div>
             </div>
           </div>

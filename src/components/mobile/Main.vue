@@ -1,5 +1,5 @@
 <template>
-  <Map v-if="selected" />
+  <Map v-if="selected" :city="city" />
   <Select v-else @select="onSelect" />
 </template>
 
@@ -16,10 +16,12 @@ export default {
   data() {
     return {
       selected: "",
+      city: "",
     };
   },
   methods: {
-    onSelect() {
+    onSelect(id) {
+      this.city = id
       this.selected = "temp"
     }
   }
