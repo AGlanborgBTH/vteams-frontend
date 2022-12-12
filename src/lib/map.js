@@ -27,19 +27,19 @@ export default async function map(cityId) {
 
    // Layer Styling
     const layerStyling = {
-        Limit: {
+        limit: {
             style: {
                 color: 'black',
                 fillOpacity: 0,
             }
         },
-        Charging: {
+        charging: {
             style: {
                 color: 'blue',
                 fillOpacity: 0.3
             }
         },
-        Parking: {
+        parking: {
             style: {
                 color: 'green',
                 fillOpacity: 0.3
