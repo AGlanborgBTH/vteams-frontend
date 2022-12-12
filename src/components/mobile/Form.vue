@@ -1,6 +1,6 @@
 <template>
   <Register v-if="state" @alter="alter" />
-  <Login v-else @alter="alter" @onLogIn="onLogIn" />
+  <Login v-else @alter="alter" @onLogIn="onLogIn" @skip="skip" />
 </template>
 
 <script>
@@ -17,31 +17,19 @@ export default {
     Login,
     Register,
   },
-
   setup() {
     const { cookies } = useCookies();
     return { cookies };
   },
-
-  async mounted() {
-    if (this.cookies.get("GitHubUser")) {
-      let result = await loginUser(this.cookies.get("GitHubUser"), process.env.VUE_APP_GITHUBPWD);
-      this.cookies.remove("GitHubUser")
-      this.checkToken(result.Email, result.id, result.accessToken);
-    }
-  },
-
   data() {
     return {
       state: false,
     };
   },
-
   methods: {
     alter() {
       this.state ? (this.state = false) : (this.state = true);
     },
-
     async onLogIn(email, pwd) {
       try {
         let result = await loginUser(email, pwd);
@@ -50,7 +38,6 @@ export default {
         swal("Wrong email or password, try again...")
       }
     },
-
     checkToken(email, id, token) {
       if (token) {
         this.cookies.set("user", {email: email, id: id, token: token});
@@ -58,9 +45,19 @@ export default {
       } else {
         swal("Wrong email or password")
       }
-
+    },
+    skip() {
+      this.$emit("skip")
     }
-  }
+  },
+  async mounted() {
+    if (this.cookies.get("GitHubUser")) {
+      let result = await loginUser(this.cookies.get("GitHubUser"), process.env.VUE_APP_GITHUBPWD);
+      this.cookies.remove("GitHubUser")
+      this.checkToken(result.Email, result.id, result.accessToken);
+    }
+  },
+
 };
 </script>
 

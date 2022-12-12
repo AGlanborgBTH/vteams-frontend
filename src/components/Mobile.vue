@@ -1,7 +1,7 @@
 <template>
   <div class="mobile">
     <Main v-if="loggedIn" />
-    <Form v-else @logIn="logIn" />
+    <Form v-else @logIn="logIn" @skip="logIn" />
   </div>
 </template>
 
