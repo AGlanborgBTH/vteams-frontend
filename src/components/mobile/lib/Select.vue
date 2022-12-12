@@ -55,7 +55,6 @@ export default {
     const response = await fetch(apiUrl);
     const data = await response.json();
     this.cities = data.data;
-    console.log(JSON.stringify(this.cities));
   },
 };
 </script>
