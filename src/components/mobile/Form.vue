@@ -33,7 +33,7 @@ export default {
     async onLogIn(email, pwd) {
       try {
         let result = await loginUser(email, pwd);
-        this.checkToken(result.Email, result.id, result.accessToken);
+        this.checkToken(result.email, result.id, result.accessToken);
       } catch(err) {
         swal("Wrong email or password, try again...")
       }
@@ -54,7 +54,7 @@ export default {
     if (this.cookies.get("GitHubUser")) {
       let result = await loginUser(this.cookies.get("GitHubUser"), process.env.VUE_APP_GITHUBPWD);
       this.cookies.remove("GitHubUser")
-      this.checkToken(result.Email, result.id, result.accessToken);
+      this.checkToken(result.email, result.id, result.accessToken);
     }
   },
 

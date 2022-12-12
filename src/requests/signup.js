@@ -5,10 +5,10 @@ export default async function signUpUser(firstname, lastname, email, pwd) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            Firstname: firstname,
-            Surname: lastname,
-            Email: email,
-            Cryptedpassword: pwd})
+            firstname: firstname,
+            surname: lastname,
+            email: email,
+            cryptedpassword: pwd})
       })
 
       let result = await response;
