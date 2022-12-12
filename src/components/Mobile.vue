@@ -1,20 +1,38 @@
 <template>
-  <Login />
-  <Main />
+  <div class="mobile">
+    <Main v-if="loggedIn" />
+    <Form v-else @logIn="logIn" />
+  </div>
 </template>
 
 <script>
-import Login from './mobile/Login.vue'
-import Main from './mobile/Main.vue'
+import Form from "./mobile/Form.vue";
+import Main from "./mobile/Main.vue";
 
 export default {
-  name: 'MobileMain',
+  name: "MobileMain",
   components: {
-    Login,
-    Main
+    Form,
+    Main,
+  },
+  data() {
+    return {
+      loggedIn: false
+    }
+  },
+  methods: {
+    logIn() {
+      this.loggedIn = true
+    }
   }
-}
+};
 </script>
 
 <style scoped>
+.mobile {
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  background: #2e3b61;
+}
 </style>
