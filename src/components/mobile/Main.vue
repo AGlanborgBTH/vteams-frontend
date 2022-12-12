@@ -15,14 +15,14 @@ export default {
   },
   data() {
     return {
-      selected: "",
+      selected: false,
       city: "",
     };
   },
   methods: {
     onSelect(id) {
       this.city = id
-      this.selected = "temp"
+      this.selected = true
     }
   }
 };

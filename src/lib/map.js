@@ -5,7 +5,7 @@ export default async function map(cityId) {
     const apiUrl  = `http://localhost:3000/v1/cities/${cityId}`;
     const response = await fetch(apiUrl );
     const data = await response.json();
-    const {Geojson, center } = data;
+    const {geojson, center } = data;
 
     let leaflet = require("leaflet");
 
@@ -14,7 +14,7 @@ export default async function map(cityId) {
     });
 
     // The center coordinates and GeoJSON objects are used to set up the map, and the layers are styled using the layerStyling object.
-    mapInstance.setView([center.Lat, center.Long], 7);  
+    mapInstance.setView([center.lat, center.long], 7);  
     
     
     // Tile Layer
@@ -51,8 +51,8 @@ export default async function map(cityId) {
     let layerGroup = leaflet.layerGroup();
 
      // Adding GeoJSONs to Map
-    for (let key in Geojson) {
-        layerGroup.addLayer(leaflet.geoJSON(Geojson[key], layerStyling[key]));
+    for (let key in geojson) {
+        layerGroup.addLayer(leaflet.geoJSON(geojson[key], layerStyling[key]));
     }
 
     layerGroup.addTo(mapInstance);
