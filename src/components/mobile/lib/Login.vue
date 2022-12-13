@@ -26,7 +26,7 @@
       <a
         href="https://github.com/login/oauth/authorize?client_id=6cf1f637f3f432873249&scope=user:email"
       >
-        <input type="button" value="Sign In with Github"/>
+        <input type="button" value="Sign In with Github" @click="location.href=''"/>
       </a>
       <div class="bot">
         <p>

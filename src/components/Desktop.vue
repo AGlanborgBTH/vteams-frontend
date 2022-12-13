@@ -1,20 +1,25 @@
 <template>
-  <Admin />
-  <Login />
-  <User />
+  <Admin v-if="state == 1" />
+  <Form v-if="state == 2" />
+  <User v-if="state == 3" />
 </template>
 
 <script>
 import Admin from './desktop/Admin.vue'
-import Login from './desktop/Login.vue'
+import Form from './desktop/Form.vue'
 import User from './desktop/User.vue'
 
 export default {
   name: 'DesktopMain',
   components: {
     Admin,
-    Login,
+    Form,
     User
+  },
+  data() {
+    return {
+      state: 2
+    }
   }
 }
 </script>

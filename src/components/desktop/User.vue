@@ -1,6 +1,5 @@
 <template>
   <Header />
-  <div id="map"></div>
 </template>
 
 <script>
