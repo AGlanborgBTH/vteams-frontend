@@ -1,6 +1,6 @@
 <template>
   <Admin v-if="state == 1" />
-  <Form v-if="state == 2" />
+  <Form v-if="state == 2" @logIn="logIn" />
   <User v-if="state == 3" />
 </template>
 
@@ -19,6 +19,15 @@ export default {
   data() {
     return {
       state: 2
+    }
+  },
+  methods: {
+    logIn(adm) {
+      if (adm) {
+        this.state = 1
+      } else {
+        this.state = 3
+      }
     }
   }
 }
