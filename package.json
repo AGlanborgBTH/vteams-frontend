@@ -11,6 +11,7 @@
     "axios": "^1.2.1",
     "core-js": "^3.8.3",
     "leaflet": "^1.9.3",
+    "leaflet-drift-marker": "^2.0.0",
     "material-icons": "^1.12.2",
     "socket.io-client": "^4.5.4",
     "sweetalert": "^2.1.2",

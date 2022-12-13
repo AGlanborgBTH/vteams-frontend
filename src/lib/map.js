@@ -1,5 +1,11 @@
 // This function loads a map using the Leaflet library and displays the city boundaries as defined by the cityId parameter.
 
+
+
+import DriftMarker from "leaflet-drift-marker";
+//var DriftMarker=require("leaflet-drift-marker")
+
+
 export default async function map(cityId) {
 
     const apiUrl  = `http://localhost:3000/v1/cities/${cityId}`;
@@ -59,4 +65,40 @@ export default async function map(cityId) {
     // Finally, the map is fit to the bounds of the layerGroup.
     
     mapInstance.fitBounds(layerGroup.getLayers().reduce((bounds, layer) => bounds.extend(layer.getBounds()), leaflet.latLngBounds([])));
+
+    const url = 'http://localhost:3000/v1/scooters';
+
+    fetch(url)
+    .then(response => response.json())
+    .then(data => {
+        for (const scooter of data[data]) {
+        if (scooter.inUse) {
+            console.log(scooter._id);
+        }
+        }
+    });
+
+    const marker = new DriftMarker([57.687300367053496, 12.013669635629554], {
+        draggable: true,
+        title: "Resource location"
+    }).addTo(mapInstance)
+
+
+    // marker.slideTo([59.71646139531549, 12.013669635629554], {
+    // duration: 2000,
+    // keepAtCenter: true,
+    // });
+    // Script for adding marker on map click
+    function onMapClick(e) {
+        console.log("e.latlng", e.latlng);
+        marker.slideTo(e.latlng, { duration: 2500 });
+        // Update marker on changing it's position
+        marker.on("dragend", function (ev) {
+            var chagedPos = ev.target.getLatLng();
+            this.bindPopup(chagedPos.toString()).openPopup();
+        });
+    }
+    // alert("click on the map to move marker");
+    mapInstance.on("click", onMapClick);
+
 }
