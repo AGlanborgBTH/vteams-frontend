@@ -66,6 +66,9 @@ import map from "@/lib/map.js";
 
 export default {
   name: "MobileLogin",
+  props: {
+    city: String,
+  },
   data() {
     return {
       current: "",
@@ -91,7 +94,7 @@ export default {
     };
   },
   mounted() {
-    map();
+    map(this.city);
   },
 };
 </script>

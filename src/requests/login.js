@@ -5,8 +5,8 @@ export default async function loginUser(email, pwd) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          Email: email,
-          Cryptedpassword: pwd})
+          email: email,
+          cryptedpassword: pwd})
       })
 
       let result = await response;
