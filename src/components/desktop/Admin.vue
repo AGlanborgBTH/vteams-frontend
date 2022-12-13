@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import Header  from './lib/Header.vue'
+import Header  from './content/Header.vue'
 
 export default {
   name: "AdminMain",

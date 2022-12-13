@@ -31,7 +31,7 @@ export default {
 body {
   margin: 0;
   padding: 0;
-  background-color: rgb(36, 36, 36);
+  background-color: rgb(46, 59, 97);
   color: rgb(255, 255, 255);
   font-family: 'Tienne', 'serif';
 }
