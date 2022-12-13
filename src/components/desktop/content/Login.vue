@@ -1,50 +1,40 @@
 <template>
+  <div class="logoContainer">
+    <span class="material-icons">pest_control_rodent</span>
+    <h1>Rodent</h1>
+  </div>
   <div class="container">
     <div class="mainContainer">
       <div class="formContainer">
-        <div class="logoContainer">
-          <span class="material-icons">pest_control_rodent</span>
-          <h1>Rodent</h1>
-        </div>
         <div class="content">
           <form>
             <div class="titleContainer">
-              <h2>
-                E-Bike Login
-              </h2>
-              <p class="titleText">
-                Login to access profile
-              </p>
+              <h2>E-Bike Login</h2>
+              <p class="titleText">Login to access profile</p>
             </div>
             <div class="mainInputContainer">
               <div class="inputContainer">
-                <label for="email" class="inputLabel">
-                  Email
-                </label>
+                <label for="email" class="inputLabel"> Email </label>
                 <input type="email" placeholder="Email" id="email" />
               </div>
               <div class="inputContainer">
-                <label for="password" class="inputLabel">
-                  Password
-                </label>
+                <label for="password" class="inputLabel"> Password </label>
                 <input type="password" placeholder="Password" id="password" />
               </div>
             </div>
             <div class="sub">
               <div class="rememberContainer">
                 <input type="checkbox" id="remember" />
-                <label for="remember">
-                  Remember me
-                </label>
+                <label for="remember"> Remember me </label>
               </div>
-              <p class="forgot">
-                Forgot Password?
-              </p>
+              <p class="forgot">Forgot Password?</p>
             </div>
             <div class="submitContainer">
               <input type="submit" value="Sign In" />
-              <a href="https://github.com/login/oauth/authorize?client_id=6cf1f637f3f432873249&scope=user:email">
-              <input type="button" value="Sign In with Github" />
+              <a
+                href="https://github.com/login/oauth/authorize?client_id=6cf1f637f3f432873249&scope=user:email"
+              >
+                <input type="button" value="Sign In with Github" />
               </a>
             </div>
           </form>
@@ -58,10 +48,9 @@
 </template>
 
 <script>
-
 export default {
-  name: 'DesktopLogin',
-}
+  name: "DesktopLogin",
+};
 </script>
 
 <style scoped>
@@ -81,7 +70,6 @@ h2 {
 
 form {
   padding-right: 20%;
-  padding-bottom: 10vh;
 }
 
 input[type="email"],
@@ -143,8 +131,9 @@ input[type="button"] {
 }
 
 .logoContainer {
-  height: 2.5vh;
-  padding-top: 2.5vh;
+  position: fixed;
+  height: 25px;
+  padding: 25px;
   width: 100%;
 }
 
@@ -156,7 +145,7 @@ input[type="button"] {
 }
 
 .mainInputContainer {
-  margin-top: 75px;
+  margin-top: 50px;
 }
 
 .submitContainer {
@@ -201,7 +190,11 @@ input[type="button"] {
 }
 
 .map {
-  background-color: rgba(150, 50, 100);
+  background-image: url("@/assets/swe.png"),
+    radial-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0) 60%);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
   width: 100%;
   height: 95vh;
   margin: 2.5vh 0;
