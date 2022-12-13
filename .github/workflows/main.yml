@@ -13,7 +13,7 @@ jobs:
       uses: docker/login-action@v2
       with:
         username: ${{ secrets.DOCKER_USER }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        password: ${{ secrets.DOCKER_TOKEN }}
     - name: docker build image
       run: docker build -t kristinakalinchuk/vteams-frontend .
     - name: docker push image
