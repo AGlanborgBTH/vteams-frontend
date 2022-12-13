@@ -6,49 +6,52 @@
           <span class="material-icons">pest_control_rodent</span>
           <h1>Rodent</h1>
         </div>
-        <form>
-          <div class="titleContainer">
-            <h2>
-              E-Bike Login
-            </h2>
-            <p class="titleText">
-              Login to access profile
-            </p>
-          </div>
-          <div class="mainInputContainer">
-            <div class="inputContainer">
-              <label for="email" class="inputLabel">
-                Email
-              </label>
-              <input type="email" placeholder="Email" id="email" />
+        <div class="content">
+          <form>
+            <div class="titleContainer">
+              <h2>
+                E-Bike Login
+              </h2>
+              <p class="titleText">
+                Login to access profile
+              </p>
             </div>
-            <div class="inputContainer">
-              <label for="password" class="inputLabel">
-                Password
-              </label>
-              <input type="password" placeholder="Password" id="password" />
+            <div class="mainInputContainer">
+              <div class="inputContainer">
+                <label for="email" class="inputLabel">
+                  Email
+                </label>
+                <input type="email" placeholder="Email" id="email" />
+              </div>
+              <div class="inputContainer">
+                <label for="password" class="inputLabel">
+                  Password
+                </label>
+                <input type="password" placeholder="Password" id="password" />
+              </div>
             </div>
-          </div>
-          <div class="sub">
-            <div class="rememberContainer">
-              <input type="checkbox" id="remember" />
-              <label for="remember">
-                Remember me
-              </label>
+            <div class="sub">
+              <div class="rememberContainer">
+                <input type="checkbox" id="remember" />
+                <label for="remember">
+                  Remember me
+                </label>
+              </div>
+              <p class="forgot">
+                Forgot Password?
+              </p>
             </div>
-            <p class="forgot">
-              Forgot Password?
-            </p>
-          </div>
-          <div class="submitContainer">
-            <input type="submit" value="Sign In" />
-            <a href="https://github.com/login/oauth/authorize?client_id=6cf1f637f3f432873249&scope=user:email">
-            <input type="button" value="Sign In with Github" />
-            </a>
-          </div>
-        </form>
+            <div class="submitContainer">
+              <input type="submit" value="Sign In" />
+              <a href="https://github.com/login/oauth/authorize?client_id=6cf1f637f3f432873249&scope=user:email">
+              <input type="button" value="Sign In with Github" />
+              </a>
+            </div>
+          </form>
+        </div>
       </div>
       <div class="mapContainer">
+        <div class="map" />
       </div>
     </div>
   </div>
@@ -77,8 +80,8 @@ h2 {
 }
 
 form {
-  margin-top: 150px;
-  padding: 0 10%;
+  padding-right: 20%;
+  padding-bottom: 10vh;
 }
 
 input[type="email"],
@@ -115,7 +118,7 @@ input[type="button"] {
   width: 100%;
   border-radius: 8px;
   font-size: 16px;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 .container {
@@ -140,16 +143,24 @@ input[type="button"] {
 }
 
 .logoContainer {
-  padding: 45px 0 0 45px ;
+  height: 2.5vh;
+  padding-top: 2.5vh;
   width: 100%;
 }
 
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 95vh;
+}
+
 .mainInputContainer {
-  margin-top: 85px;
+  margin-top: 75px;
 }
 
 .submitContainer {
-  margin-top: 35px;
+  margin-top: 45px;
 }
 
 .titleText {
@@ -189,4 +200,11 @@ input[type="button"] {
   color: rgba(102, 112, 133);
 }
 
+.map {
+  background-color: rgba(150, 50, 100);
+  width: 100%;
+  height: 95vh;
+  margin: 2.5vh 0;
+  border-radius: 40px;
+}
 </style>
