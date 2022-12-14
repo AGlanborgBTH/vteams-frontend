@@ -90,10 +90,7 @@ export default async function map(cityId) {
   //   popupAnchor: [0, -50],
   // });
 
-  let IconChoice = "";
-  let ScooterDestinations = [];
-  let ScooterVelocity = [];
-  let ScooterIDS = [];
+  let IconChoice;
 
   // First, we will create a function that will make an HTTP GET request to the API endpoint
   function getScooters() {
@@ -106,24 +103,17 @@ export default async function map(cityId) {
           // Create a marker for each scooter
           if (scooter.inUse) {
             IconChoice = IconMarkerGreen;
-            ScooterIDS.push(scooter._id);
-            ScooterDestinations.push(scooter.destination);
-            ScooterVelocity.push(scooter.velocity);
-            console.log(ScooterIDS);
-            console.log(ScooterDestinations);
-            console.log(ScooterVelocity);
           } else {
             IconChoice = IconMarkerWhite;
           }
           marker = new DriftMarker(
             [scooter.location.lat, scooter.location.long],
             {
-              //create a popup window that shows scooter.name
               icon: IconChoice,
               title: scooter.name,
-              keepAtCenter: true,
             }
           ).addTo(mapInstance);
+          console.log(marker);
         }
       });
   }
@@ -140,12 +130,9 @@ export default async function map(cityId) {
       .then((data) => {
         for (const scooter of data.data) {
           if (scooter.inUse) {
-            for (const scooterDest of ScooterDestinations) {
-              console.log(scooterDest);
-              marker.slideTo(scooterDest, {
-                duration: 2000,
-              });
-            }
+            marker.slideTo(scooter.destination, {
+              duration: scooter.velocity,
+            });
           }
         }
       });
