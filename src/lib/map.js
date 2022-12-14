@@ -71,48 +71,93 @@ export default async function map(cityId) {
       )
   );
 
+  let marker;
 
-let marker
-// First, we will create a function that will make an HTTP GET request to the API endpoint
-function getScooters() {
-  fetch('http://localhost:3000/v1/scooters')
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      for (const scooter of data.data) {
-        // Create a marker for each scooter
-         marker = new DriftMarker([scooter.location.lat, scooter.location.long], {
-          //create a popup window that shows scooter.name
-          icon: leaflet.icon({
-            iconUrl: "https://i.imgur.com/NGiQZ9C.png",
-            iconSize: [30, 48],
-          }),
-          title: scooter.name,
-        }).addTo(mapInstance);
-      }
-    });
-}
+  let IconMarkerWhite = leaflet.icon({
+    iconUrl: "https://i.imgur.com/XxQMjkd.png",
+    iconSize: [30, 48],
+  });
 
+  let IconMarkerGreen = leaflet.icon({
+    iconUrl: "https://i.imgur.com/xz3ICLk.png",
+    iconSize: [30, 48],
+  });
 
-// Call the getScooters function to start making requests to the API and add markers to the map
-getScooters();
+  // let IconMarkerRed = leaflet.icon({
+  //   iconUrl: "https://i.imgur.com/4Z0ZQ0x.png",
+  //   iconSize: [50, 50],
+  //   iconAnchor: [25, 50],
+  //   popupAnchor: [0, -50],
+  // });
 
+  let IconChoice = "";
+
+  // First, we will create a function that will make an HTTP GET request to the API endpoint
+  function getScooters() {
+    fetch("http://localhost:3000/v1/scooters")
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        for (const scooter of data.data) {
+          // Create a marker for each scooter
+          if (scooter.inUse) {
+            IconChoice = IconMarkerGreen;
+          } else {
+            IconChoice = IconMarkerWhite;
+          }
+          marker = new DriftMarker(
+            [scooter.location.lat, scooter.location.long],
+            {
+              //create a popup window that shows scooter.name
+              icon: IconChoice,
+              title: scooter.name,
+              keepAtCenter: true,
+            }
+          ).addTo(mapInstance);
+        }
+      });
+  }
+
+  // Call the getScooters function to start making requests to the API and add markers to the map
+  getScooters();
 
   // marker.slideTo([59.71646139531549, 12.013669635629554], {
   // duration: 2000,
   // keepAtCenter: true,
   // });
   // Script for adding marker on map click
-  function onMapClick(e) {
-    console.log("e.latlng", e.latlng);
-    marker.slideTo(e.latlng, { duration: 2500 });
-    // Update marker on changing it's position
-    marker.on("dragend", function (ev) {
-      var chagedPos = ev.target.getLatLng();
-      this.bindPopup(chagedPos.toString()).openPopup();
-    });
+  function onUpdateMap() {
+    fetch("http://localhost:3000/v1/scooters")
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        for (const scooter of data.data) {
+          if (scooter.inUse === true) {
+            marker.slideTo(scooter.destination, {
+              duration: scooter.velocity,
+            });
+            // marker.on("dragend", function (ev) {
+            //   var chagedPos = ev.target.getLatLng();
+            //   this.bindPopup(chagedPos.toString()).openPopup();
+            // });
+            // console.log(scooter.name);
+            // console.log(scooter.destination);
+          }
+        }
+      });
   }
+
+  // function onMapClick(e) {
+  //   console.log("e.latlng", e.latlng);
+  //   marker.slideTo(e.latlng, { duration: 2500 });
+  //   // Update marker on changing it's position
+  //   marker.on("dragend", function (ev) {
+  //     var chagedPos = ev.target.getLatLng();
+  //     this.bindPopup(chagedPos.toString()).openPopup();
+  //   });
+  // }
   // alert("click on the map to move marker");
-  mapInstance.on("click", onMapClick);
+  mapInstance.on("click", onUpdateMap);
 }
