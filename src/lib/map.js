@@ -91,7 +91,9 @@ export default async function map(cityId) {
   // });
 
   let IconChoice = "";
-  let ScooterArray = [];
+  let ScooterDestinations = [];
+  let ScooterVelocity = [];
+  let ScooterIDS = [];
 
   // First, we will create a function that will make an HTTP GET request to the API endpoint
   function getScooters() {
@@ -104,8 +106,12 @@ export default async function map(cityId) {
           // Create a marker for each scooter
           if (scooter.inUse) {
             IconChoice = IconMarkerGreen;
-            ScooterArray.push(scooter._id);
-            console.log(ScooterArray);
+            ScooterIDS.push(scooter._id);
+            ScooterDestinations.push(scooter.destination);
+            ScooterVelocity.push(scooter.velocity);
+            console.log(ScooterIDS);
+            console.log(ScooterDestinations);
+            console.log(ScooterVelocity);
           } else {
             IconChoice = IconMarkerWhite;
           }
@@ -134,9 +140,10 @@ export default async function map(cityId) {
       .then((data) => {
         for (const scooter of data.data) {
           if (scooter.inUse) {
-            for (const scooterID of ScooterArray) {
-              marker.slideTo(scooterID[0].destination, {
-                duration: scooterID[0].velocity,
+            for (const scooterDest of ScooterDestinations) {
+              console.log(scooterDest);
+              marker.slideTo(scooterDest, {
+                duration: 2000,
               });
             }
           }
