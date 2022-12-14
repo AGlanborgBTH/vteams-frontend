@@ -71,10 +71,29 @@ export default async function map(cityId) {
       )
   );
 
-  const marker = new DriftMarker([57.687300367053496, 12.013669635629554], {
-    draggable: true,
-    title: "Resource location",
-  }).addTo(mapInstance);
+
+let marker
+// First, we will create a function that will make an HTTP GET request to the API endpoint
+function getScooters() {
+  fetch('http://localhost:3000/v1/scooters')
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      for (const scooter of data.data) {
+        // Create a marker for each scooter
+         marker = new DriftMarker([scooter.location.lat, scooter.location.long], {
+          draggable: true,
+          title: "Resource location",
+        }).addTo(mapInstance);
+      }
+    });
+}
+
+
+// Call the getScooters function to start making requests to the API and add markers to the map
+getScooters();
+
 
   // marker.slideTo([59.71646139531549, 12.013669635629554], {
   // duration: 2000,
