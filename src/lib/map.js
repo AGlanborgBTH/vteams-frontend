@@ -83,8 +83,12 @@ function getScooters() {
       for (const scooter of data.data) {
         // Create a marker for each scooter
          marker = new DriftMarker([scooter.location.lat, scooter.location.long], {
-          draggable: true,
-          title: "Resource location",
+          //create a popup window that shows scooter.name
+          icon: leaflet.icon({
+            iconUrl: "https://i.imgur.com/NGiQZ9C.png",
+            iconSize: [30, 48],
+          }),
+          title: scooter.name,
         }).addTo(mapInstance);
       }
     });
