@@ -84,10 +84,8 @@ export default async function map(cityId) {
   });
 
   // let IconMarkerRed = leaflet.icon({
-  //   iconUrl: "https://i.imgur.com/4Z0ZQ0x.png",
-  //   iconSize: [50, 50],
-  //   iconAnchor: [25, 50],
-  //   popupAnchor: [0, -50],
+  //   iconUrl: "https://i.imgur.com/Elm3SkQ.png",
+  //   iconSize: [30, 48],
   // });
 
   let IconChoice;
@@ -113,7 +111,9 @@ export default async function map(cityId) {
               title: scooter.name,
             }
           ).addTo(mapInstance);
-          console.log(marker);
+          // console.log(marker);
+          marker.bindPopup(`<h2>Scooter: ${scooter.name}</h2>
+          <h3>Current Position: ${scooter.location.lat}, ${scooter.location.long}</h3>`);
         }
       });
   }
