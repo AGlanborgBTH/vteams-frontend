@@ -91,6 +91,7 @@ export default async function map(cityId) {
   // });
 
   let IconChoice = "";
+  let ScooterArray = [];
 
   // First, we will create a function that will make an HTTP GET request to the API endpoint
   function getScooters() {
@@ -103,6 +104,8 @@ export default async function map(cityId) {
           // Create a marker for each scooter
           if (scooter.inUse) {
             IconChoice = IconMarkerGreen;
+            ScooterArray.push(scooter._id);
+            console.log(ScooterArray);
           } else {
             IconChoice = IconMarkerWhite;
           }
@@ -122,11 +125,7 @@ export default async function map(cityId) {
   // Call the getScooters function to start making requests to the API and add markers to the map
   getScooters();
 
-  // marker.slideTo([59.71646139531549, 12.013669635629554], {
-  // duration: 2000,
-  // keepAtCenter: true,
-  // });
-  // Script for adding marker on map click
+  // Create a function that will update the map every 2 seconds
   function onUpdateMap() {
     fetch("http://localhost:3000/v1/scooters")
       .then((response) => {
@@ -134,30 +133,15 @@ export default async function map(cityId) {
       })
       .then((data) => {
         for (const scooter of data.data) {
-          if (scooter.inUse === true) {
-            marker.slideTo(scooter.destination, {
-              duration: scooter.velocity,
-            });
-            // marker.on("dragend", function (ev) {
-            //   var chagedPos = ev.target.getLatLng();
-            //   this.bindPopup(chagedPos.toString()).openPopup();
-            // });
-            // console.log(scooter.name);
-            // console.log(scooter.destination);
+          if (scooter.inUse) {
+            for (const scooterID of ScooterArray) {
+              marker.slideTo(scooterID[0].destination, {
+                duration: scooterID[0].velocity,
+              });
+            }
           }
         }
       });
   }
-
-  // function onMapClick(e) {
-  //   console.log("e.latlng", e.latlng);
-  //   marker.slideTo(e.latlng, { duration: 2500 });
-  //   // Update marker on changing it's position
-  //   marker.on("dragend", function (ev) {
-  //     var chagedPos = ev.target.getLatLng();
-  //     this.bindPopup(chagedPos.toString()).openPopup();
-  //   });
-  // }
-  // alert("click on the map to move marker");
-  mapInstance.on("click", onUpdateMap);
+  setInterval(onUpdateMap, 2000);
 }
