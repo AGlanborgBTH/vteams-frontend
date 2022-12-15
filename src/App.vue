@@ -28,7 +28,6 @@ export default {
   },
   mounted() {
     this.mobile = detectMob()
-    SocketioService.getScooters()
   }
 }
 </script>
