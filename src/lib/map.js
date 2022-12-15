@@ -71,12 +71,12 @@ export default async function map(cityId) {
       )
   );
 
-  let IconMarkerWhite = leaflet.icon({
+  const IconMarkerWhite = leaflet.icon({
     iconUrl: "https://i.imgur.com/XxQMjkd.png",
     iconSize: [30, 48],
   });
 
-  let IconMarkerGreen = leaflet.icon({
+  const IconMarkerGreen = leaflet.icon({
     iconUrl: "https://i.imgur.com/xz3ICLk.png",
     iconSize: [30, 48],
   });
