@@ -83,6 +83,56 @@ export default async function map(cityId) {
     iconSize: [30, 48],
   });
 
+  const ButtonRent = `<style>
+  .button {
+    background-color: #13aa52;
+    border: 1px solid #13aa52;
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, .1) 0 2px 4px 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    font-family: "Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    outline: none;
+    outline: 0;
+    padding: 10px 25px;
+    text-align: center;
+    transform: translateY(0);
+    transition: transform 150ms, box-shadow 150ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+</style>
+  <button class="button">Rent Scooter</button>`;
+
+  const ButtonUnRent = `<style>
+.button {
+  background-color: red;
+  border: 1px solid red;
+  border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, .1) 0 2px 4px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  font-family: "Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  outline: none;
+  outline: 0;
+  padding: 10px 25px;
+  text-align: center;
+  transform: translateY(0);
+  transition: transform 150ms, box-shadow 150ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+</style>
+<button class="button">Dont Renting</button>`;
+
   // let IconMarkerRed = leaflet.icon({
   //   iconUrl: "https://i.imgur.com/Elm3SkQ.png",
   //   iconSize: [30, 48],
@@ -90,7 +140,6 @@ export default async function map(cityId) {
 
   let IconChoice;
 
-  // First, we will create a function that will make an HTTP GET request to the API endpoint
   function getScooters() {
     fetch("http://localhost:3000/v1/scooters")
       .then((response) => {
@@ -98,7 +147,6 @@ export default async function map(cityId) {
       })
       .then((data) => {
         for (const scooter of data.data) {
-          // Create a marker for each scooter
           if (scooter.inUse) {
             IconChoice = IconMarkerGreen;
           } else {
@@ -111,9 +159,15 @@ export default async function map(cityId) {
               title: scooter.name,
             }
           ).addTo(mapInstance);
-          // console.log(marker);
-          marker.bindPopup(`<h2>Scooter: ${scooter.name}</h2>
-          <h3>Current Position: ${scooter.location.lat}, ${scooter.location.long}</h3>`);
+          if (scooter.inUse) {
+            marker.bindPopup(`<h2>Scooter: ${scooter.name}</h2>
+            <h3>Current Position: ${scooter.location.lat}, ${scooter.location.long}</h3>
+            ${ButtonUnRent}`);
+          } else {
+            marker.bindPopup(`<h2>Scooter: ${scooter.name}</h2>
+            <h3>Current Position: ${scooter.location.lat}, ${scooter.location.long}</h3>
+            ${ButtonRent}`);
+          }
         }
       });
   }
