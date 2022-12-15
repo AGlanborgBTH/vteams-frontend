@@ -71,8 +71,6 @@ export default async function map(cityId) {
       )
   );
 
-  let marker;
-
   let IconMarkerWhite = leaflet.icon({
     iconUrl: "https://i.imgur.com/XxQMjkd.png",
     iconSize: [30, 48],
@@ -82,6 +80,11 @@ export default async function map(cityId) {
     iconUrl: "https://i.imgur.com/xz3ICLk.png",
     iconSize: [30, 48],
   });
+
+  // let IconMarkerRed = leaflet.icon({
+  //   iconUrl: "https://i.imgur.com/Elm3SkQ.png",
+  //   iconSize: [30, 48],
+  // });
 
   const ButtonRent = `<style>
   .button {
@@ -133,12 +136,8 @@ export default async function map(cityId) {
 </style>
 <button class="button">Dont Renting</button>`;
 
-  // let IconMarkerRed = leaflet.icon({
-  //   iconUrl: "https://i.imgur.com/Elm3SkQ.png",
-  //   iconSize: [30, 48],
-  // });
-
   let IconChoice;
+  let marker = [];
 
   function getScooters() {
     fetch("http://localhost:3000/v1/scooters")
@@ -152,22 +151,26 @@ export default async function map(cityId) {
           } else {
             IconChoice = IconMarkerWhite;
           }
-          marker = new DriftMarker(
+          let Temp = new DriftMarker(
             [scooter.location.lat, scooter.location.long],
             {
               icon: IconChoice,
               title: scooter.name,
+              destination: scooter.destination,
+              velocity: scooter.velocity,
+              inUse: scooter.inUse,
             }
           ).addTo(mapInstance);
           if (scooter.inUse) {
-            marker.bindPopup(`<h2>Scooter: ${scooter.name}</h2>
+            Temp.bindPopup(`<h2>Scooter: ${scooter.name}</h2>
             <h3>Current Position: ${scooter.location.lat}, ${scooter.location.long}</h3>
             ${ButtonUnRent}`);
           } else {
-            marker.bindPopup(`<h2>Scooter: ${scooter.name}</h2>
+            Temp.bindPopup(`<h2>Scooter: ${scooter.name}</h2>
             <h3>Current Position: ${scooter.location.lat}, ${scooter.location.long}</h3>
             ${ButtonRent}`);
           }
+          marker.push(Temp);
         }
       });
   }
@@ -177,19 +180,15 @@ export default async function map(cityId) {
 
   // Create a function that will update the map every 2 seconds
   function onUpdateMap() {
-    fetch("http://localhost:3000/v1/scooters")
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        for (const scooter of data.data) {
-          if (scooter.inUse) {
-            marker.slideTo(scooter.destination, {
-              duration: scooter.velocity,
-            });
-          }
-        }
-      });
+    for (const scooter of marker) {
+      if (scooter.options.inUse) {
+        console.log("First Call");
+        console.log(scooter.options.destination);
+        scooter.slideTo(scooter.options.destination, {
+          duration: scooter.options.velocity,
+        });
+      }
+    }
   }
   setInterval(onUpdateMap, 2000);
 }
