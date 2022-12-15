@@ -7,12 +7,19 @@
 import Desktop from './components/Desktop.vue'
 import Mobile from './components/Mobile.vue'
 import detectMob from '@/lib/mobile'
+import SocketioService from './services/socketio.service.js';
 
 export default {
   name: 'App',
   components: {
     Desktop,
     Mobile
+  },
+  created() {
+    SocketioService.setupSocketConnection();
+  },
+  beforeUnmount() {
+    SocketioService.disconnect();
   },
   data() {
     return {
