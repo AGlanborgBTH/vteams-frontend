@@ -152,7 +152,7 @@ export default async function map(cityId) {
             IconChoice = IconMarkerWhite;
           }
           let Temp = new DriftMarker(
-            [scooter.location.lat, scooter.location.long],
+            [scooter.location.lat, scooter.location.lng],
             {
               icon: IconChoice,
               title: scooter.name,
@@ -163,11 +163,11 @@ export default async function map(cityId) {
           ).addTo(mapInstance);
           if (scooter.inUse) {
             Temp.bindPopup(`<h2>Scooter: ${scooter.name}</h2>
-            <h3>Current Position: ${scooter.location.lat}, ${scooter.location.long}</h3>
+            <h3>Current Position: ${scooter.location.lat}, ${scooter.location.lng}</h3>
             ${ButtonUnRent}`);
           } else {
             Temp.bindPopup(`<h2>Scooter: ${scooter.name}</h2>
-            <h3>Current Position: ${scooter.location.lat}, ${scooter.location.long}</h3>
+            <h3>Current Position: ${scooter.location.lat}, ${scooter.location.lng}</h3>
             ${ButtonRent}`);
           }
           marker.push(Temp);
