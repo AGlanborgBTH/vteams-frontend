@@ -138,6 +138,7 @@ export default async function map(cityId) {
 
   let IconChoice;
   let marker = [];
+  let MarkerInUse = [];
 
   function getScooters() {
     fetch("http://localhost:3000/v1/scooters")
@@ -155,6 +156,7 @@ export default async function map(cityId) {
             [scooter.location.lat, scooter.location.lng],
             {
               icon: IconChoice,
+              ID: scooter._id,
               title: scooter.name,
               destination: scooter.destination,
               velocity: scooter.velocity,
@@ -165,6 +167,7 @@ export default async function map(cityId) {
             Temp.bindPopup(`<h2>Scooter: ${scooter.name}</h2>
             <h3>Current Position: ${scooter.location.lat}, ${scooter.location.lng}</h3>
             ${ButtonUnRent}`);
+            MarkerInUse.push(Temp);
           } else {
             Temp.bindPopup(`<h2>Scooter: ${scooter.name}</h2>
             <h3>Current Position: ${scooter.location.lat}, ${scooter.location.lng}</h3>
@@ -172,22 +175,32 @@ export default async function map(cityId) {
           }
           marker.push(Temp);
         }
+        // console.log(MarkerInUse[0].options.ID);
       });
   }
 
   // Call the getScooters function to start making requests to the API and add markers to the map
   getScooters();
 
-  // Create a function that will update the map every 2 seconds
-  function onUpdateMap() {
-    for (const scooter of marker) {
-      if (scooter.options.inUse) {
-        console.log("First Call");
-        console.log(scooter.options.destination);
-        scooter.slideTo(scooter.options.destination, {
-          duration: scooter.options.velocity,
-        });
-      }
+  //   // Create a function that will update the map every 2 seconds
+  async function onUpdateMap() {
+    for (let i = 0; i < MarkerInUse.length; i++) {
+      const response = await fetch(
+        "http://localhost:3000/v1/scooters/" + MarkerInUse[i].options.ID
+      );
+      const data = await response.json();
+      // console.log(MarkerInUse[i].options.ID);
+      console.log(
+        data.name +
+          " New Destination Is: " +
+          "Lat " +
+          data.destination.lat +
+          " Long " +
+          data.destination.lng
+      );
+      MarkerInUse[i].slideTo(data.destination, {
+        duration: data.velocity,
+      });
     }
   }
   setInterval(onUpdateMap, 2000);
