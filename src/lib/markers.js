@@ -73,6 +73,59 @@
         </style>
         <button class="button">Dont Renting</button>`;
 
+        const ButtonToPar = `<style>
+        .buttonParking {
+        background-color: blue;
+        border: 1px solid blue;
+        border-radius: 4px;
+        box-shadow: rgba(0, 0, 0, .1) 0 2px 4px 0;
+        box-sizing: border-box;
+        color: #fff;
+        cursor: pointer;
+        font-family: "Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        outline: none;
+        outline: 0;
+        padding: 10px 25px;
+        text-align: center;
+        transform: translateY(0);
+        transition: transform 150ms, box-shadow 150ms;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        }
+        </style>
+        <button class="buttonParking">Send to parking</button>`;
+
+
+
+        const ButtonToChar = `<style>
+        .buttonParking {
+        background-color: purple;
+        border: 1px solid purple;
+        border-radius: 4px;
+        box-shadow: rgba(0, 0, 0, .1) 0 2px 4px 0;
+        box-sizing: border-box;
+        color: #fff;
+        cursor: pointer;
+        font-family: "Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        outline: none;
+        outline: 0;
+        padding: 10px 25px;
+        text-align: center;
+        transform: translateY(0);
+        transition: transform 150ms, box-shadow 150ms;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        }
+        </style>
+        <button class="buttonParking">Send to parking</button>`;
+
+
         //declare a variable to hold the icon to use
         let IconChoice;
         //declare two arrays to hold the markers and markers in use
@@ -111,8 +164,9 @@
                 } else {
                 Temp.bindPopup(`<h2>Scooter: ${scooter.name}</h2>
                 <h3>Current Position: ${scooter.location.lat}, ${scooter.location.lng}</h3>
-                ${ButtonRent}`);
+                ${ButtonRent}, ${ButtonToPar}, ${ButtonToChar}`);
                 }
+
                 //add the marker to the marker array
                 marker.push(Temp);
             }
