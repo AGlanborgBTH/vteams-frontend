@@ -1,30 +1,32 @@
-    //import the DriftMarker from the leaflet-drift-marker library
-    import DriftMarker from "leaflet-drift-marker";
+/* eslint-disable no-unused-vars */
+//import the DriftMarker from the leaflet-drift-marker library
+import DriftMarker from "leaflet-drift-marker";
+import $ from "jquery";
+import axios from "axios";
+//export the markers function as an async function
+export default async function markers(mapInstance) {
+  //require the leaflet library
+  let leaflet = require("leaflet");
 
-    //export the markers function as an async function
-    export default async function markers(mapInstance) {
-        //require the leaflet library
-        let leaflet = require("leaflet");
+  //create three icons for the markers - white, green and red
+  const IconMarkerWhite = leaflet.icon({
+    iconUrl: "https://i.imgur.com/XxQMjkd.png",
+    iconSize: [30, 48],
+  });
 
-        //create three icons for the markers - white, green and red
-        const IconMarkerWhite = leaflet.icon({
-        iconUrl: "https://i.imgur.com/XxQMjkd.png",
-        iconSize: [30, 48],
-        });
+  const IconMarkerGreen = leaflet.icon({
+    iconUrl: "https://i.imgur.com/xz3ICLk.png",
+    iconSize: [30, 48],
+  });
 
-        const IconMarkerGreen = leaflet.icon({
-        iconUrl: "https://i.imgur.com/xz3ICLk.png",
-        iconSize: [30, 48],
-        });
+  // let IconMarkerRed = leaflet.icon({
+  //   iconUrl: "https://i.imgur.com/Elm3SkQ.png",
+  //   iconSize: [30, 48],
+  // });
 
-        // let IconMarkerRed = leaflet.icon({
-        //   iconUrl: "https://i.imgur.com/Elm3SkQ.png",
-        //   iconSize: [30, 48],
-        // });
-
-        //create the HTML for two buttons - rent and unrent
-        const ButtonRent = `<style>
-        .button {
+  //create the HTML for two buttons - rent and unrent
+  const ButtonRent = `<style>
+        .buttonRent {
         background-color: #13aa52;
         border: 1px solid #13aa52;
         border-radius: 4px;
@@ -46,10 +48,10 @@
         touch-action: manipulation;
         }
         </style>
-        <button class="button">Rent Scooter</button>`;
+        <button class="buttonRent">Rent Scooter</button>`;
 
-        const ButtonUnRent = `<style>
-        .button {
+  const ButtonUnRent = `<style>
+        .buttonUnRent {
         background-color: red;
         border: 1px solid red;
         border-radius: 4px;
@@ -71,9 +73,9 @@
         touch-action: manipulation;
         }
         </style>
-        <button class="button">Dont Renting</button>`;
+        <button class="buttonUnRent">Dont Renting</button>`;
 
-        const ButtonToPar = `<style>
+  const ButtonToPar = `<style>
         .buttonParking {
         background-color: blue;
         border: 1px solid blue;
@@ -98,10 +100,8 @@
         </style>
         <button class="buttonParking">Send to parking</button>`;
 
-
-
-        const ButtonToChar = `<style>
-        .buttonParking {
+  const ButtonToChar = `<style>
+        .buttonCharging {
         background-color: purple;
         border: 1px solid purple;
         border-radius: 4px;
@@ -123,81 +123,113 @@
         touch-action: manipulation;
         }
         </style>
-        <button class="buttonParking">Send to parking</button>`;
+        <button class="buttonCharging">Send to charging</button>`;
 
+  //declare a variable to hold the icon to use
+  let IconChoice;
+  //declare two arrays to hold the markers and markers in use
+  let marker = [];
+  let MarkerInUse = [];
 
-        //declare a variable to hold the icon to use
-        let IconChoice;
-        //declare two arrays to hold the markers and markers in use
-        let marker = [];
-        let MarkerInUse = [];
-
-        //create a function to get the scooters from the API and create markers for them
-        function getScooters() {
-        fetch("http://localhost:3000/v1/scooters")
-            .then((response) => {
-            return response.json();
-            })
-            .then((data) => {
-            for (const scooter of data.data) {
-                if (scooter.inUse) {
-                IconChoice = IconMarkerGreen;
-                } else {
-                IconChoice = IconMarkerWhite;
-                }
-                let Temp = new DriftMarker(
-                [scooter.location.lat, scooter.location.lng],
-                {
-                    icon: IconChoice,
-                    ID: scooter._id,
-                    title: scooter.name,
-                    destination: scooter.destination,
-                    velocity: scooter.velocity,
-                    inUse: scooter.inUse,
-                }
-                ).addTo(mapInstance);
-                if (scooter.inUse) {
-                Temp.bindPopup(`<h2>Scooter: ${scooter.name}</h2>
+  //create a function to get the scooters from the API and create markers for them
+  function getScooters() {
+    fetch("http://localhost:3000/v1/scooters")
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        for (const scooter of data.data) {
+          if (scooter.inUse) {
+            IconChoice = IconMarkerGreen;
+          } else {
+            IconChoice = IconMarkerWhite;
+          }
+          let Temp = new DriftMarker(
+            [scooter.location.lat, scooter.location.lng],
+            {
+              icon: IconChoice,
+              ID: scooter._id,
+              title: scooter.name,
+              destination: scooter.destination,
+              velocity: scooter.velocity,
+              inUse: scooter.inUse,
+            }
+          ).addTo(mapInstance);
+          if (scooter.inUse) {
+            Temp.bindPopup(`<h2>Scooter: ${scooter.name}</h2>
                 <h3>Current Position: ${scooter.location.lat}, ${scooter.location.lng}</h3>
                 ${ButtonUnRent}`);
-                MarkerInUse.push(Temp);
-                } else {
-                Temp.bindPopup(`<h2>Scooter: ${scooter.name}</h2>
-                <h3>Current Position: ${scooter.location.lat}, ${scooter.location.lng}</h3>
-                ${ButtonRent}, ${ButtonToPar}, ${ButtonToChar}`);
-                }
-
-                //add the marker to the marker array
-                marker.push(Temp);
-            }
-            });
-        }
-
-        // Call the getScooters function to start making requests to the API and add markers to the map
-        getScooters();
-
-        //create a function that will update the map every 2 seconds    
-        async function onUpdateMap() {
-        for (let i = 0; i < MarkerInUse.length; i++) {
-            //make a request to the API to get the scooter data
-            const response = await fetch(
-            "http://localhost:3000/v1/scooters/" + MarkerInUse[i].options.ID
+            MarkerInUse.push(Temp);
+          } else {
+            Temp.bindPopup(
+              `<h2>Scooter: ${scooter.name}</h2>, 
+              <h3>Current Position: ${scooter.location.lat}, 
+              ${scooter.location.lng}</h3>,
+              ${ButtonRent},
+              ${ButtonToPar},
+              ${ButtonToChar}`
             );
-            const data = await response.json();
-            console.log(
-            data.name +
-                " New Destination Is: " +
-                "Lat " +
-                data.destination.lat +
-                " Long " +
-                data.destination.lng
-            );
-            //update the marker's position using the new destination and velocity
-            MarkerInUse[i].slideTo(data.destination, {
-                duration: data.velocity,
+            Temp.on("popupopen", function () {
+              //Renting Button
+              $(".buttonRent").on("click", function () {
+                axios
+                  .patch(`http://localhost:3000/v1/scooters/${scooter._id}`, {
+                    inUse: true,
+                  })
+                  .then(function (response) {
+                    console.log(response.data);
+                  })
+                  .catch(function (error) {
+                    console.error(error);
+                  });
+              });
+
+              $(".buttonParking").on("click", function () {
+                console.log("Sending Scooter To Parking Station");
+                Temp.slideTo([57.699498, 11.962688], {
+                  duration: 50000,
+                });
+              });
+
+              $(".buttonCharging").on("click", function () {
+                console.log("Sending Scooter To Charging Station");
+                Temp.slideTo([57.696712, 11.956132], {
+                  duration: 50000,
+                });
+              });
             });
-            }
+          }
+          //add the marker to the marker array
+          marker.push(Temp);
         }
-        //call the onUpdateMap function every 2 seconds
-        setInterval(onUpdateMap, 2000);
+      });
+  }
+
+  // Call the getScooters function to start making requests to the API and add markers to the map
+  getScooters();
+
+  //create a function that will update the map every 2 seconds
+  async function onUpdateMap() {
+    for (let i = 0; i < MarkerInUse.length; i++) {
+      //make a request to the API to get the scooter data
+      const response = await fetch(
+        "http://localhost:3000/v1/scooters/" + MarkerInUse[i].options.ID
+      );
+      const data = await response.json();
+      //   console.log(
+      //     data.name +
+      //       " New Destination Is: " +
+      //       "Lat " +
+      //       data.destination.lat +
+      //       " Long " +
+      //       data.destination.lng
+      //   );
+      //update the marker's position using the new destination and velocity
+      MarkerInUse[i].slideTo(data.destination, {
+        duration: data.velocity,
+      });
     }
+  }
+  //call the onUpdateMap function every 2 seconds
+  setInterval(onUpdateMap, 2000);
+}
