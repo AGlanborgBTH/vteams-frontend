@@ -15,11 +15,6 @@ class SocketioService {
     }
   }
 
-  getScooters() {
-    this.socket.on('sendAllScooters', (data) => {
-      console.log(data);
-    });
-  }
 }
 
 export default new SocketioService();

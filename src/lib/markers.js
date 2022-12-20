@@ -3,6 +3,8 @@
 import DriftMarker from "leaflet-drift-marker";
 import $ from "jquery";
 import axios from "axios";
+import { io } from 'socket.io-client';
+
 //export the markers function as an async function
 export default async function markers(mapInstance) {
   //require the leaflet library
@@ -18,6 +20,12 @@ export default async function markers(mapInstance) {
     iconUrl: "https://i.imgur.com/xz3ICLk.png",
     iconSize: [30, 48],
   });
+
+
+  const socket = io(process.env.VUE_APP_SOCKET_ENDPOINT);
+  socket.on("connecting", () => {
+    console.log("Connected to the server from vue")
+  })
 
   // let IconMarkerRed = leaflet.icon({
   //   iconUrl: "https://i.imgur.com/Elm3SkQ.png",
@@ -127,124 +135,144 @@ export default async function markers(mapInstance) {
 
   //declare a variable to hold the icon to use
   let IconChoice;
-  //declare two arrays to hold the markers and markers in use
-  let marker = [];
-  let MarkerInUse = [];
 
   //create a function to get the scooters from the API and create markers for them
   function getScooters() {
-    fetch("http://localhost:3000/v1/scooters")
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        for (const scooter of data.data) {
-          if (scooter.inUse) {
-            IconChoice = IconMarkerGreen;
-          } else {
-            IconChoice = IconMarkerWhite;
-          }
-          let Temp = new DriftMarker(
-            [scooter.location.lat, scooter.location.lng],
-            {
-              icon: IconChoice,
-              ID: scooter._id,
-              title: scooter.name,
-              destination: scooter.destination,
-              velocity: scooter.velocity,
-              inUse: scooter.inUse,
-            }
-          ).addTo(mapInstance);
-          if (scooter.inUse) {
-            Temp.bindPopup(`<h2>Scooter: ${scooter.name}</h2>
-                <h3>Current Position: ${scooter.location.lat}, ${scooter.location.lng}</h3>
-                ${ButtonUnRent}`);
-            Temp.on("popupopen", function () {
-              $(".buttonUnRent").on("click", function () {
-                axios
-                  .patch(`http://localhost:3000/v1/scooters/${scooter._id}`, {
-                    inUse: false,
-                  })
-                  .then(function (response) {
-                    console.log(response.data);
-                  })
-                  .catch(function (error) {
-                    console.error(error);
-                  });
-              });
-            });
+    socket.on("scooters", (data) => {
+      console.log(data.data)
 
-            MarkerInUse.push(Temp);
-          } else {
-            Temp.bindPopup(
-              `<h2>Scooter: ${scooter.name}</h2>, 
-              <h3>Current Position: ${scooter.location.lat}, 
-              ${scooter.location.lng}</h3>,
-              ${ButtonRent},
-              ${ButtonToPar},
-              ${ButtonToChar}`
-            );
-            Temp.on("popupopen", function () {
-              //Renting Button
-              $(".buttonRent").on("click", function () {
-                axios
-                  .patch(`http://localhost:3000/v1/scooters/${scooter._id}`, {
-                    inUse: true,
-                  })
-                  .then(function (response) {
-                    console.log(response.data);
-                  })
-                  .catch(function (error) {
-                    console.error(error);
-                  });
-              });
+      //declare two arrays to hold the markers and markers in use
+      let marker = [];
+      let MarkerInUse = [];
 
-              $(".buttonParking").on("click", function () {
-                console.log("Sending Scooter To Parking Station");
-                Temp.slideTo([57.699498, 11.962688], {
-                  duration: 50000,
-                });
-              });
-
-              $(".buttonCharging").on("click", function () {
-                console.log("Sending Scooter To Charging Station");
-                Temp.slideTo([57.696712, 11.956132], {
-                  duration: 50000,
-                });
-              });
-            });
-          }
-          //add the marker to the marker array
-          marker.push(Temp);
+      for (const scooter of data.data) {
+        if (scooter.inUse) {
+          IconChoice = IconMarkerGreen;
+        } else {
+          IconChoice = IconMarkerWhite;
         }
-      });
+        let Temp = new DriftMarker(
+          [scooter.location.lat, scooter.location.lng],
+          {
+            icon: IconChoice,
+            ID: scooter._id,
+            title: scooter.name,
+            destination: scooter.destination,
+            velocity: scooter.velocity,
+            inUse: scooter.inUse,
+          }
+        ).addTo(mapInstance);
+        if (scooter.inUse) {
+          Temp.bindPopup(`<h2>Scooter: ${scooter.name}</h2>
+              <h3>Current Position: ${scooter.location.lat}, ${scooter.location.lng}</h3>
+              ${ButtonUnRent}`);
+          Temp.on("popupopen", function () {
+            $(".buttonUnRent").on("click", function () {
+              axios
+                .patch(`http://localhost:3000/v1/scooters/${scooter._id}`, {
+                  inUse: false,
+                })
+                .then(function (response) {
+                  console.log(response.data);
+                })
+                .catch(function (error) {
+                  console.error(error);
+                });
+              
+            });
+          });
+          MarkerInUse.push(Temp);
+        } else {
+          Temp.bindPopup(
+            `<h2>Scooter: ${scooter.name}</h2>, 
+            <h3>Current Position: ${scooter.location.lat}, 
+            ${scooter.location.lng}</h3>,
+            ${ButtonRent},
+            ${ButtonToPar},
+            ${ButtonToChar}`
+          );
+          Temp.on("popupopen", function () {
+            //Renting Button
+            $(".buttonRent").on("click", function () {
+              axios
+                .patch(`http://localhost:3000/v1/scooters/${scooter._id}`, {
+                  inUse: true,
+                })
+                .then(function (response) {
+                  Temp.bindPopup(`<h2>Scooter: ${scooter.name}</h2>
+                  <h3>Current Position: ${scooter.location.lat}, ${scooter.location.lng}</h3>
+                  ${ButtonUnRent}`);
+                  console.log(response.data);
+                  socket.emit("rentScooter")
+                })
+                .catch(function (error) {
+                  console.error(error);
+                });
+            });
+
+            $(".buttonParking").on("click", function () {
+              console.log("Sending Scooter To Parking Station");
+              Temp.slideTo([57.699498, 11.962688], {
+                duration: 50000,
+              });
+            });
+
+            $(".buttonCharging").on("click", function () {
+              console.log("Sending Scooter To Charging Station");
+              Temp.slideTo([57.696712, 11.956132], {
+                duration: 50000,
+              });
+            });
+          });
+        }
+        //add the marker to the marker array
+        marker.push(Temp);
+      }
+    })
   }
+
+  // function chargeScooter(scooter) {
+  //   axios
+  //   .patch(`http://localhost:3000/v1/scooters/${scooter._id}`, {
+  //     charging: true,
+  //     location: {lat: 57.696712, lng: 11.956132}
+  //   })
+  //   .then(function (response) {
+  //     console.log(response.data);
+  //   })
+  //   .catch(function (error) {
+  //     console.error(error);
+  //   });
+  // }
+
 
   // Call the getScooters function to start making requests to the API and add markers to the map
   getScooters();
 
+
+  // setInterval(onUpdateMap, 2000);
   //create a function that will update the map every 2 seconds
-  async function onUpdateMap() {
-    for (let i = 0; i < MarkerInUse.length; i++) {
-      //make a request to the API to get the scooter data
-      const response = await fetch(
-        "http://localhost:3000/v1/scooters/" + MarkerInUse[i].options.ID
-      );
-      const data = await response.json();
-      //   console.log(
-      //     data.name +
-      //       " New Destination Is: " +
-      //       "Lat " +
-      //       data.destination.lat +
-      //       " Long " +
-      //       data.destination.lng
-      //   );
-      //update the marker's position using the new destination and velocity
-      MarkerInUse[i].slideTo(data.destination, {
-        duration: data.velocity,
-      });
-    }
-  }
-  //call the onUpdateMap function every 2 seconds
-  setInterval(onUpdateMap, 2000);
+  // async function onUpdateMap() {
+  //   for (let i = 0; i < MarkerInUse.length; i++) {
+  //     //make a request to the API to get the scooter data
+  //     const response = await fetch(
+  //       "http://localhost:3000/v1/scooters/" + MarkerInUse[i].options.ID
+  //     );
+  //     const data = await response.json();
+  //     //   console.log(
+  //     //     data.name +
+  //     //       " New Destination Is: " +
+  //     //       "Lat " +
+  //     //       data.destination.lat +
+  //     //       " Long " +
+  //     //       data.destination.lng
+  //     //   );
+  //     //update the marker's position using the new destination and velocity
+  //     MarkerInUse[i].slideTo(data.destination, {
+  //       duration: data.velocity,
+  //     });
+  //   }
+  // }
+  // //call the onUpdateMap function every 2 seconds
+  // 
 }
