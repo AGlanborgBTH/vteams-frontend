@@ -159,6 +159,21 @@ export default async function markers(mapInstance) {
             Temp.bindPopup(`<h2>Scooter: ${scooter.name}</h2>
                 <h3>Current Position: ${scooter.location.lat}, ${scooter.location.lng}</h3>
                 ${ButtonUnRent}`);
+            Temp.on("popupopen", function () {
+              $(".buttonUnRent").on("click", function () {
+                axios
+                  .patch(`http://localhost:3000/v1/scooters/${scooter._id}`, {
+                    inUse: false,
+                  })
+                  .then(function (response) {
+                    console.log(response.data);
+                  })
+                  .catch(function (error) {
+                    console.error(error);
+                  });
+              });
+            });
+
             MarkerInUse.push(Temp);
           } else {
             Temp.bindPopup(
