@@ -142,8 +142,6 @@ export default async function markers(mapInstance) {
   function getScooters() {
     socket.on("scooters", (data) => {
       console.log(data.data)
-
-
       //declare two arrays to hold the markers and markers in use
       marker = [];
       MarkerInUse = [];
@@ -171,11 +169,28 @@ export default async function markers(mapInstance) {
               ${ButtonUnRent}`);
           Temp.on("popupopen", function () {
             $(".buttonUnRent").on("click", function () {
+              let currentLocation = Temp.getLatLng()
+              Temp.remove()
               axios
                 .patch(`http://localhost:3000/v1/scooters/${scooter._id}`, {
                   inUse: false,
+                  location: {
+                    lng: currentLocation.lng,
+                    lat: currentLocation.lat,
+                  },
+                  destination: {
+                    lat: "",
+                    lng: ""
+                  }
                 })
                 .then(function (response) {
+                  `<h2>Scooter: ${scooter.name}</h2>, 
+                  <h3>Current Position: ${scooter.location.lat}, 
+                  ${scooter.location.lng}</h3>,
+                  ${ButtonRent},
+                  ${ButtonToPar},
+                  ${ButtonToChar}`
+                  socket.emit("rentScooter")
                   console.log(response.data);
                 })
                 .catch(function (error) {
@@ -199,12 +214,9 @@ export default async function markers(mapInstance) {
             $(".buttonRent").on("click", function () {
               axios
                 .patch(`http://localhost:3000/v1/scooters/${scooter._id}`, {
-                  inUse: true,
+                  inUse: true
                 })
                 .then(function (response) {
-                  Temp.bindPopup(`<h2>Scooter: ${scooter.name}</h2>
-                  <h3>Current Position: ${scooter.location.lat}, ${scooter.location.lng}</h3>
-                  ${ButtonUnRent}`);
                   console.log(response.data);
                   socket.emit("rentScooter")
                 })
@@ -229,9 +241,6 @@ export default async function markers(mapInstance) {
           });
           marker.push(Temp);
         }
-        //add the marker to the marker array
-        console.log(MarkerInUse)
-        console.log("marker", marker)
       }
     })
   }
@@ -254,8 +263,6 @@ export default async function markers(mapInstance) {
   // Call the getScooters function to start making requests to the API and add markers to the map
   getScooters();
 
-
- 
   // create a function that will update the map every 2 seconds
   async function onUpdateMap() {
     for (let i = 0; i < MarkerInUse.length; i++) {
@@ -264,14 +271,6 @@ export default async function markers(mapInstance) {
         "http://localhost:3000/v1/scooters/" + MarkerInUse[i].options.ID
       );
       const data = await response.json();
-      //   console.log(
-      //     data.name +
-      //       " New Destination Is: " +
-      //       "Lat " +
-      //       data.destination.lat +
-      //       " Long " +
-      //       data.destination.lng
-      //   );
       //update the marker's position using the new destination and velocity
       MarkerInUse[i].slideTo(data.destination, {
         duration: data.velocity,
