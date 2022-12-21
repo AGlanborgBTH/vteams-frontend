@@ -135,15 +135,18 @@ export default async function markers(mapInstance) {
 
   //declare a variable to hold the icon to use
   let IconChoice;
+  let marker = [];
+  let MarkerInUse = [];
 
   //create a function to get the scooters from the API and create markers for them
   function getScooters() {
     socket.on("scooters", (data) => {
       console.log(data.data)
 
+
       //declare two arrays to hold the markers and markers in use
-      let marker = [];
-      let MarkerInUse = [];
+      marker = [];
+      MarkerInUse = [];
 
       for (const scooter of data.data) {
         if (scooter.inUse) {
@@ -224,9 +227,11 @@ export default async function markers(mapInstance) {
               });
             });
           });
+          marker.push(Temp);
         }
         //add the marker to the marker array
-        marker.push(Temp);
+        console.log(MarkerInUse)
+        console.log("marker", marker)
       }
     })
   }
@@ -250,29 +255,29 @@ export default async function markers(mapInstance) {
   getScooters();
 
 
-  // setInterval(onUpdateMap, 2000);
-  //create a function that will update the map every 2 seconds
-  // async function onUpdateMap() {
-  //   for (let i = 0; i < MarkerInUse.length; i++) {
-  //     //make a request to the API to get the scooter data
-  //     const response = await fetch(
-  //       "http://localhost:3000/v1/scooters/" + MarkerInUse[i].options.ID
-  //     );
-  //     const data = await response.json();
-  //     //   console.log(
-  //     //     data.name +
-  //     //       " New Destination Is: " +
-  //     //       "Lat " +
-  //     //       data.destination.lat +
-  //     //       " Long " +
-  //     //       data.destination.lng
-  //     //   );
-  //     //update the marker's position using the new destination and velocity
-  //     MarkerInUse[i].slideTo(data.destination, {
-  //       duration: data.velocity,
-  //     });
-  //   }
-  // }
-  // //call the onUpdateMap function every 2 seconds
-  // 
+ 
+  // create a function that will update the map every 2 seconds
+  async function onUpdateMap() {
+    for (let i = 0; i < MarkerInUse.length; i++) {
+      //make a request to the API to get the scooter data
+      const response = await fetch(
+        "http://localhost:3000/v1/scooters/" + MarkerInUse[i].options.ID
+      );
+      const data = await response.json();
+      //   console.log(
+      //     data.name +
+      //       " New Destination Is: " +
+      //       "Lat " +
+      //       data.destination.lat +
+      //       " Long " +
+      //       data.destination.lng
+      //   );
+      //update the marker's position using the new destination and velocity
+      MarkerInUse[i].slideTo(data.destination, {
+        duration: data.velocity,
+      });
+    }
+  }
+  //call the onUpdateMap function every 2 seconds
+   setInterval(onUpdateMap, 2000);
 }
