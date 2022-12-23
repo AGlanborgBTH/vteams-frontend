@@ -194,6 +194,50 @@ export default async function markers(mapInstance) {
           Temp.bindPopup(`<h2>Scooter: ${scooter.name}</h2>
               <h3>Current Position: ${scooter.location.lat}, ${scooter.location.lng}</h3>
               ${ButtonUnRent}`);
+          Temp.on("popupopen", function () {
+            $(".buttonUnRent").on("click", function () {
+              console.log("Test");
+              let currentLocation = Temp.getLatLng();
+              axios
+                .patch(`http://localhost:3000/v1/scooters/${scooter._id}`, {
+                  inUse: false,
+                  location: {
+                    lng: currentLocation.lng,
+                    lat: currentLocation.lat,
+                  },
+                  destination: {
+                    lat: "",
+                    lng: "",
+                  },
+                })
+                .then(function (response) {
+                  console.log(MarkerInUse);
+                  //       if (MarkerInUse.length > 0) {
+                  //         var index = MarkerInUse.indexOf(Temp);
+                  //         if (index !== -1) {
+                  //           MarkerInUse.splice(index, 1);
+                  //         }
+                  //         MarkerInUse[index].slideCancel();
+                  //         Temp.bindPopup(
+                  //           `<h2>Scooter: ${scooter.name}</h2>,
+                  // <h3>Current Position: ${scooter.location.lat},
+                  // ${scooter.location.lng}</h3>,
+                  // ${ButtonRent},
+                  // ${ButtonToPar},
+                  // ${ButtonToChar}`
+                  //         );
+                  //         // console.log(MarkerInUse);
+                  //         // socket.emit("rentScooter");
+                  //         console.log(Temp);
+                  //         Temp.setIcon(IconMarkerWhite);
+                  //       }
+                  // console.log(response.data);
+                })
+                .catch(function (error) {
+                  console.error(error);
+                });
+            });
+          });
           MarkerInUse.push(Temp);
         } else {
           Temp.bindPopup(
@@ -204,97 +248,115 @@ export default async function markers(mapInstance) {
             ${ButtonToPar},
             ${ButtonToChar}`
           );
+          Temp.on("popupopen", function () {
+            //Renting Button
+            $(".buttonRent").on("click", function () {
+              axios
+                .patch(`http://localhost:3000/v1/scooters/${scooter._id}`, {
+                  inUse: true,
+                })
+                .then(function (response) {
+                  // console.log(response.data);
+                  MarkerInUse.push(Temp);
+                  var index = marker.indexOf(Temp);
+                  if (index !== -1) {
+                    marker.splice(index, 1);
+                  }
+                  Temp.setIcon(IconMarkerGreen);
+                  console.log(Temp.options.icon);
+                  Temp.setPopupContent(`<h2>Scooter: ${scooter.name}</h2>
+              <h3>Current Position: ${scooter.location.lat}, ${scooter.location.lng}</h3>
+              ${ButtonUnRent}`);
+                  // socket.emit("rentScooter");
+
+                  $(".buttonUnRent").on("click", function () {
+                    console.log("Test1");
+                    marker.push(Temp);
+                    let currentLocation = Temp.getLatLng();
+                    axios
+                      .patch(
+                        `http://localhost:3000/v1/scooters/${scooter._id}`,
+                        {
+                          inUse: false,
+                          location: {
+                            lng: currentLocation.lng,
+                            lat: currentLocation.lat,
+                          },
+                          destination: {
+                            lat: "",
+                            lng: "",
+                          },
+                        }
+                      )
+                      .then(function (response) {
+                        console.log(MarkerInUse);
+                        //       if (MarkerInUse.length > 0) {
+                        //         var index = MarkerInUse.indexOf(Temp);
+                        //         if (index !== -1) {
+                        //           MarkerInUse.splice(index, 1);
+                        //         }
+                        //         MarkerInUse[index].slideCancel();
+                        //         Temp.bindPopup(
+                        //           `<h2>Scooter: ${scooter.name}</h2>,
+                        // <h3>Current Position: ${scooter.location.lat},
+                        // ${scooter.location.lng}</h3>,
+                        // ${ButtonRent},
+                        // ${ButtonToPar},
+                        // ${ButtonToChar}`
+                        //         );
+                        //         // console.log(MarkerInUse);
+                        //         // socket.emit("rentScooter");
+                        //         console.log(Temp);
+                        //         Temp.setIcon(IconMarkerWhite);
+                        //       }
+                        // console.log(response.data);
+                      })
+                      .catch(function (error) {
+                        console.error(error);
+                      });
+                    if (MarkerInUse.length > 0) {
+                      var index = MarkerInUse.indexOf(Temp);
+                      if (index !== -1) {
+                        MarkerInUse.splice(index, 1);
+                      }
+                      console.log(Temp);
+                      // Temp.slideCancel();
+                      Temp.bindPopup(
+                        `<h2>Scooter: ${scooter.name}</h2>,
+                    <h3>Current Position: ${scooter.location.lat},
+                    ${scooter.location.lng}</h3>,
+                    ${ButtonRent},
+                    ${ButtonToPar},
+                    ${ButtonToChar}`
+                      );
+                      // console.log(MarkerInUse);
+                      // socket.emit("rentScooter");
+                      console.log(Temp);
+                      Temp.setIcon(IconMarkerWhite);
+                    }
+                    console.log("test2");
+                  });
+                })
+                .catch(function (error) {
+                  console.error(error);
+                });
+            });
+            $(".buttonParking").on("click", function () {
+              // console.log("Sending Scooter To Parking Station");
+              Temp.slideTo([57.699498, 11.962688], {
+                duration: 50000,
+              });
+            });
+
+            $(".buttonCharging").on("click", function () {
+              // console.log("Sending Scooter To Charging Station");
+              Temp.slideTo([57.696712, 11.956132], {
+                duration: 50000,
+              });
+            });
+          });
           marker.push(Temp);
         }
-        Temp.on("popupopen", function () {
-          $(".buttonRent").on("click", function () {
-            axios
-              .patch(`http://localhost:3000/v1/scooters/${scooter._id}`, {
-                inUse: true,
-              })
-              .then(function (response) {
-                // console.log(response.data);
-                MarkerInUse.push(Temp);
-                var index = marker.indexOf(Temp);
-                if (index !== -1) {
-                  marker.splice(index, 1);
-                }
-                Temp.setIcon(IconMarkerGreen);
-                console.log(Temp);
-                Temp.setPopupContent(`<h2>Scooter: ${scooter.name}</h2>
-            <h3>Current Position: ${scooter.location.lat}, ${scooter.location.lng}</h3>
-            ${ButtonUnRent}`);
-                // socket.emit("rentScooter");
-                Temp.closePopup();
-              })
-              .catch(function (error) {
-                console.error(error);
-              });
-          });
-          $(".buttonUnRent").on("click", function () {
-            console.log("Test1");
-            console.log(Temp);
-            marker.push(Temp);
-            // if (marker.includes(Temp)) {
-            //   var indexoftemp = marker.indexOf(Temp);
-            //   marker[indexoftemp].slideCancel();
-            // }
-            // Temp.slideCancel();
-            let currentLocation = Temp.getLatLng();
-            axios
-              .patch(`http://localhost:3000/v1/scooters/${scooter._id}`, {
-                inUse: false,
-                location: {
-                  lng: currentLocation.lng,
-                  lat: currentLocation.lat,
-                },
-                destination: {
-                  lat: "",
-                  lng: "",
-                },
-              })
-              .then(function (response) {
-                console.log(MarkerInUse);
-              })
-              .catch(function (error) {
-                console.error(error);
-              });
-            if (MarkerInUse.length > 0) {
-              var index = MarkerInUse.indexOf(Temp);
-              if (index !== -1) {
-                MarkerInUse.splice(index, 1);
-              }
-              console.log(Temp);
-              Temp.bindPopup(
-                `<h2>Scooter: ${scooter.name}</h2>,
-            <h3>Current Position: ${scooter.location.lat},
-            ${scooter.location.lng}</h3>,
-            ${ButtonRent},
-            ${ButtonToPar},
-            ${ButtonToChar}`
-              );
-              Temp.closePopup();
-              // console.log(MarkerInUse);
-              // socket.emit("rentScooter");
-              console.log(Temp);
-              Temp.setIcon(IconMarkerWhite);
-            }
-            console.log("test2");
-          });
-          $(".buttonParking").on("click", function () {
-            // console.log("Sending Scooter To Parking Station");
-            Temp.slideTo([57.699498, 11.962688], {
-              duration: 50000,
-            });
-          });
-
-          $(".buttonCharging").on("click", function () {
-            // console.log("Sending Scooter To Charging Station");
-            Temp.slideTo([57.696712, 11.956132], {
-              duration: 50000,
-            });
-          });
-        });
       }
     });
   }
@@ -338,7 +400,7 @@ export default async function markers(mapInstance) {
     for (let i = 0; i < marker.length; i++) {
       if (marker[i].options.inUse == false) {
         marker[i].slideCancel();
-        // console.log("Test123");
+        console.log("Test123");
       }
     }
   }
