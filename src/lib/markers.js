@@ -140,17 +140,16 @@
                 MarkerInUse.splice(index, 1);
                 }
                 Temp.bindPopup(
-                `<h2>Scooter: ${scooter.name}</h2>,
-            <h3>Current Position: ${scooter.location.lat},
-            ${scooter.location.lng}</h3>,
-            ${ButtonRent},
-            ${ButtonToPar},
+                `<h2>Scooter: ${scooter.name}</h2>
+            <h3>Current Position: ${scooter.location.lat}
+            ${scooter.location.lng}</h3>
+            ${ButtonRent}
+            ${ButtonToPar}
             ${ButtonToChar}`
                 );
                 Temp.closePopup();
                 Temp.setIcon(IconMarkerWhite);
             }
-            console.log("test2");
             });
             $(".buttonParking").on("click", function () {
             Temp.slideTo([57.699498, 11.962688], {
@@ -170,8 +169,6 @@
 
     // Call the getScooters function to start making requests to the API and add markers to the map
     getScooters();
-    console.log(MarkerInUse);
-    console.log(marker);
 
     // create a function that will update the map every 2 seconds
     async function onUpdateMap() {
