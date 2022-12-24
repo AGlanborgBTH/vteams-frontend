@@ -50,4 +50,20 @@ button {
 .leaflet-control {
   margin-right: 10px;
 }
+
+.popup .leaflet-popup-content-wrapper, .leaflet-popup-tip {
+  background: rgba(46, 59, 97, 0.9);
+  color: white;
+}
+
+.popupButton {
+  background-color: #5429FF;
+  border: 1px solid #5429FF;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  padding: 7px;
+  text-align: center;
+}
+
 </style>
