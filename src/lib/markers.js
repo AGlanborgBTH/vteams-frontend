@@ -274,8 +274,6 @@ export default async function markers(mapInstance) {
             ${ButtonToChar}`
               );
               Temp.closePopup();
-              // console.log(MarkerInUse);
-              // socket.emit("rentScooter");
               console.log(Temp);
               Temp.setIcon(IconMarkerWhite);
             }
@@ -286,6 +284,18 @@ export default async function markers(mapInstance) {
             Temp.slideTo([57.699498, 11.962688], {
               duration: 50000,
             });
+            let ParkLocation = [57.699498, 11.962688];
+            axios
+              .patch(`http://localhost:3000/v1/scooters/${scooter._id}`, {
+                location: {
+                  lng: ParkLocation[0],
+                  lat: ParkLocation[1],
+                },
+              })
+              .then(function (response) {})
+              .catch(function (error) {
+                console.error(error);
+              });
           });
 
           $(".buttonCharging").on("click", function () {
@@ -293,25 +303,23 @@ export default async function markers(mapInstance) {
             Temp.slideTo([57.696712, 11.956132], {
               duration: 50000,
             });
+            let ChargeLocation = [57.699498, 11.962688];
+            axios
+              .patch(`http://localhost:3000/v1/scooters/${scooter._id}`, {
+                location: {
+                  lng: ChargeLocation[0],
+                  lat: ChargeLocation[1],
+                },
+              })
+              .then(function (response) {})
+              .catch(function (error) {
+                console.error(error);
+              });
           });
         });
       }
     });
   }
-
-  // function chargeScooter(scooter) {
-  //   axios
-  //   .patch(`http://localhost:3000/v1/scooters/${scooter._id}`, {
-  //     charging: true,
-  //     location: {lat: 57.696712, lng: 11.956132}
-  //   })
-  //   .then(function (response) {
-  //     console.log(response.data);
-  //   })
-  //   .catch(function (error) {
-  //     console.error(error);
-  //   });
-  // }
 
   // Call the getScooters function to start making requests to the API and add markers to the map
   getScooters();
@@ -321,7 +329,6 @@ export default async function markers(mapInstance) {
   // create a function that will update the map every 2 seconds
   async function onUpdateMap() {
     for (let i = 0; i < MarkerInUse.length; i++) {
-      // console.log(MarkerInUse[i]);
       //make a request to the API to get the scooter data
       const response = await fetch(
         "http://localhost:3000/v1/scooters/" + MarkerInUse[i].options.ID
@@ -333,7 +340,6 @@ export default async function markers(mapInstance) {
       });
       // console.log(data.destination);
     }
-    // console.log(MarkerInUse);
     console.log("marker in function", marker);
     for (let i = 0; i < marker.length; i++) {
       if (marker[i].options.inUse == false) {
