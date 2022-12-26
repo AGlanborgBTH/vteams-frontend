@@ -4,6 +4,9 @@ import DriftMarker from "leaflet-drift-marker";
 import $ from "jquery";
 import axios from "axios";
 import { io } from "socket.io-client";
+import createLog from "@/requests/createLog";
+import { useCookies } from "vue3-cookies";
+const { cookies } = useCookies();
 
 //export the markers function as an async function
 export default async function markers(mapInstance) {
@@ -207,7 +210,8 @@ export default async function markers(mapInstance) {
           marker.push(Temp);
         }
         Temp.on("popupopen", function () {
-          $(".buttonRent").on("click", function () {
+          $(".buttonRent").on("click", async function () {
+            await createLog(scooter._id, {lat:scooter.location.lat, lng:scooter.location.lng})
             axios
               .patch(`http://localhost:3000/v1/scooters/${scooter._id}`, {
                 inUse: true,
