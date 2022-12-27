@@ -5,6 +5,7 @@ import $ from "jquery";
 import axios from "axios";
 import { io } from "socket.io-client";
 import createLog from "@/requests/createLog";
+import updateLog from "@/requests/updateLog";
 import { useCookies } from "vue3-cookies";
 const { cookies } = useCookies();
 
@@ -235,9 +236,8 @@ export default async function markers(mapInstance) {
                 console.error(error);
               });
           });
-          $(".buttonUnRent").on("click", function () {
-            console.log("Test1");
-            console.log(Temp);
+          $(".buttonUnRent").on("click", async function () {
+            await updateLog(scooter._id, {lat:scooter.location.lat, lng:scooter.location.lng})
             marker.push(Temp);
             // if (marker.includes(Temp)) {
             //   var indexoftemp = marker.indexOf(Temp);

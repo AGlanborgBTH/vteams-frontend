@@ -1,9 +1,11 @@
 import { useCookies } from "vue3-cookies";
 const { cookies } = useCookies();
-let cityId = cookies.get("city")
-let user = cookies.get("user")
+
 
 export default async function createLog(scooterId, location) {
+    let cityId = cookies.get("city");
+    let user = cookies.get("user");
+
     let response = await fetch ("http://localhost:3000/v1/logs/", {
         method: "POST",
         headers: {
@@ -21,6 +23,5 @@ export default async function createLog(scooterId, location) {
       })
 
       let result = await response;
-      console.log("result", result)
       return result;
 }
