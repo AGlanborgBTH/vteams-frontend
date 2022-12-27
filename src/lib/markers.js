@@ -172,9 +172,7 @@ export default async function markers(mapInstance) {
             `<h2>Scooter: ${scooter.name}</h2>, 
             <h3>Current Position: ${scooter.location.lat}, 
             ${scooter.location.lng}</h3>,
-            ${ButtonRent},
-            ${ButtonToPar},
-            ${ButtonToChar}`
+            ${ButtonRent},`
           );
           marker.push(Temp);
         }
@@ -236,52 +234,13 @@ export default async function markers(mapInstance) {
                 `<h2>Scooter: ${scooter.name}</h2>,
             <h3>Current Position: ${scooter.location.lat},
             ${scooter.location.lng}</h3>,
-            ${ButtonRent},
-            ${ButtonToPar},
-            ${ButtonToChar}`
+            ${ButtonRent},`
               );
               Temp.closePopup();
               console.log(Temp);
               Temp.setIcon(IconMarkerWhite);
             }
             console.log("test2");
-          });
-          $(".buttonParking").on("click", function () {
-            // console.log("Sending Scooter To Parking Station");
-            Temp.slideTo([57.699498, 11.962688], {
-              duration: 50000,
-            });
-            let ParkLocation = [57.699498, 11.962688];
-            axios
-              .patch(`http://localhost:3000/v1/scooters/${scooter._id}`, {
-                location: {
-                  lng: ParkLocation[0],
-                  lat: ParkLocation[1],
-                },
-              })
-              .then(function (response) {})
-              .catch(function (error) {
-                console.error(error);
-              });
-          });
-
-          $(".buttonCharging").on("click", function () {
-            // console.log("Sending Scooter To Charging Station");
-            Temp.slideTo([57.696712, 11.956132], {
-              duration: 50000,
-            });
-            let ChargeLocation = [57.696712, 11.956132];
-            axios
-              .patch(`http://localhost:3000/v1/scooters/${scooter._id}`, {
-                location: {
-                  lng: ChargeLocation[0],
-                  lat: ChargeLocation[1],
-                },
-              })
-              .then(function (response) {})
-              .catch(function (error) {
-                console.error(error);
-              });
           });
         });
       }
