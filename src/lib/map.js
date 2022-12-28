@@ -58,7 +58,6 @@
         }
         layerGroup.addTo(mapInstance);
 
-
         // Finally, the map is fit to the bounds of the layerGroup.
         mapInstance.fitBounds(
         layerGroup
