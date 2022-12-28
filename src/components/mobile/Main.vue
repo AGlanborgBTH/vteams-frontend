@@ -6,6 +6,8 @@
 <script>
 import Map from "./lib/Map.vue"
 import Select from "./lib/Select.vue";
+import { useCookies } from "vue3-cookies";
+const { cookies } = useCookies();
 
 export default {
   name: "MobileMain",
@@ -23,6 +25,7 @@ export default {
     onSelect(id) {
       this.city = id
       this.selected = true
+      cookies.set("city", id)
     }
   }
 };
