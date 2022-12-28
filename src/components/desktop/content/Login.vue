@@ -15,11 +15,11 @@
             <div class="mainInputContainer">
               <div class="inputContainer">
                 <label for="email" class="inputLabel"> Email </label>
-                <input type="email" placeholder="Email" id="email" />
+                <input  v-model="email" type="email" placeholder="Email" id="email" />
               </div>
               <div class="inputContainer">
                 <label for="password" class="inputLabel"> Password </label>
-                <input type="password" placeholder="Password" id="password" />
+                <input v-model="pwd" type="password" placeholder="Password" id="password" />
               </div>
             </div>
             <div class="sub">
@@ -30,7 +30,7 @@
               <p class="forgot">Forgot Password?</p>
             </div>
             <div class="submitContainer">
-              <input type="submit" value="Sign In" />
+              <input type="button" value="Sign In" @click="this.$emit('onLogIn', email, pwd)"/>
               <a
                 href="https://github.com/login/oauth/authorize?client_id=6cf1f637f3f432873249&scope=user:email"
               >
@@ -50,6 +50,14 @@
 <script>
 export default {
   name: "DesktopLogin",
+  emits: ["onLogIn"],
+  data()
+  {
+    return {
+      email:"",
+      pwd:""
+    }
+  }
 };
 </script>
 
@@ -100,8 +108,7 @@ input[type="submit"] {
 
 input[type="button"] {
   border: none;
-  outline: 1px solid #d0d5dd;
-  background-color: rgba(0, 0, 0, 0);
+  background-color: rgba(84, 41, 255);
   height: 44px;
   width: 100%;
   border-radius: 8px;

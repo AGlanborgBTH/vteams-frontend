@@ -1,5 +1,6 @@
 <template>
   <Header />
+  <h1>Admin</h1>
 </template>
 
 <script>
