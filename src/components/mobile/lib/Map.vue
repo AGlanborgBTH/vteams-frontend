@@ -38,10 +38,10 @@
 					</div>
 				</div>
 			</div>
-			<div class="buttonDiv">
-				<input v-model="incrementValue" />
+			<div class="WalletContainer">
+				<input class="inputButton" v-model="incrementValue" />
 				<button
-					class="button"
+					class="addMoneyButton"
 					@click="incrementWallet(parseInt(this.incrementValue))"
 				>
 					Add Money
@@ -251,9 +251,35 @@ span {
 	flex-direction: row;
 }
 
+.WalletContainer {
+	padding-left: 17.5vw;
+	margin-bottom: 50px;
+	width: 100%;
+}
+
 .logoutContainer {
 	padding-left: 17.5vw;
 	width: 100%;
+}
+
+.inputButton {
+	border: none;
+	outline: 1px solid #d0d5dd;
+	background-color: rgba(0, 0, 0, 0);
+	line-height: 35px;
+	border-radius: 8px;
+	font-size: 12px;
+	padding: 0 3vw;
+}
+
+.addMoneyButton {
+	border: none;
+	background-color: rgb(84, 41, 255);
+	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
+	border-radius: 2px;
+	width: 10vw;
+	height: 20px;
+	font-size: 12px;
 }
 
 .logout {
