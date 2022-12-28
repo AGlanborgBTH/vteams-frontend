@@ -11,7 +11,7 @@ export async function incrementWallet(incrementValue) {
       `http://localhost:3000/v1/users/${user.id}`
     );
     const wallet = response.data.wallet;
-    console.log(`Adding: ${incrementValue}`); // log the value being added
+    console.log(`Adding: ${incrementValue}`);
 
     // Increment the wallet value by the specified amount
     const newWalletValue = wallet + incrementValue;
