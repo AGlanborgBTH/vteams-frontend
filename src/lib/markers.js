@@ -49,6 +49,11 @@
     let marker = [];
     let MarkerInUse = [];
 
+    // Icons for the popupOppen
+    var battIcon = "<img class='batteryIcon' src ='https://i.imgur.com/16DYTp7.png' />"
+    var verLine = "<img class='verLineIcon' src ='https://i.imgur.com/mEifOoA.png' />"
+    var horLine = "<img class='horLineIcon' src ='https://i.imgur.com/NQ33RFG.png' />"
+
     //create a function to get the scooters from the API and create markers for them
     function getScooters() {
     socket.on("scooters", (data) => {
@@ -74,18 +79,19 @@
             }
         ).addTo(mapInstance);
         if (scooter.inUse) {
-            Temp.bindPopup(`<h2>Scooter: ${scooter.name}</h2>
-                <h3>Current Position: ${scooter.location.lat}, ${scooter.location.lng}</h3>
-                ${ButtonUnRent}`);
+            Temp.bindPopup(`<div class="popupUpper"> ${battIcon } <p>0%</p> ${verLine} <p class="scooterName"> ${ scooter.name}</p></div>
+                ${horLine}
+                <p> 5 Kr/Min <p>
+            
+                ${ButtonUnRent}`, {className: "popup"});
             MarkerInUse.push(Temp);
         } else {
             Temp.bindPopup(
-            `<h2>Scooter: ${scooter.name}</h2>
-            <h3>Current Position: ${scooter.location.lat} 
-            ${scooter.location.lng}</h3>
+            `<div class="popupUpper"> ${battIcon } <p>0%</p> ${verLine} <p class="scooterName"> ${ scooter.name}</p></div>
+            ${horLine}
+            <p class="scooterPrice"> 5 Kr/Min </p>
             ${ButtonRent}
-            ${ButtonToPar}
-            ${ButtonToChar}`, {className: "popup"}
+            `, {className: "popup"}
             );
             marker.push(Temp);
         }
@@ -102,10 +108,11 @@
                     marker.splice(index, 1);
                 }
                 Temp.setIcon(IconMarkerGreen);
-                console.log(Temp);
-                Temp.setPopupContent(`<h2>Scooter: ${scooter.name}</h2>
-            <h3>Current Position: ${scooter.location.lat}, ${scooter.location.lng}</h3>
-            ${ButtonUnRent}`);
+                Temp.setPopupContent(`<div class="popupUpper"> ${battIcon } <p>0%</p> ${verLine} <p class="scooterName"> ${ scooter.name}</p></div>
+                ${horLine}
+                <p> 5 Kr/Min <p>
+            
+                ${ButtonUnRent}`);
                 Temp.closePopup();
                 })
                 .catch(function (error) {
@@ -113,7 +120,6 @@
                 });
             });
             $(".buttonUnRent").on("click", function () {
-            console.log(Temp);
             marker.push(Temp);
             let currentLocation = Temp.getLatLng();
             axios
@@ -140,12 +146,9 @@
                 MarkerInUse.splice(index, 1);
                 }
                 Temp.bindPopup(
-                `<h2>Scooter: ${scooter.name}</h2>
-            <h3>Current Position: ${scooter.location.lat}
-            ${scooter.location.lng}</h3>
-            ${ButtonRent}
-            ${ButtonToPar}
-            ${ButtonToChar}`
+                `<div class="popupUpper"> ${battIcon } <p>0%</p> ${verLine} <p class="scooterName"> ${ scooter.name}</p></div>
+                ${horLine} <br>
+            ${ButtonRent}`
                 );
                 Temp.closePopup();
                 Temp.setIcon(IconMarkerWhite);

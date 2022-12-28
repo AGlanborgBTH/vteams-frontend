@@ -54,6 +54,11 @@ button {
 .popup .leaflet-popup-content-wrapper, .leaflet-popup-tip {
   background: rgba(46, 59, 97, 0.9);
   color: white;
+  text-align: center;
+}
+
+.popup .leaflet-popup-content {
+  width: 200px;
 }
 
 .popupButton {
@@ -64,6 +69,31 @@ button {
   cursor: pointer;
   padding: 7px;
   text-align: center;
+}
+
+.popupUpper {
+  display: flex;
+  align-items: center;
+  justify-content: center
+}
+
+.batteryIcon {
+  height: 12px;
+  padding-right: 5px;
+}
+
+.verLineIcon {
+  padding-left: 12px;
+}
+
+.scooterName {
+  padding-left: 20px;
+}
+
+.horLineIcon {
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
 }
 
 </style>
