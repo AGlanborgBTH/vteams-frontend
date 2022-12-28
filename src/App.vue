@@ -7,6 +7,8 @@
 import Desktop from './components/Desktop.vue'
 import Mobile from './components/Mobile.vue'
 import detectMob from '@/lib/mobile'
+import { useCookies } from "vue3-cookies";
+const { cookies } = useCookies();
 
 export default {
   name: 'App',
@@ -21,6 +23,7 @@ export default {
   },
   mounted() {
     this.mobile = detectMob()
+    cookies.remove("city")
   }
 }
 </script>

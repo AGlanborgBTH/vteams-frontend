@@ -1,9 +1,12 @@
-    /* eslint-disable no-unused-vars */
-    //import the DriftMarker from the leaflet-drift-marker library
-    import DriftMarker from "leaflet-drift-marker";
-    import $ from "jquery";
-    import axios from "axios";
-    import { io } from "socket.io-client";
+/* eslint-disable no-unused-vars */
+import DriftMarker from "leaflet-drift-marker";
+import $ from "jquery";
+import axios from "axios";
+import { io } from "socket.io-client";
+import createLog from "@/requests/createLog";
+import updateLog from "@/requests/updateLog";
+import { useCookies } from "vue3-cookies";
+const { cookies } = useCookies();
 
     //export the markers function as an async function
     export default async function markers(mapInstance) {
@@ -38,11 +41,6 @@
     const ButtonUnRent = `
     <button class="buttonUnRent popupButton">Cancel</button>`;
 
-    const ButtonToPar = `
-    <button class="buttonParking popupButton">Parking</button>`;
-
-    const ButtonToChar = `
-    <button class="buttonCharging popupButton">Charging</button>`;
 
     //declare a variable to hold the icon to use and markers
     let IconChoice;
@@ -57,8 +55,6 @@
     //create a function to get the scooters from the API and create markers for them
     function getScooters() {
     socket.on("scooters", (data) => {
-        console.log("InUse Markers Array", MarkerInUse);
-        console.log("Not InUse Markers Array", marker);
 
         for (const scooter of data.data) {
         if (scooter.inUse) {
@@ -86,7 +82,7 @@
                 ${ButtonUnRent}`, {className: "popup"});
             MarkerInUse.push(Temp);
         } else {
-            Temp.bindPopup(
+          Temp.bindPopup(
             `<div class="popupUpper"> ${battIcon } <p>0%</p> ${verLine} <p class="scooterName"> ${ scooter.name}</p></div>
             ${horLine}
             <p class="scooterPrice"> 5 Kr/Min </p>
@@ -96,12 +92,13 @@
             marker.push(Temp);
         }
         Temp.on("popupopen", function () {
-            $(".buttonRent").on("click", function () {
+          $(".buttonRent").on("click", async function () {
+            await createLog(scooter._id, {lat:scooter.location.lat, lng:scooter.location.lng})
             axios
                 .patch(`http://localhost:3000/v1/scooters/${scooter._id}`, {
                 inUse: true,
-                })
-                .then(function (response) {
+              })
+              .then(function (response) {
                 MarkerInUse.push(Temp);
                 var index = marker.indexOf(Temp);
                 if (index !== -1) {
@@ -117,10 +114,13 @@
                 })
                 .catch(function (error) {
                 console.error(error);
-                });
-            });
-            $(".buttonUnRent").on("click", function () {
-            marker.push(Temp);
+              });
+          });
+
+          $(".buttonUnRent").on("click", async function () {
+          await updateLog(scooter._id, {lat:scooter.location.lat, lng:scooter.location.lng})
+            Temp.slideCancel();
+            Temp.options.inUse = false;
             let currentLocation = Temp.getLatLng();
             axios
                 .patch(`http://localhost:3000/v1/scooters/${scooter._id}`, {
@@ -133,9 +133,9 @@
                     lat: "",
                     lng: "",
                 },
-                })
-                .then(function (response) {
-                console.log(MarkerInUse);
+              })
+              .then(function (response) {
+                marker.push(Temp);
                 })
                 .catch(function (error) {
                 console.error(error);
@@ -144,55 +144,52 @@
                 var index = MarkerInUse.indexOf(Temp);
                 if (index !== -1) {
                 MarkerInUse.splice(index, 1);
-                }
-                Temp.bindPopup(
+              }
+              Temp.bindPopup(
                 `<div class="popupUpper"> ${battIcon } <p>0%</p> ${verLine} <p class="scooterName"> ${ scooter.name}</p></div>
                 ${horLine} <br>
             ${ButtonRent}`
-                );
-                Temp.closePopup();
-                Temp.setIcon(IconMarkerWhite);
+              );
+              Temp.closePopup();
+              Temp.setIcon(IconMarkerWhite);
             }
-            });
-            $(".buttonParking").on("click", function () {
-            Temp.slideTo([57.699498, 11.962688], {
-                duration: 50000,
-            });
-            });
-
-            $(".buttonCharging").on("click", function () {
-            Temp.slideTo([57.696712, 11.956132], {
-                duration: 50000,
-            });
-            });
+          });
         });
         }
     });
-    }
+  }
 
-    // Call the getScooters function to start making requests to the API and add markers to the map
-    getScooters();
+  // Call the getScooters function to start making requests to the API and add markers to the map
+  getScooters();
 
-    // create a function that will update the map every 2 seconds
-    async function onUpdateMap() {
+  // create a function that will update the map every 2 seconds
+  async function onUpdateMap() {
     for (let i = 0; i < MarkerInUse.length; i++) {
-        //make a request to the API to get the scooter data
-        const response = await fetch(
+      //make a request to the API to get the scooter data
+      const response = await fetch(
         "http://localhost:3000/v1/scooters/" + MarkerInUse[i].options.ID
-        );
-        const data = await response.json();
-        //update the marker's position using the new destination and velocity
-        MarkerInUse[i].slideTo(data.destination, {
+      );
+      const data = await response.json();
+      //update the marker's position using the new destination and velocity
+      MarkerInUse[i].slideTo(data.destination, {
         duration: data.velocity,
-        });
+      });
     }
-    console.log("marker in function", marker);
     for (let i = 0; i < marker.length; i++) {
-        if (marker[i].options.inUse == false) {
+      if (marker[i].options.inUse == false) {
+      }
+    }
+  }
+
+  async function SlideCancelFunction() {
+    for (let i = 0; i < marker.length; i++) {
+      if (marker[i].options.inUse == false) {
         marker[i].slideCancel();
-        }
+        // console.log("Test123");
+      }
     }
-    }
-    //call the onUpdateMap function every 2 seconds
-    setInterval(onUpdateMap, 2000);
-    }
+  }
+  setInterval(SlideCancelFunction, 500);
+  //call the onUpdateMap function every 2 seconds
+  setInterval(onUpdateMap, 2000);
+}
