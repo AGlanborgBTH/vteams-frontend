@@ -86,31 +86,6 @@ export default async function markers(mapInstance) {
         </style>
         <button class="buttonUnRent">Dont Renting</button>`;
 
-  const ButtonUnRent2 = `<style>
-        .ButtonUnRent2 {
-        background-color: red;
-        border: 1px solid red;
-        border-radius: 4px;
-        box-shadow: rgba(0, 0, 0, .1) 0 2px 4px 0;
-        box-sizing: border-box;
-        color: #fff;
-        cursor: pointer;
-        font-family: "Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif;
-        font-size: 16px;
-        font-weight: 400;
-        outline: none;
-        outline: 0;
-        padding: 10px 25px;
-        text-align: center;
-        transform: translateY(0);
-        transition: transform 150ms, box-shadow 150ms;
-        user-select: none;
-        -webkit-user-select: none;
-        touch-action: manipulation;
-        }
-        </style>
-        <button class="ButtonUnRent2">Dont Renting</button>`;
-
   const ButtonToPar = `<style>
         .buttonParking {
         background-color: blue;
@@ -170,9 +145,6 @@ export default async function markers(mapInstance) {
   function getScooters() {
     socket.on("scooters", (data) => {
       console.log(data.data);
-      //declare two arrays to hold the markers and markers in use
-      // marker = [];
-      // MarkerInUse = [];
       console.log("InUse Markers Array", MarkerInUse);
       console.log("Not InUse Markers Array", marker);
 
@@ -204,9 +176,7 @@ export default async function markers(mapInstance) {
             `<h2>Scooter: ${scooter.name}</h2>, 
             <h3>Current Position: ${scooter.location.lat}, 
             ${scooter.location.lng}</h3>,
-            ${ButtonRent},
-            ${ButtonToPar},
-            ${ButtonToChar}`
+            ${ButtonRent},`
           );
           marker.push(Temp);
         }
@@ -218,7 +188,6 @@ export default async function markers(mapInstance) {
                 inUse: true,
               })
               .then(function (response) {
-                // console.log(response.data);
                 MarkerInUse.push(Temp);
                 var index = marker.indexOf(Temp);
                 if (index !== -1) {
@@ -229,21 +198,19 @@ export default async function markers(mapInstance) {
                 Temp.setPopupContent(`<h2>Scooter: ${scooter.name}</h2>
             <h3>Current Position: ${scooter.location.lat}, ${scooter.location.lng}</h3>
             ${ButtonUnRent}`);
-                // socket.emit("rentScooter");
                 Temp.closePopup();
               })
               .catch(function (error) {
                 console.error(error);
               });
           });
+
           $(".buttonUnRent").on("click", async function () {
-            await updateLog(scooter._id, {lat:scooter.location.lat, lng:scooter.location.lng})
-            marker.push(Temp);
-            // if (marker.includes(Temp)) {
-            //   var indexoftemp = marker.indexOf(Temp);
-            //   marker[indexoftemp].slideCancel();
-            // }
-            // Temp.slideCancel();
+          await updateLog(scooter._id, {lat:scooter.location.lat, lng:scooter.location.lng})
+            console.log("Test1");
+            console.log(Temp);
+            Temp.slideCancel();
+            Temp.options.inUse = false;
             let currentLocation = Temp.getLatLng();
             axios
               .patch(`http://localhost:3000/v1/scooters/${scooter._id}`, {
@@ -258,6 +225,7 @@ export default async function markers(mapInstance) {
                 },
               })
               .then(function (response) {
+                marker.push(Temp);
                 console.log(MarkerInUse);
               })
               .catch(function (error) {
@@ -273,49 +241,18 @@ export default async function markers(mapInstance) {
                 `<h2>Scooter: ${scooter.name}</h2>,
             <h3>Current Position: ${scooter.location.lat},
             ${scooter.location.lng}</h3>,
-            ${ButtonRent},
-            ${ButtonToPar},
-            ${ButtonToChar}`
+            ${ButtonRent},`
               );
               Temp.closePopup();
-              // console.log(MarkerInUse);
-              // socket.emit("rentScooter");
               console.log(Temp);
               Temp.setIcon(IconMarkerWhite);
             }
             console.log("test2");
           });
-          $(".buttonParking").on("click", function () {
-            // console.log("Sending Scooter To Parking Station");
-            Temp.slideTo([57.699498, 11.962688], {
-              duration: 50000,
-            });
-          });
-
-          $(".buttonCharging").on("click", function () {
-            // console.log("Sending Scooter To Charging Station");
-            Temp.slideTo([57.696712, 11.956132], {
-              duration: 50000,
-            });
-          });
         });
       }
     });
   }
-
-  // function chargeScooter(scooter) {
-  //   axios
-  //   .patch(`http://localhost:3000/v1/scooters/${scooter._id}`, {
-  //     charging: true,
-  //     location: {lat: 57.696712, lng: 11.956132}
-  //   })
-  //   .then(function (response) {
-  //     console.log(response.data);
-  //   })
-  //   .catch(function (error) {
-  //     console.error(error);
-  //   });
-  // }
 
   // Call the getScooters function to start making requests to the API and add markers to the map
   getScooters();
@@ -325,7 +262,6 @@ export default async function markers(mapInstance) {
   // create a function that will update the map every 2 seconds
   async function onUpdateMap() {
     for (let i = 0; i < MarkerInUse.length; i++) {
-      // console.log(MarkerInUse[i]);
       //make a request to the API to get the scooter data
       const response = await fetch(
         "http://localhost:3000/v1/scooters/" + MarkerInUse[i].options.ID
@@ -337,8 +273,16 @@ export default async function markers(mapInstance) {
       });
       // console.log(data.destination);
     }
-    // console.log(MarkerInUse);
     console.log("marker in function", marker);
+    for (let i = 0; i < marker.length; i++) {
+      if (marker[i].options.inUse == false) {
+        // marker[i].slideCancel();
+        // console.log("Test123");
+      }
+    }
+  }
+
+  async function SlideCancelFunction() {
     for (let i = 0; i < marker.length; i++) {
       if (marker[i].options.inUse == false) {
         marker[i].slideCancel();
@@ -346,6 +290,7 @@ export default async function markers(mapInstance) {
       }
     }
   }
+  setInterval(SlideCancelFunction, 500);
   //call the onUpdateMap function every 2 seconds
   setInterval(onUpdateMap, 2000);
   // onUpdateMap();
