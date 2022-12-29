@@ -74,11 +74,11 @@ export default {
 	name: "MobileLogin",
 	props: {
 		city: String,
-		newWallet: null,
 	},
 	data() {
 		return {
 			incrementValue: 0,
+			wallet: null,
 			open: false,
 			options: [
 				{
@@ -104,20 +104,14 @@ export default {
 			],
 		};
 	},
+	async created() {
+		this.wallet = await getWalletValue();
+	},
 	methods: {
 		incrementWallet,
-		async getWalletValue() {
-			try {
-				const newWallet = await getWalletValue();
-				this.wallet = newWallet;
-			} catch (error) {
-				console.error(error);
-			}
-		},
 	},
 	mounted() {
 		map(this.city);
-		this.getWalletValue();
 	},
 };
 </script>
