@@ -78,7 +78,6 @@ export default {
 	data() {
 		return {
 			incrementValue: 0,
-			wallet: null,
 			open: false,
 			options: [
 				{
