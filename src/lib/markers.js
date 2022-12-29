@@ -93,7 +93,7 @@ const { cookies } = useCookies();
         }
         Temp.on("popupopen", function () {
           $(".buttonRent").on("click", async function () {
-            await createLog(scooter._id, {lat:scooter.location.lat, lng:scooter.location.lng})
+            await createLog(scooter._id, scooter.name, {lat:scooter.location.lat, lng:scooter.location.lng})
             axios
                 .patch(`http://localhost:3000/v1/scooters/${scooter._id}`, {
                 inUse: true,
@@ -175,10 +175,10 @@ const { cookies } = useCookies();
         duration: data.velocity,
       });
     }
-    for (let i = 0; i < marker.length; i++) {
-      if (marker[i].options.inUse == false) {
-      }
-    }
+    // for (let i = 0; i < marker.length; i++) {
+    //   if (marker[i].options.inUse == false) {
+    //   }
+    // }
   }
 
   async function SlideCancelFunction() {
