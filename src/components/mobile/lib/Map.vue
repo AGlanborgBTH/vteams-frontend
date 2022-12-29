@@ -38,14 +38,15 @@
 					</div>
 				</div>
 			</div>
-			<div class="buttonDiv">
-				<input v-model="incrementValue" />
+			<div class="WalletContainer">
+				<input class="inputButton" v-model="incrementValue" />
 				<button
-					class="button"
+					class="addMoneyButton"
 					@click="incrementWallet(parseInt(this.incrementValue))"
 				>
 					Add Money
 				</button>
+				<p>Current Wallet {{ wallet }}</p>
 			</div>
 			<div class="footer">
 				<div class="logoutContainer">
@@ -67,6 +68,7 @@
 <script>
 import map from "@/lib/map.js";
 import { incrementWallet } from "@/requests/updateWallet.js";
+import { getWalletValue } from "@/requests/getWalletValue.js";
 
 export default {
 	name: "MobileLogin",
@@ -76,7 +78,7 @@ export default {
 	data() {
 		return {
 			incrementValue: 0,
-			current: "",
+			wallet: null,
 			open: false,
 			options: [
 				{
@@ -101,6 +103,9 @@ export default {
 				},
 			],
 		};
+	},
+	async created() {
+		this.wallet = await getWalletValue();
 	},
 	methods: {
 		incrementWallet,
@@ -251,9 +256,40 @@ span {
 	flex-direction: row;
 }
 
+.WalletContainer {
+	padding-left: 17.5vw;
+	width: 100%;
+}
+
 .logoutContainer {
 	padding-left: 17.5vw;
 	width: 100%;
+}
+
+.inputButton {
+	border: none;
+	outline: 1px solid #d0d5dd;
+	background-color: rgba(0, 0, 0, 0);
+	line-height: 35px;
+	border-radius: 8px;
+	font-size: 12px;
+	padding: 0 3vw;
+}
+
+.inputButton:focus {
+	outline-color: rgb(248, 158, 158);
+}
+
+.addMoneyButton {
+	border: none;
+	background-color: rgb(84, 41, 255);
+	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
+	border-radius: 2px;
+	height: 35px;
+	width: 172px;
+	margin-top: 10px;
+	font-size: 12px;
+	display: block;
 }
 
 .logout {
