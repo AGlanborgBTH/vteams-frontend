@@ -2,7 +2,7 @@
   <div>
       <Header />
       <div v-if="userLogs.length">
-        <History :userLogs="userLogs"/>
+        <History :userLogs="userLogs" :userEmail="userEmail"/>
       </div>
       <div v-else>
         <h2>No data for the user</h2>
@@ -29,7 +29,8 @@ export default {
   },
   data() {
     return {
-      userLogs: []
+      userLogs: [],
+      userEmail: ""
     };
   },
   methods: {
@@ -38,6 +39,7 @@ export default {
     let result = await getAllLogs();
     let userId  = this.cookies.get("user").id
     this.userLogs = result.data.filter((log) => log.customerID == userId)
+    this.userEmail = this.cookies.get("user").email
   }
 };
 </script>

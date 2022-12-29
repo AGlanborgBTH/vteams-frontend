@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>users history</h1>
+        <h1>Rental history for the user: {{ userEmail }}</h1>
         <table>
           <tr>
             <th> City </th>
@@ -33,7 +33,7 @@ import { toRaw } from 'vue';
 
 export default {
   name: "HistoryMain",
-  props: ['userLogs'],
+  props: ['userLogs', 'userEmail'],
   methods: {
     convertToDate(miliseconds) {
       let date = new Date(+miliseconds).toLocaleString('sv')
