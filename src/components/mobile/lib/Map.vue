@@ -46,6 +46,7 @@
 				>
 					Add Money
 				</button>
+				<p>Current Wallet {{ wallet }}</p>
 			</div>
 			<div class="footer">
 				<div class="logoutContainer">
@@ -67,16 +68,17 @@
 <script>
 import map from "@/lib/map.js";
 import { incrementWallet } from "@/requests/updateWallet.js";
+import { getWalletValue } from "@/requests/getWalletValue.js";
 
 export default {
 	name: "MobileLogin",
 	props: {
 		city: String,
+		newWallet: null,
 	},
 	data() {
 		return {
 			incrementValue: 0,
-			current: "",
 			open: false,
 			options: [
 				{
@@ -104,9 +106,18 @@ export default {
 	},
 	methods: {
 		incrementWallet,
+		async getWalletValue() {
+			try {
+				const newWallet = await getWalletValue();
+				this.wallet = newWallet;
+			} catch (error) {
+				console.error(error);
+			}
+		},
 	},
 	mounted() {
 		map(this.city);
+		this.getWalletValue();
 	},
 };
 </script>
@@ -253,7 +264,6 @@ span {
 
 .WalletContainer {
 	padding-left: 17.5vw;
-	margin-bottom: 50px;
 	width: 100%;
 }
 
@@ -272,14 +282,20 @@ span {
 	padding: 0 3vw;
 }
 
+.inputButton:focus {
+	outline-color: rgb(248, 158, 158);
+}
+
 .addMoneyButton {
 	border: none;
 	background-color: rgb(84, 41, 255);
 	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
 	border-radius: 2px;
-	width: 10vw;
-	height: 20px;
+	height: 35px;
+	width: 172px;
+	margin-top: 10px;
 	font-size: 12px;
+	display: block;
 }
 
 .logout {

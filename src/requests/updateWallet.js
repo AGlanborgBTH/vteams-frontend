@@ -15,7 +15,7 @@ export async function incrementWallet(incrementValue) {
 
     // Increment the wallet value by the specified amount
     const newWalletValue = wallet + incrementValue;
-    console.log(`Current wallet value: ${newWalletValue}`); // log the current wallet value
+    console.log(`Current wallet value: ${newWalletValue}`);
 
     // Send a patch request to update the wallet value
     await axios.patch(`http://localhost:3000/v1/users/${user.id}`, {
