@@ -63,14 +63,21 @@
 
 					<td>
 						<!-- add the buttons with the icons -->
-						<button class="btn btn-primary">
-							<i class="fa fa-trash"></i>
-							<!-- use a font-awesome icon for the pencil -->
-						</button>
-						<button class="btn btn-danger">
-							<i class="fa fa-trash"></i>
-							<!-- use a font-awesome icon for the trash can -->
-						</button>
+						<div class="btn-group">
+							<button
+								class="btn btn-primary buttonclicked"
+								@click="sendToParking"
+							>
+								<i class="fa fa-trash"></i>
+							</button>
+							<button
+								class="btn btn-danger buttonclicked"
+								@click="sendToCharging"
+							>
+								<i class="fa fa-trash"></i>
+								<!-- use a font-awesome icon for the trash can -->
+							</button>
+						</div>
 					</td>
 				</tr>
 			</tbody>
@@ -98,6 +105,12 @@ export default {
 		this.fetchScooters(); // call the fetchLogs function when the component is mounted
 	},
 	methods: {
+		sendToParking() {
+			console.log("Sending To Parking!");
+		},
+		sendToCharging() {
+			console.log("Sending To Charging!");
+		},
 		async fetchScooters() {
 			try {
 				// make a GET request to the API to fetch the logs
@@ -135,6 +148,17 @@ export default {
 	top: 0;
 	left: 0;
 	right: 0;
+}
+.btn:hover .fa {
+	color: #ddd;
+}
+.btn:active {
+	color: #ccc;
+	transform: scale(0.9);
+}
+.btn-group {
+	display: flex;
+	justify-content: center;
 }
 
 .logs-table {
