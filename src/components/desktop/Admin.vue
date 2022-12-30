@@ -5,21 +5,19 @@
 			<!-- add a header element to hold the h1 and dropdown elements -->
 			<!-- add the h1 element with the text "Admin panel" -->
 			<h1 class="text-center">Admin panel</h1>
-			<!-- add a form group with a label and select element for the dropdown menu -->
-			<div class="form-group text-center">
-				<!-- add the text-center class to center the dropdown menu horizontally -->
-				<label for="city-select">Select a city:</label>
-				<select
-					class="form-control"
-					id="city-select"
-					v-model="selectedCity"
-				>
-					<option value="6384bb54079e5520699909d6">Göteborg</option>
-					<option value="6384bb98897c01a69121c994">Uppsala</option>
-					<option value="6384bbce2396b44a4a70ba3e">Linköping</option>
-				</select>
-			</div>
 		</header>
+		<div class="centerDiv">
+			<label for="city-select">Select a city:</label>
+			<select
+				class="form-control"
+				id="city-select"
+				v-model="selectedCity"
+			>
+				<option value="6384bb54079e5520699909d6">Göteborg</option>
+				<option value="6384bb98897c01a69121c994">Uppsala</option>
+				<option value="6384bbce2396b44a4a70ba3e">Linköping</option>
+			</select>
+		</div>
 		<table class="logs-table">
 			<thead>
 				<tr>
@@ -116,6 +114,21 @@ export default {
 </script>
 
 <style scoped>
+.centerDiv {
+	display: flex;
+	justify-content: center;
+	top: 0;
+	left: 0;
+	right: 0;
+}
+.btn + .btn {
+	margin-left: 1rem; /* set the margin-left property to 1rem to add space between the buttons */
+}
+.form-control {
+	width: 150px;
+	height: 20px;
+	margin-bottom: 20px;
+}
 .header {
 	display: flex;
 	justify-content: center;
