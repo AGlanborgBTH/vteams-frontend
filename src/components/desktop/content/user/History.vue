@@ -51,6 +51,7 @@ export default {
         }
       })
       console.log(addressReadable);
+      return addressReadable;
     }
   }
 }
