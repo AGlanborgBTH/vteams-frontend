@@ -23,61 +23,50 @@
 		<table class="logs-table">
 			<thead>
 				<tr>
-					<th>ID</th>
-					<th>Description</th>
+					<th>Name</th>
+					<th>Status</th>
 					<th>City</th>
-					<th>Customer</th>
-					<th>Scooter</th>
-					<th>Time Start</th>
-					<th>Time End</th>
-					<th>Cost</th>
+					<th>Battery</th>
+					<th>Location</th>
 					<th>Actions</th>
 					<!-- add a new column for the buttons -->
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="log in logs" :key="log._id">
-					<td>{{ log._id }}</td>
+				<tr v-for="scooter in scooters" :key="scooter._id">
+					<td>{{ scooter.name }}</td>
 					<!-- use the v-if directive to conditionally set the background color of the table cell based on the value of the description field -->
 					<td
 						:style="{
 							backgroundColor:
-								log.description === 'Stop Renting Scooter'
-									? '#ff0000'
-									: '#00ff00',
+								scooter.inUse === 'false'
+									? '#00ff00'
+									: '#ff0000',
 						}"
 					>
-						{{ log.description }}
+						{{ scooter.inUse }}
 					</td>
 					<td>
 						<!-- use the v-if directive to test the value of log.cityID and display different text based on the result -->
 						<template
-							v-if="log.cityID === '6384bb54079e5520699909d6'"
+							v-if="scooter.cityID === '6384bb54079e5520699909d6'"
 							>Göteborg</template
 						>
 						<template
 							v-else-if="
-								log.cityID === '6384bb98897c01a69121c994'
+								scooter.cityID === '6384bb98897c01a69121c994'
 							"
 							>Uppsala</template
 						>
 						<template v-else>Linköping</template>
 					</td>
-					<td>{{ log.customerID }}</td>
-					<td>{{ log.scooterID }}</td>
-					<td>
-						<!-- create a new Date object from the log.timeStart value and use the toLocaleDateString method to format the date -->
-						{{ new Date(log.timeStart).toLocaleString("sv") }}
-					</td>
-					<td>
-						<!-- create a new Date object from the log.timeStart value and use the toLocaleDateString method to format the date -->
-						{{ new Date(log.timeEnd).toLocaleString("sv") }}
-					</td>
-					<td>{{ log.totalCost }}</td>
+					<td>{{ scooter.battery }}</td>
+					<td>{{ scooter.location }}</td>
+
 					<td>
 						<!-- add the buttons with the icons -->
 						<button class="btn btn-primary">
-							<i class="fa fa-pencil"></i>
+							<i class="fa fa-trash"></i>
 							<!-- use a font-awesome icon for the pencil -->
 						</button>
 						<button class="btn btn-danger">
@@ -103,21 +92,21 @@ export default {
 	data() {
 		return {
 			selectedCity: "",
-			logs: [], // this will hold the logs data that we fetch from the API
+			scooters: [], // this will hold the logs data that we fetch from the API
 			error: null, // this will hold any error message that may occur during the request
 		};
 	},
 	mounted() {
-		this.fetchLogs(); // call the fetchLogs function when the component is mounted
+		this.fetchScooters(); // call the fetchLogs function when the component is mounted
 	},
 	methods: {
-		async fetchLogs() {
+		async fetchScooters() {
 			try {
 				// make a GET request to the API to fetch the logs
 				const response = await axios.get(
-					"http://localhost:3000/v1/logs"
+					"http://localhost:3000/v1/scooters/"
 				);
-				this.logs = response.data.data; // update the logs data with the response from the API
+				this.scooters = response.data.data; // update the logs data with the response from the API
 			} catch (error) {
 				this.error = error.message; // update the error message if an error occurs during the request
 			}
