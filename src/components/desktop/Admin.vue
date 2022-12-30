@@ -88,6 +88,8 @@
 <script>
 import Header from "./content/Header.vue";
 import axios from "axios";
+import { ToParkingStation } from "@/requests/sendParking.js";
+import { ToChargingStation } from "@/requests/sendCharging.js";
 
 export default {
 	name: "AdminMain",
@@ -103,12 +105,14 @@ export default {
 	},
 	mounted() {
 		this.fetchScooters(); // call the fetchLogs function when the component is mounted
+		ToParkingStation;
+		ToChargingStation;
 	},
 	methods: {
-		sendToParking() {
+		ToParkingStation() {
 			console.log("Sending To Parking!");
 		},
-		sendToCharging() {
+		ToChargingStation() {
 			console.log("Sending To Charging!");
 		},
 		async fetchScooters() {
