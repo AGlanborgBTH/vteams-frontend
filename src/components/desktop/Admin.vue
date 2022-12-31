@@ -59,7 +59,7 @@
 						<template v-else>Linköping</template>
 					</td>
 					<td>{{ scooter.battery }}%</td>
-					<td>{{ scooter.location }}</td>
+					<td>this.address({{ scooter.location }})</td>
 
 					<td>
 						<!-- add the buttons with the icons -->
@@ -90,6 +90,7 @@ import Header from "./content/Header.vue";
 import axios from "axios";
 import ToParkingStation from "@/requests/sendParking.js";
 import ToChargingStation from "@/requests/sendCharging.js";
+import getAddressFromLatLng from "@/requests/getAdressAdmin.js";
 
 export default {
 	name: "AdminMain",
@@ -98,6 +99,7 @@ export default {
 	},
 	data() {
 		return {
+			address: "",
 			selectedCity: "",
 			scooters: [], // this will hold the logs data that we fetch from the API
 			error: null, // this will hold any error message that may occur during the request

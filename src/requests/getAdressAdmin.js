@@ -1,22 +1,20 @@
-export default async function getAddress(lat, lng) {
-  const apiKey = "YOUR_API_KEY";
-  const endpoint = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${apiKey}`;
+import axios from "axios";
 
-  fetch(endpoint)
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw new Error("Request failed");
-    })
-    .then((data) => {
-      if (data.status === "OK") {
-        return data.results[0].formatted_address;
-      }
-      throw new Error("No address found");
-    })
-    .catch((error) => {
-      console.error(error);
-      return null;
-    });
+const GOOGLE_MAPS_API_KEY = "AIzaSyDkaBm3UT92TeIobvXAz8";
+
+export default async function getAddressFromLatLng(lat, lng) {
+  try {
+    // Make a request to the Google Maps Geocoding API to get the address
+    const response = await axios.get(
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${GOOGLE_MAPS_API_KEY}`
+    );
+
+    // Extract the formatted address from the API response
+    const address = response.data.results[0].formatted_address;
+
+    return address;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 }
