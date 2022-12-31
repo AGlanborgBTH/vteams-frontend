@@ -58,7 +58,7 @@
 						>
 						<template v-else>Linköping</template>
 					</td>
-					<td>{{ scooter.battery }}</td>
+					<td>{{ scooter.battery }}%</td>
 					<td>{{ scooter.location }}</td>
 
 					<td>
@@ -66,13 +66,13 @@
 						<div class="btn-group">
 							<button
 								class="btn btn-primary buttonclicked"
-								@click="sendToParking"
+								@click="ToParkingStation(scooter._id)"
 							>
 								<i class="fa fa-trash"></i>
 							</button>
 							<button
 								class="btn btn-danger buttonclicked"
-								@click="sendToCharging"
+								@click="ToChargingStation(scooter._id)"
 							>
 								<i class="fa fa-trash"></i>
 								<!-- use a font-awesome icon for the trash can -->
@@ -88,8 +88,8 @@
 <script>
 import Header from "./content/Header.vue";
 import axios from "axios";
-import { ToParkingStation } from "@/requests/sendParking.js";
-import { ToChargingStation } from "@/requests/sendCharging.js";
+import ToParkingStation from "@/requests/sendParking.js";
+import ToChargingStation from "@/requests/sendCharging.js";
 
 export default {
 	name: "AdminMain",
@@ -105,15 +105,13 @@ export default {
 	},
 	mounted() {
 		this.fetchScooters(); // call the fetchLogs function when the component is mounted
-		ToParkingStation;
-		ToChargingStation;
 	},
 	methods: {
-		ToParkingStation() {
-			console.log("Sending To Parking!");
+		async ToChargingStation(scooterId) {
+			await ToChargingStation(scooterId);
 		},
-		ToChargingStation() {
-			console.log("Sending To Charging!");
+		async ToParkingStation(scooterId) {
+			await ToParkingStation(scooterId);
 		},
 		async fetchScooters() {
 			try {
