@@ -33,6 +33,7 @@ header {
   position: fixed;
   transition: 0.5s ease all;
   color: #fff;
+  display: contents;
 }
 
 nav {
