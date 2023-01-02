@@ -12,8 +12,14 @@
 				class="form-control"
 				id="city-select"
 				v-model="selectedCity"
+				@click="filteredData(selectedCity)"
 			>
-				<option value="6384bb54079e5520699909d6">Göteborg</option>
+				<option
+					value="6384bb54079e5520699909d6"
+					:selectedCity="selectedCity === '6384bb54079e5520699909d6'"
+				>
+					Göteborg
+				</option>
 				<option value="6384bb98897c01a69121c994">Uppsala</option>
 				<option value="6384bbce2396b44a4a70ba3e">Linköping</option>
 			</select>
@@ -59,7 +65,9 @@
 						<template v-else>Linköping</template>
 					</td>
 					<td>{{ scooter.battery }}%</td>
-					<td>this.address({{ scooter.location }})</td>
+					<td>
+						{{ scooter.location }}
+					</td>
 
 					<td>
 						<!-- add the buttons with the icons -->
@@ -99,16 +107,22 @@ export default {
 	},
 	data() {
 		return {
-			address: "",
+			adress: "",
 			selectedCity: "",
 			scooters: [], // this will hold the logs data that we fetch from the API
 			error: null, // this will hold any error message that may occur during the request
 		};
 	},
-	mounted() {
+	async mounted() {
 		this.fetchScooters(); // call the fetchLogs function when the component is mounted
 	},
 	methods: {
+		filteredData(selectedCity) {
+			console.log(selectedCity);
+		},
+		async getAddressFromLatLng() {
+			await getAddressFromLatLng();
+		},
 		async ToChargingStation(scooterId) {
 			await ToChargingStation(scooterId);
 		},
@@ -127,6 +141,7 @@ export default {
 			}
 		},
 	},
+	computed: {},
 };
 </script>
 
