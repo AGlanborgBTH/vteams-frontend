@@ -51,14 +51,11 @@
 						{{ scooter.inUse }}
 					</td>
 					<td>
-						<!-- use the v-if directive to test the value of log.cityID and display different text based on the result -->
-						<template v-if="scooter.city === 'Göteborg'"
-							>Göteborg</template
-						>
-						<template v-else-if="scooter.city === 'Uppsala'"
-							>Uppsala</template
-						>
-						<template v-else>Linköping</template>
+						<div v-if="scooter.city === 'Göteborg'">Göteborg</div>
+						<div v-else-if="scooter.city === 'Uppsala'">
+							Uppsala
+						</div>
+						<div v-else>Linköping</div>
 					</td>
 					<td>{{ scooter.battery }}%</td>
 					<td>
