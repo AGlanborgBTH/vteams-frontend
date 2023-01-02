@@ -2,11 +2,19 @@ import axios from "axios";
 //skapa if sats för checka stad samt ge kordinater.
 
 export default async function ToChargingStation(scooterId) {
-  axios.patch(`http://localhost:3000/v1/scooters/${scooterId}`, {
-    location: {
-      satus: "Charging",
-      lng: "21,231231231",
-      lat: "23,91821238123",
-    },
-  });
+  const currentLocationlng = 21.11111;
+  const currentLocationlat = 21.22222;
+  const scooter = await axios.get(
+    `http://localhost:3000/v1/scooters/${scooterId}`
+  );
+  console.log(scooter.data.city);
+  if (scooter.data.city === "Göteborg") {
+    await axios.patch(`http://localhost:3000/v1/scooters/${scooterId}`, {
+      location: {
+        lng: currentLocationlng,
+        lat: currentLocationlat,
+      },
+    });
+    console.log("Sent Scooter To Charging");
+  }
 }

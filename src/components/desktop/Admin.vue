@@ -12,7 +12,7 @@
 				class="form-control"
 				id="city-select"
 				v-model="selectedCity"
-				@click="filteredData(selectedCity)"
+				@click="fetchScooters()"
 			>
 				<option
 					value="6384bb54079e5520699909d6"
@@ -117,9 +117,6 @@ export default {
 		this.fetchScooters(); // call the fetchLogs function when the component is mounted
 	},
 	methods: {
-		filteredData(selectedCity) {
-			console.log(selectedCity);
-		},
 		async getAddressFromLatLng() {
 			await getAddressFromLatLng();
 		},
@@ -135,7 +132,11 @@ export default {
 				const response = await axios.get(
 					"http://localhost:3000/v1/scooters/"
 				);
-				this.scooters = response.data.data; // update the logs data with the response from the API
+				this.scooters = response.data.data;
+				this.scooters.filter(
+					(scooter) => scooter.cityID === this.selectedCity
+				);
+				console.log(this.scooter);
 			} catch (error) {
 				this.error = error.message; // update the error message if an error occurs during the request
 			}
