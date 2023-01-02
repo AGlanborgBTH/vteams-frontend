@@ -8,7 +8,6 @@
         <h2>No data for the user</h2>
       </div>
   </div>
-
 </template>
 
 <script>

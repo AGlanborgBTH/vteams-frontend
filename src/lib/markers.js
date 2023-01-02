@@ -78,7 +78,7 @@ const { cookies } = useCookies();
             Temp.bindPopup(`<div class="popupUpper"> ${battIcon } <p>0%</p> ${verLine} <p class="scooterName"> ${ scooter.name}</p></div>
                 ${horLine}
                 <p> 5 Kr/Min <p>
-            
+
                 ${ButtonUnRent}`, {className: "popup"});
             MarkerInUse.push(Temp);
         } else {
@@ -108,7 +108,7 @@ const { cookies } = useCookies();
                 Temp.setPopupContent(`<div class="popupUpper"> ${battIcon } <p>0%</p> ${verLine} <p class="scooterName"> ${ scooter.name}</p></div>
                 ${horLine}
                 <p> 5 Kr/Min <p>
-            
+
                 ${ButtonUnRent}`);
                 Temp.closePopup();
                 })
@@ -175,17 +175,12 @@ const { cookies } = useCookies();
         duration: data.velocity,
       });
     }
-    // for (let i = 0; i < marker.length; i++) {
-    //   if (marker[i].options.inUse == false) {
-    //   }
-    // }
   }
 
   async function SlideCancelFunction() {
     for (let i = 0; i < marker.length; i++) {
       if (marker[i].options.inUse == false) {
         marker[i].slideCancel();
-        // console.log("Test123");
       }
     }
   }
