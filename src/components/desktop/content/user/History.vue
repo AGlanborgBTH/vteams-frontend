@@ -18,7 +18,7 @@
             <td> {{ log.scooterName }} </td>
             <td> {{ this.convertToDate(log.timeStart) }} </td>
             <td> {{ this.convertToDate(log.timeEnd) }} </td>
-            <td> {{ this.getAddress(log.locationStart) }} </td>
+            <td> {{ log.locationStart }} </td>
             <td> {{ log.locationEnd }} </td>
             <td> {{ log.totalCost }} kr</td>
           </tr>
