@@ -10,9 +10,7 @@
         <li><router-link class="link" :to="{name: ''}">Test3</router-link></li>
       </ul>
     </nav>
-    
   </header>
-  
 </template>
 
 <script>
