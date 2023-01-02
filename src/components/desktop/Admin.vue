@@ -18,8 +18,18 @@
 				>
 					Göteborg
 				</option>
-				<option value="Uppsala">Uppsala</option>
-				<option value="Linköping">Linköping</option>
+				<option
+					value="Uppsala"
+					:selectedCity="selectedCity === 'Uppsala'"
+				>
+					Uppsala
+				</option>
+				<option
+					value="Linköping"
+					:selectedCity="selectedCity === 'Linköping'"
+				>
+					Linköping
+				</option>
 			</select>
 		</div>
 		<table class="logs-table">
@@ -35,7 +45,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="scooter in scooters" :key="scooter._id">
+				<tr v-for="scooter in scootersFilter" :key="scooter._id">
 					<td>{{ scooter.name }}</td>
 					<!-- use the v-if directive to conditionally set the background color of the table cell based on the value of the description field -->
 					<td
@@ -100,7 +110,8 @@ export default {
 		return {
 			adress: "",
 			selectedCity: "",
-			scooters: [], // this will hold the logs data that we fetch from the API
+			scooters: [],
+			scootersFilter: [], // this will hold the logs data that we fetch from the API
 			error: null, // this will hold any error message that may occur during the request
 		};
 	},
@@ -125,9 +136,12 @@ export default {
 				);
 				this.scooters = response.data.data;
 				this.scooters.filter(
-					(scooter) => scooter.cityID === this.selectedCity
+					(scooter) => scooter.city === this.selectedCity
 				);
-				console.log(this.scooter);
+				this.scootersFilter = this.scooters.filter(
+					(scooter) => scooter.city === this.selectedCity
+				);
+				console.log(this.selectedCity);
 			} catch (error) {
 				this.error = error.message; // update the error message if an error occurs during the request
 			}
