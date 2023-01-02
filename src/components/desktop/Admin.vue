@@ -1,11 +1,9 @@
 <template>
 	<Header />
 	<div>
-		<header class="header">
-			<!-- add a header element to hold the h1 and dropdown elements -->
-			<!-- add the h1 element with the text "Admin panel" -->
+		<div class="header">
 			<h1 class="text-center">Admin panel</h1>
-		</header>
+		</div>
 		<div class="centerDiv">
 			<label for="city-select">Select a city:</label>
 			<select
@@ -21,7 +19,7 @@
 					Göteborg
 				</option>
 				<option value="6384bb98897c01a69121c994">Uppsala</option>
-				<option value="6384bbce2396b44a4a70ba3e">Linköping</option>
+				<option value="6384c198079e5520699909d7">Linköping</option>
 			</select>
 		</div>
 		<table class="logs-table">
@@ -51,18 +49,11 @@
 						{{ scooter.inUse }}
 					</td>
 					<td>
-						<!-- use the v-if directive to test the value of log.cityID and display different text based on the result -->
-						<template
-							v-if="scooter.cityID === '6384bb54079e5520699909d6'"
-							>Göteborg</template
-						>
-						<template
-							v-else-if="
-								scooter.cityID === '6384bb98897c01a69121c994'
-							"
-							>Uppsala</template
-						>
-						<template v-else>Linköping</template>
+						<div v-if="scooter.city === 'Göteborg'">Göteborg</div>
+						<div v-else-if="scooter.city === 'Uppsala'">
+							Uppsala
+						</div>
+						<div v-else>Linköping</div>
 					</td>
 					<td>{{ scooter.battery }}%</td>
 					<td>
