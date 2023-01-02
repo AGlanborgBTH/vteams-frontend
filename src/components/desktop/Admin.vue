@@ -48,15 +48,14 @@
 				<tr v-for="scooter in scootersFilter" :key="scooter._id">
 					<td>{{ scooter.name }}</td>
 					<!-- use the v-if directive to conditionally set the background color of the table cell based on the value of the description field -->
-					<td
-						:style="{
-							backgroundColor:
-								scooter.inUse === 'false'
-									? '#00ff00'
-									: '#ff0000',
-						}"
-					>
-						{{ scooter.inUse }}
+					<td>
+						<div v-if="scooter.status === 'Charging'">
+							Currently On Charging Station
+						</div>
+						<div v-else-if="scooter.status === 'Parking'">
+							Currently On Parking Station
+						</div>
+						<div v-else>Doings It's Thing</div>
 					</td>
 					<td>
 						<div v-if="scooter.city === 'Göteborg'">Göteborg</div>
@@ -74,12 +73,14 @@
 						<!-- add the buttons with the icons -->
 						<div class="btn-group">
 							<button
+								title="Send Scooter To Parking"
 								class="btn btn-primary buttonclicked"
 								@click="ToParkingStation(scooter._id)"
 							>
 								<i class="fa fa-trash"></i>
 							</button>
 							<button
+								title="Send Scooter To Charging"
 								class="btn btn-danger buttonclicked"
 								@click="ToChargingStation(scooter._id)"
 							>
