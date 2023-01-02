@@ -52,22 +52,13 @@
 					</td>
 					<td>
 						<!-- use the v-if directive to test the value of log.cityID and display different text based on the result -->
-						<template
-							v-if="scooter.cityID === '6384bb54079e5520699909d6'"
+						<template v-if="scooter.city === 'Göteborg'"
 							>Göteborg</template
 						>
-						<template
-							v-else-if="
-								scooter.cityID === '6384bb98897c01a69121c994'
-							"
+						<template v-else-if="scooter.city === 'Uppsala'"
 							>Uppsala</template
 						>
-						<template
-							v-else-if="
-								scooter.cityID === '6384c198079e5520699909d7'
-							"
-							>Linköping</template
-						>
+						<template v-else>Linköping</template>
 					</td>
 					<td>{{ scooter.battery }}%</td>
 					<td>
