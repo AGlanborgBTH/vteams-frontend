@@ -13,13 +13,13 @@
 				@click="fetchScooters()"
 			>
 				<option
-					value="6384bb54079e5520699909d6"
-					:selectedCity="selectedCity === '6384bb54079e5520699909d6'"
+					value="Göteborg"
+					:selectedCity="selectedCity === 'Göteborg'"
 				>
 					Göteborg
 				</option>
-				<option value="6384bb98897c01a69121c994">Uppsala</option>
-				<option value="6384c198079e5520699909d7">Linköping</option>
+				<option value="Uppsala">Uppsala</option>
+				<option value="Linköping">Linköping</option>
 			</select>
 		</div>
 		<table class="logs-table">
