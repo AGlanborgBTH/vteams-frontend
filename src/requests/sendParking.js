@@ -2,8 +2,6 @@ import axios from "axios";
 
 //skapa if sats för checka stad samt ge kordinater.
 export default async function ToParkingStation(scooterId) {
-  const currentLocationlng = 21.11111;
-  const currentLocationlat = 21.22222;
   const scooter = await axios.get(
     `http://localhost:3000/v1/scooters/${scooterId}`
   );
@@ -11,10 +9,22 @@ export default async function ToParkingStation(scooterId) {
   if (scooter.data.city === "Göteborg") {
     await axios.patch(`http://localhost:3000/v1/scooters/${scooterId}`, {
       location: {
-        lng: currentLocationlng,
-        lat: currentLocationlat,
+        lng: 111111,
+        lat: 111111,
       },
     });
-    console.log("Sent Scooter To Parking");
-  }
+  } else if (scooter.data.city === "Uppsala") {
+    await axios.patch(`http://localhost:3000/v1/scooters/${scooterId}`, {
+      location: {
+        lng: 222222,
+        lat: 222222,
+      },
+    });
+  } else
+    await axios.patch(`http://localhost:3000/v1/scooters/${scooterId}`, {
+      location: {
+        lng: 333333,
+        lat: 333333,
+      },
+    });
 }
