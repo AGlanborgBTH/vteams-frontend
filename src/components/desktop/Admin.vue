@@ -1,11 +1,9 @@
 <template>
 	<Header />
 	<div>
-		<header class="header">
-			<!-- add a header element to hold the h1 and dropdown elements -->
-			<!-- add the h1 element with the text "Admin panel" -->
+		<div class="header">
 			<h1 class="text-center">Admin panel</h1>
-		</header>
+		</div>
 		<div class="centerDiv">
 			<label for="city-select">Select a city:</label>
 			<select
