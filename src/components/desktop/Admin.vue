@@ -21,7 +21,7 @@
 					Göteborg
 				</option>
 				<option value="6384bb98897c01a69121c994">Uppsala</option>
-				<option value="6384bbce2396b44a4a70ba3e">Linköping</option>
+				<option value="6384c198079e5520699909d7">Linköping</option>
 			</select>
 		</div>
 		<table class="logs-table">
@@ -62,7 +62,12 @@
 							"
 							>Uppsala</template
 						>
-						<template v-else>Linköping</template>
+						<template
+							v-else-if="
+								scooter.cityID === '6384c198079e5520699909d7'
+							"
+							>Linköping</template
+						>
 					</td>
 					<td>{{ scooter.battery }}%</td>
 					<td>
