@@ -1,7 +1,7 @@
 <template>
 	<Header />
 	<div>
-		<div class="header">
+		<div class="tbHeader">
 			<h1 class="text-center">Admin panel</h1>
 		</div>
 		<div class="centerDiv">
@@ -153,7 +153,7 @@ export default {
 	height: 20px;
 	margin-bottom: 20px;
 }
-.header {
+.tbHeader {
 	display: flex;
 	justify-content: center;
 	top: 0;
