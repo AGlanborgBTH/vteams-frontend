@@ -1,7 +1,7 @@
 <template>
   <div>
 		<div class="tbHeader">
-			<h1 class="text-center">Admin panel</h1>
+			<h1 class="text-center">Scooters in the system</h1>
 		</div>
 		<div class="centerDiv">
 			<label for="city-select">Select a city:</label>
@@ -50,7 +50,7 @@
 					<td
 						:style="{
 							backgroundColor:
-								scooter.inUse === 'false'
+								scooter.inUse == 'false'
 									? '#00ff00'
 									: '#ff0000',
 						}"
@@ -76,14 +76,13 @@
 								class="btn btn-primary buttonclicked"
 								@click="ToParkingStation(scooter._id)"
 							>
-								<i class="fa fa-trash"></i>
+							Park
 							</button>
 							<button
-								class="btn btn-danger buttonclicked"
+								class="btn btn-primary buttonclicked"
 								@click="ToChargingStation(scooter._id)"
 							>
-								<i class="fa fa-trash"></i>
-								<!-- use a font-awesome icon for the trash can -->
+								Charge
 							</button>
 						</div>
 					</td>
@@ -104,7 +103,7 @@ export default {
 	data() {
 		return {
 			adress: "",
-			selectedCity: "",
+			selectedCity: "Göteborg",
 			scooters: [],
 			scootersFilter: [], // this will hold the logs data that we fetch from the API
 			error: null, // this will hold any error message that may occur during the request
@@ -119,9 +118,11 @@ export default {
 		},
 		async ToChargingStation(scooterId) {
 			await ToChargingStation(scooterId);
+			this.fetchScooters();
 		},
 		async ToParkingStation(scooterId) {
 			await ToParkingStation(scooterId);
+			this.fetchScooters();
 		},
 		async fetchScooters() {
 			try {

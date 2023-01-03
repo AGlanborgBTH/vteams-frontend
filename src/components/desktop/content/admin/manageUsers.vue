@@ -44,6 +44,7 @@
 
 <script>
 import axios from "axios";
+import deleteOneUser from "./../../../../requests/deleteUser";
 
 export default {
 	name: "AdminUsers",
@@ -69,7 +70,9 @@ export default {
 			}
 		},
     async DeleteUser(id) {
-      console.log("deleting", id)
+      await deleteOneUser(id)
+			console.log("deletion completed")
+			this.fetchUsers();
     }
 	},
 };
