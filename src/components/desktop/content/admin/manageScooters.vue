@@ -55,7 +55,7 @@
 									: '#ff0000',
 						}"
 					>
-						{{ scooter.inUse }}
+						{{ scooter.status }}
 					</td>
 					<td>
 						<div v-if="scooter.city === 'Göteborg'">Göteborg</div>
