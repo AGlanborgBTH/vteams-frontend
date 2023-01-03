@@ -5,8 +5,8 @@
         <span class="material-icons">pest_control_rodent</span>
       </div>
       <ul class="navigation">
-        <li><router-link class="link" :to="{name: ''}">Test1</router-link></li>
-        <li><router-link class="link" :to="{name: ''}">Test2</router-link></li>
+        <li><router-link class="link" @click="this.$emit('changePanel', 1)">Manage scooters</router-link></li>
+        <li><router-link class="link" @click="this.$emit('changePanel', 2)">Manage users</router-link></li>
         <li><router-link class="link" :to="{name: ''}">Test3</router-link></li>
       </ul>
     </nav>
@@ -17,6 +17,7 @@
 
 export default {
   name: "HeaderMain",
+  emits: ["changePanel"],
   props: {
     // home,
     // logs,
