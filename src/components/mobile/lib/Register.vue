@@ -9,12 +9,12 @@
         <h2>Create Account</h2>
       </div>
       <div class="section">
-        <label for="password"> Firstname </label>
-        <input v-model="firstname" type="password" id="password" placeholder="Firstname" />
+        <label for="firstname"> Firstname </label>
+        <input v-model="firstname" type="text" id="firstname" placeholder="Firstname" />
       </div>
       <div class="section">
-        <label for="password"> Lastname </label>
-        <input v-model="lastname" type="password" id="password" placeholder="Lastname" />
+        <label for="lastname"> Lastname </label>
+        <input v-model="lastname" type="text" id="lastname" placeholder="Lastname" />
       </div>
       <div class="section">
         <label for="username"> Email </label>
@@ -82,7 +82,8 @@ h2 {
 }
 
 input[type="email"],
-input[type="password"] {
+input[type="password"],
+input[type="text"] {
   height: 44px;
   width: 81vw;
   border: none;
@@ -95,7 +96,8 @@ input[type="password"] {
 }
 
 input[type="email"]:focus,
-input[type="password"]:focus {
+input[type="password"]:focus,
+input[type="text"]:focus {
   outline-color: rgb(248, 158, 158);
 }
 
