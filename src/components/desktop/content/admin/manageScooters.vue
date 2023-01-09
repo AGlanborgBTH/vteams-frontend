@@ -47,14 +47,10 @@
 				<tr v-for="scooter in scootersFilter" :key="scooter._id">
 					<td>{{ scooter.name }}</td>
 					<!-- use the v-if directive to conditionally set the background color of the table cell based on the value of the description field -->
-					<td
-						:style="{
-							backgroundColor:
-								scooter.inUse == 'false'
-									? '#00ff00'
-									: '#ff0000',
-						}"
-					>
+					<td v-if="scooter.status == 'Available'" class="available">
+						{{ scooter.status }}
+					</td>
+					<td v-else class="notavailable">
 						{{ scooter.status }}
 					</td>
 					<td>
@@ -74,13 +70,13 @@
 						<div class="btn-group">
 							<button
 								class="btn btn-primary buttonclicked"
-								@click="ToParkingStation(scooter._id)"
+								@click="ToParkingStation(scooter.status, scooter._id)"
 							>
 							Park
 							</button>
 							<button
 								class="btn btn-primary buttonclicked"
-								@click="ToChargingStation(scooter._id)"
+								@click="ToChargingStation(scooter.status, scooter._id)"
 							>
 								Charge
 							</button>
@@ -97,6 +93,7 @@ import axios from "axios";
 import ToParkingStation from "@/requests/sendParking.js";
 import ToChargingStation from "@/requests/sendCharging.js";
 import getAddressFromLatLng from "@/requests/getAdressAdmin.js";
+import swal from 'sweetalert';
 
 export default {
 	name: "AdminScooters",
@@ -116,13 +113,21 @@ export default {
 		async getAddressFromLatLng() {
 			await getAddressFromLatLng();
 		},
-		async ToChargingStation(scooterId) {
-			await ToChargingStation(scooterId);
-			this.fetchScooters();
+		async ToChargingStation(status, scooterId) {
+			if (status != "Unavailable") {
+				await ToChargingStation(scooterId);
+				this.fetchScooters();
+			} else {
+				swal("The scooter is in use! You cannot send it to charging.")
+			}
 		},
-		async ToParkingStation(scooterId) {
-			await ToParkingStation(scooterId);
-			this.fetchScooters();
+		async ToParkingStation(status, scooterId) {
+			if (status != "Unavailable") {
+				await ToParkingStation(scooterId);
+				this.fetchScooters();
+			} else {
+				swal("The scooter is in use! You cannot send it to parking.")
+			}
 		},
 		async fetchScooters() {
 			try {
@@ -216,5 +221,13 @@ export default {
 	/* set the danger button background color to a light red */
 	background-color: #dc3545;
 	color: #fff;
+}
+
+.available{
+  background-color:  #00ff00;
+}
+
+.notavailable {
+  background-color: #ff0000;
 }
 </style>

@@ -4,22 +4,11 @@ import axios from "axios";
 
 let user = cookies.get("user");
 
-export async function incrementWallet(incrementValue) {
+export default async function updateWallet(value) {
   try {
-    // Retrieve the current wallet value
-    const response = await axios.get(
-      `http://localhost:3000/v1/users/${user.id}`
-    );
-    const wallet = response.data.wallet;
-    console.log(`Adding: ${incrementValue}`);
-
-    // Increment the wallet value by the specified amount
-    const newWalletValue = wallet + incrementValue;
-    console.log(`Current wallet value: ${newWalletValue}`);
-
     // Send a patch request to update the wallet value
     await axios.patch(`http://localhost:3000/v1/users/${user.id}`, {
-      wallet: newWalletValue,
+      wallet: value,
     });
   } catch (error) {
     console.error(error);

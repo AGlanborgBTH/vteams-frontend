@@ -10,9 +10,11 @@
 import Header from "./content/Header.vue"
 import AdminScooters from "./content/admin/manageScooters.vue"
 import AdminUsers from "./content/admin/manageUsers.vue"
+import { useCookies } from "vue3-cookies";
 
 export default {
 	name: 'AdminMain',
+	emits: ["logOut"],
 	components: {
 		Header,
 		AdminScooters,
@@ -23,9 +25,18 @@ export default {
       panel: 1
     }
   },
+	setup() {
+    const { cookies } = useCookies();
+    return { cookies };
+  },
 	methods: {
     changePanel(status) {
-			this.panel = status
+			if (status === 10) {
+				this.cookies.remove("user")
+				this.$emit("logOut")
+			} else {
+				this.panel = status
+			}
     }
   }
 }
