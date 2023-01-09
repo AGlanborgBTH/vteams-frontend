@@ -26,7 +26,7 @@
 					:key="option.text"
 					class="optionContainer"
 				>
-					<div class="option">
+					<div class="option" @click="option.func">
 						<span class="material-icons opt-icon">
 							{{ option.icon }}
 						</span>
@@ -84,6 +84,9 @@ export default {
 				{
 					icon: "person",
 					text: "Profile",
+					func: () => {
+						this.$emit("profile")
+					}
 				},
 				{
 					icon: "loop",
@@ -96,10 +99,6 @@ export default {
 				{
 					icon: "contact_support",
 					text: "Contact",
-				},
-				{
-					icon: "wallet",
-					text: "Wallet",
 				},
 			],
 		};
@@ -244,9 +243,8 @@ span {
 }
 
 .optionContainer {
-	width: 100%;
-	margin-top: 5vh;
-	padding-left: 15vw;
+	width: 65vw;
+	padding-left: 10vw;
 }
 
 .optionContainer:first-child {
@@ -256,6 +254,9 @@ span {
 .option {
 	display: flex;
 	flex-direction: row;
+	padding: 5vw;
+	width: 55vw;
+	cursor: pointer;
 }
 
 .WalletContainer {
