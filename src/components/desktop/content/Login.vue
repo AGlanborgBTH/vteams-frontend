@@ -1,4 +1,5 @@
 <template>
+<div>
   <div class="logoContainer">
     <span class="material-icons">pest_control_rodent</span>
     <h1>Rodent</h1>
@@ -45,6 +46,8 @@
       </div>
     </div>
   </div>
+</div>
+
 </template>
 
 <script>
