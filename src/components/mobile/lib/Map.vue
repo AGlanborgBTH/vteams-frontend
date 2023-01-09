@@ -42,7 +42,7 @@
 				<input class="inputButton" v-model="incrementValue" />
 				<button
 					class="addMoneyButton"
-					@click="incrementWallet(parseInt(this.incrementValue))"
+					@click="updMoney"
 				>
 					Add Money
 				</button>
@@ -79,6 +79,7 @@ export default {
 		return {
 			incrementValue: 0,
 			open: false,
+      wallet: 0,
 			options: [
 				{
 					icon: "person",
@@ -103,14 +104,16 @@ export default {
 			],
 		};
 	},
-	async created() {
-		this.wallet = await getWalletValue();
-	},
 	methods: {
 		incrementWallet,
+    updMoney () {
+      incrementWallet(parseInt(this.incrementValue))
+      this.wallet = parseInt(this.wallet) + parseInt(this.incrementValue)
+    }
 	},
-	mounted() {
+	async mounted() {
 		map(this.city);
+    this.wallet = parseInt(await getWalletValue());
 	},
 };
 </script>
