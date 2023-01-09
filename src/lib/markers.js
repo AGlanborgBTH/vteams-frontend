@@ -8,8 +8,8 @@ import updateLog from "@/requests/updateLog";
 import { useCookies } from "vue3-cookies";
 const { cookies } = useCookies();
 
-    //export the markers function as an async function
-    export default async function markers(mapInstance) {
+//export the markers function as an async function
+export default async function markers(mapInstance) {
     //require the leaflet library
     let leaflet = require("leaflet");
 
@@ -97,6 +97,7 @@ const { cookies } = useCookies();
             axios
                 .patch(`http://localhost:3000/v1/scooters/${scooter._id}`, {
                 inUse: true,
+                status: "Unavailable"
               })
               .then(function (response) {
                 MarkerInUse.push(Temp);
@@ -118,7 +119,7 @@ const { cookies } = useCookies();
           });
 
           $(".buttonUnRent").on("click", async function () {
-          await updateLog(scooter._id, {lat:scooter.location.lat, lng:scooter.location.lng})
+            await updateLog(scooter._id, {lat:scooter.location.lat, lng:scooter.location.lng})
             Temp.slideCancel();
             Temp.options.inUse = false;
             let currentLocation = Temp.getLatLng();
@@ -133,6 +134,7 @@ const { cookies } = useCookies();
                     lat: "",
                     lng: "",
                 },
+                status: "Available"
               })
               .then(function (response) {
                 marker.push(Temp);

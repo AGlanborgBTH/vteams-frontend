@@ -10,24 +10,28 @@ export default async function ToParkingStation(scooterId) {
     await axios.patch(`http://localhost:3000/v1/scooters/${scooterId}`, {
       status: "Parking",
       location: {
-        lng: 111111,
-        lat: 111111,
+        lng: getRandomArbitrary(11.961167, 11.962688),
+        lat: getRandomArbitrary(57.697748, 57.699498),
       },
     });
   } else if (scooter.data.city === "Uppsala") {
     await axios.patch(`http://localhost:3000/v1/scooters/${scooterId}`, {
       status: "Parking",
       location: {
-        lng: 222222,
-        lat: 222222,
+        lng: getRandomArbitrary(17.66485, 17.6682),
+        lat: getRandomArbitrary(59.860553, 59.862642),
       },
     });
   } else
     await axios.patch(`http://localhost:3000/v1/scooters/${scooterId}`, {
       status: "Parking",
       location: {
-        lng: 333333,
-        lat: 333333,
+        lng: getRandomArbitrary(15.603187, 15.609689),
+        lat: getRandomArbitrary(58.406715, 58.407901),
       },
     });
+}
+
+function getRandomArbitrary(min, max) {
+  return parseFloat((Math.random() * (max - min) + min).toFixed(6));
 }

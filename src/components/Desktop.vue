@@ -1,7 +1,9 @@
 <template>
-  <Admin v-if="state == 1" />
-  <Form v-if="state == 2" @logIn="logIn" />
-  <User v-if="state == 3" />
+  <div>
+    <Admin v-if="state == 1" @logOut="logOut" />
+    <Form v-if="state == 2" @logIn="logIn" />
+    <User v-if="state == 3" @logOut="logOut"/>
+  </div>
 </template>
 
 <script>
@@ -28,6 +30,9 @@ export default {
       } else {
         this.state = 3
       }
+    },
+    logOut() {
+      this.state = 2
     }
   }
 }

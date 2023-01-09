@@ -1,7 +1,11 @@
-let pricePerMin = 5;
+let pricePerMin = 10;
+import updateWallet from "./updateWallet";
+import getWalletValue from "./getWalletValue";
 
 export default async function updateLog(scooterId, location) {
     let allLogs = await getAllLogs();
+    let currentWallet = await getWalletValue();
+
     for (const log of allLogs.data) {
         if (log.scooterID == scooterId && log.description == "Start Renting Scooter") {
             let logId = log._id;
@@ -9,7 +13,9 @@ export default async function updateLog(scooterId, location) {
             let timeEnded = Date.now()
             let timeInUse = ((timeEnded - timeStarted)/60000);
             let cost = Math.ceil(timeInUse*pricePerMin);
-            console.log(timeEnded, timeStarted, timeInUse)
+
+            let newWallet = currentWallet - cost
+            await updateWallet(newWallet)
 
             let response = await fetch (`http://localhost:3000/v1/logs/${logId}`, {
                 method: "PATCH",

@@ -1,13 +1,23 @@
 <template>
-  <header>
+  <header v-if="user">
     <nav>
       <div class="logoContainer">
         <span class="material-icons">pest_control_rodent</span>
       </div>
       <ul class="navigation">
-        <li><router-link class="link" @click="this.$emit('changePanel', 1)">Manage scooters</router-link></li>
-        <li><router-link class="link" @click="this.$emit('changePanel', 2)">Manage users</router-link></li>
-        <li><router-link class="link" :to="{name: ''}">Test3</router-link></li>
+        <li class="link" @click="this.$emit('changePanel', 10)">Log out</li>
+      </ul>
+    </nav>
+  </header>
+  <header v-else>
+    <nav>
+      <div class="logoContainer">
+        <span class="material-icons">pest_control_rodent</span>
+      </div>
+      <ul class="navigation">
+        <li class="link" @click="this.$emit('changePanel', 1)">Manage scooters</li>
+        <li class="link" @click="this.$emit('changePanel', 2)">Manage users</li>
+        <li class="link" @click="this.$emit('changePanel', 10)">Log out</li>
       </ul>
     </nav>
   </header>
@@ -18,12 +28,7 @@
 export default {
   name: "HeaderMain",
   emits: ["changePanel"],
-  props: {
-    // home,
-    // logs,
-    // profile,
-    // logout
-  },
+  props: ['user']
 };
 </script>
 

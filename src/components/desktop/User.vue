@@ -1,6 +1,6 @@
 <template>
   <div>
-      <Header />
+      <Header @changePanel="changePanel" user="user"/>
       <div v-if="userLogs.length">
         <History :userLogs="userLogs" :userEmail="userEmail"/>
       </div>
@@ -18,6 +18,7 @@ import { useCookies } from "vue3-cookies";
 
 export default {
   name: "UserMain",
+  emits: ["logOut"],
   components: {
     Header,
     History
@@ -33,6 +34,12 @@ export default {
     };
   },
   methods: {
+    changePanel(status) {
+			if (status === 10) {
+				this.cookies.remove("user")
+				this.$emit("logOut")
+			}
+    }
   },
   async mounted() {
     let result = await getAllLogs();

@@ -46,7 +46,7 @@
 				>
 					Add Money
 				</button>
-				<p>Current Wallet {{ wallet }}</p>
+				<p>Your Wallet: {{ this.wallet }}</p>
 			</div>
 			<div class="footer">
 				<div class="logoutContainer">
@@ -67,8 +67,8 @@
 
 <script>
 import map from "@/lib/map.js";
-import { incrementWallet } from "@/requests/updateWallet.js";
-import { getWalletValue } from "@/requests/getWalletValue.js";
+import incrementWallet from "../../../requests/incrementWallet";
+import getWalletValue from "./../../../requests/getWalletValue";
 
 export default {
 	name: "MobileLogin",
@@ -77,7 +77,7 @@ export default {
 	},
 	data() {
 		return {
-			incrementValue: 0,
+			incrementValue: "",
 			open: false,
       wallet: 0,
 			options: [
@@ -108,11 +108,13 @@ export default {
     updMoney () {
       incrementWallet(parseInt(this.incrementValue))
       this.wallet = parseInt(this.wallet) + parseInt(this.incrementValue)
+			this.incrementValue = ""
     }
 	},
 	async mounted() {
 		map(this.city);
     this.wallet = parseInt(await getWalletValue());
+		console.log("wallet", this.wallet)
 	},
 };
 </script>
