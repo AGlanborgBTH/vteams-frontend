@@ -10,61 +10,62 @@ const { cookies } = useCookies();
 
 //export the markers function as an async function
 export default async function markers(mapInstance) {
-    //require the leaflet library
-    let leaflet = require("leaflet");
+  //require the leaflet library
+  let leaflet = require("leaflet");
 
-    //create three icons for the markers - white, green and red
-    const IconMarkerWhite = leaflet.icon({
+  //create three icons for the markers - white, green and red
+  const IconMarkerWhite = leaflet.icon({
     iconUrl: "https://i.imgur.com/XxQMjkd.png",
     iconSize: [30, 48],
-    });
+  });
 
-    const IconMarkerGreen = leaflet.icon({
+  const IconMarkerGreen = leaflet.icon({
     iconUrl: "https://i.imgur.com/xz3ICLk.png",
     iconSize: [30, 48],
-    });
+  });
 
-    const socket = io(process.env.VUE_APP_SOCKET_ENDPOINT);
-    socket.on("connecting", () => {
+  const socket = io(process.env.VUE_APP_SOCKET_ENDPOINT);
+  socket.on("connecting", () => {
     console.log("Connected to the server from vue");
-    });
+  });
 
-    // let IconMarkerRed = leaflet.icon({
-    //   iconUrl: "https://i.imgur.com/Elm3SkQ.png",
-    //   iconSize: [30, 48],
-    // });
+  // let IconMarkerRed = leaflet.icon({
+  //   iconUrl: "https://i.imgur.com/Elm3SkQ.png",
+  //   iconSize: [30, 48],
+  // });
 
-    //create the HTML for two buttons - rent and unrent
-    const ButtonRent = `
+  //create the HTML for two buttons - rent and unrent
+  const ButtonRent = `
     <button class="buttonRent popupButton">Rent</button>`;
 
-    const ButtonUnRent = `
+  const ButtonUnRent = `
     <button class="buttonUnRent popupButton">Cancel</button>`;
 
+  //declare a variable to hold the icon to use and markers
+  let IconChoice;
+  let marker = [];
+  let MarkerInUse = [];
 
-    //declare a variable to hold the icon to use and markers
-    let IconChoice;
-    let marker = [];
-    let MarkerInUse = [];
+  // Icons for the popupOppen
+  var battIcon =
+    "<img class='batteryIcon' src ='https://i.imgur.com/16DYTp7.png' />";
+  var verLine =
+    "<img class='verLineIcon' src ='https://i.imgur.com/mEifOoA.png' />";
+  var horLine =
+    "<img class='horLineIcon' src ='https://i.imgur.com/NQ33RFG.png' />";
 
-    // Icons for the popupOppen
-    var battIcon = "<img class='batteryIcon' src ='https://i.imgur.com/16DYTp7.png' />"
-    var verLine = "<img class='verLineIcon' src ='https://i.imgur.com/mEifOoA.png' />"
-    var horLine = "<img class='horLineIcon' src ='https://i.imgur.com/NQ33RFG.png' />"
-
-    //create a function to get the scooters from the API and create markers for them
-    function getScooters() {
+  //create a function to get the scooters from the API and create markers for them
+  function getScooters() {
     socket.on("scooters", (data) => {
-
-        for (const scooter of data.data) {
+      for (const scooter of data.data) {
         if (scooter.inUse) {
-            IconChoice = IconMarkerGreen;
+          IconChoice = IconMarkerGreen;
         } else {
-            IconChoice = IconMarkerWhite;
+          IconChoice = IconMarkerWhite;
         }
         let Temp = new DriftMarker(
-            [scooter.location.lat, scooter.location.lng],
-            {
+          [scooter.location.lat, scooter.location.lng],
+          {
             icon: IconChoice,
             draggable: true,
             ID: scooter._id,
@@ -72,83 +73,93 @@ export default async function markers(mapInstance) {
             destination: scooter.destination,
             velocity: scooter.velocity,
             inUse: scooter.inUse,
-            }
+          }
         ).addTo(mapInstance);
         if (scooter.inUse) {
-            Temp.bindPopup(`<div class="popupUpper"> ${battIcon } <p>0%</p> ${verLine} <p class="scooterName"> ${ scooter.name}</p></div>
+          Temp.bindPopup(
+            `<div class="popupUpper"> ${battIcon} <p>%</p> ${verLine} <p class="scooterName"> ${scooter.name}</p></div>
                 ${horLine}
                 <p> 5 Kr/Min <p>
 
-                ${ButtonUnRent}`, {className: "popup"});
-            MarkerInUse.push(Temp);
+                ${ButtonUnRent}`,
+            { className: "popup" }
+          );
+          MarkerInUse.push(Temp);
         } else {
           Temp.bindPopup(
-            `<div class="popupUpper"> ${battIcon } <p>0%</p> ${verLine} <p class="scooterName"> ${ scooter.name}</p></div>
+            `<div class="popupUpper"> ${battIcon} <p>${scooter.battery}%</p> ${verLine} <p class="scooterName"> ${scooter.name}</p></div>
             ${horLine}
             <p class="scooterPrice"> 5 Kr/Min </p>
             ${ButtonRent}
-            `, {className: "popup"}
-            );
-            marker.push(Temp);
+            `,
+            { className: "popup" }
+          );
+          marker.push(Temp);
         }
         Temp.on("popupopen", function () {
           $(".buttonRent").on("click", async function () {
-            await createLog(scooter._id, scooter.name, {lat:scooter.location.lat, lng:scooter.location.lng})
+            await createLog(scooter._id, scooter.name, {
+              lat: scooter.location.lat,
+              lng: scooter.location.lng,
+            });
             axios
-                .patch(`http://localhost:3000/v1/scooters/${scooter._id}`, {
+              .patch(`http://localhost:3000/v1/scooters/${scooter._id}`, {
                 inUse: true,
-                status: "Unavailable"
+                status: "Unavailable",
               })
               .then(function (response) {
                 MarkerInUse.push(Temp);
                 var index = marker.indexOf(Temp);
                 if (index !== -1) {
-                    marker.splice(index, 1);
+                  marker.splice(index, 1);
                 }
                 Temp.setIcon(IconMarkerGreen);
-                Temp.setPopupContent(`<div class="popupUpper"> ${battIcon } <p>0%</p> ${verLine} <p class="scooterName"> ${ scooter.name}</p></div>
+                Temp.setPopupContent(`<div class="popupUpper"> ${battIcon} <p>${scooter.battery}%</p> ${verLine} <p class="scooterName"> ${scooter.name}</p></div>
                 ${horLine}
                 <p> 5 Kr/Min <p>
 
                 ${ButtonUnRent}`);
                 Temp.closePopup();
-                })
-                .catch(function (error) {
+              })
+              .catch(function (error) {
                 console.error(error);
               });
           });
 
           $(".buttonUnRent").on("click", async function () {
-            await updateLog(scooter._id, {lat:scooter.location.lat, lng:scooter.location.lng})
+            await updateLog(scooter._id, {
+              lat: scooter.location.lat,
+              lng: scooter.location.lng,
+            });
             Temp.slideCancel();
             Temp.options.inUse = false;
             let currentLocation = Temp.getLatLng();
             axios
-                .patch(`http://localhost:3000/v1/scooters/${scooter._id}`, {
+              .patch(`http://localhost:3000/v1/scooters/${scooter._id}`, {
                 inUse: false,
                 location: {
-                    lng: currentLocation.lng,
-                    lat: currentLocation.lat,
+                  lng: currentLocation.lng,
+                  lat: currentLocation.lat,
                 },
                 destination: {
-                    lat: "",
-                    lng: "",
+                  lat: "",
+                  lng: "",
                 },
-                status: "Available"
+                status: "Available",
               })
               .then(function (response) {
                 marker.push(Temp);
-                })
-                .catch(function (error) {
+              })
+              .catch(function (error) {
                 console.error(error);
-                });
+              });
             if (MarkerInUse.length > 0) {
-                var index = MarkerInUse.indexOf(Temp);
-                if (index !== -1) {
+              var index = MarkerInUse.indexOf(Temp);
+              if (index !== -1) {
                 MarkerInUse.splice(index, 1);
               }
               Temp.bindPopup(
-                `<div class="popupUpper"> ${battIcon } <p>0%</p> ${verLine} <p class="scooterName"> ${ scooter.name}</p></div>
+                `<div class="popupUpper"> ${battIcon} <p>${scooter.battery}%</p> ${verLine} <p class="scooterName"> ${scooter.name}</p></div>
                 ${horLine} <br>
             ${ButtonRent}`
               );
@@ -157,7 +168,7 @@ export default async function markers(mapInstance) {
             }
           });
         });
-        }
+      }
     });
   }
 
