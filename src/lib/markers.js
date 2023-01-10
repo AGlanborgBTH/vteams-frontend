@@ -183,10 +183,12 @@ export default async function markers(mapInstance) {
         "http://localhost:3000/v1/scooters/" + MarkerInUse[i].options.ID
       );
       const data = await response.json();
-      //update the marker's position using the new destination and velocity
-      MarkerInUse[i].slideTo(data.destination, {
-        duration: data.velocity,
-      });
+      MarkerInUse[i].options.destination = data.destination;
+      if (MarkerInUse[i].options.destination.lat != "") {
+        MarkerInUse[i].slideTo(data.destination, {
+          duration: data.velocity,
+        });
+      }
     }
   }
 
