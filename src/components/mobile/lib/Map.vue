@@ -2,7 +2,7 @@
   <div class="container">
     <div class="circleContainer">
       <div
-        @click="onCircle"
+        @click="this.open ? (this.open = false) : (this.open = true);"
         :class="open ? 'hidden' : 'visible'"
         class="circle"
       >
@@ -38,11 +38,6 @@
           </div>
         </div>
       </div>
-      <div class="WalletContainer">
-        <input class="inputButton" v-model="incrementValue" />
-        <button class="addMoneyButton" @click="updMoney">Add Money</button>
-        <p>Your Wallet: {{ this.wallet }}</p>
-      </div>
       <div class="footer">
         <div class="logoutContainer">
           <input type="button" class="logout" value="Logout" />
@@ -62,8 +57,6 @@
 
 <script>
 import map from "@/lib/map.js";
-import incrementWallet from "../../../requests/incrementWallet";
-import getWalletValue from "./../../../requests/getWalletValue";
 
 export default {
   name: "MobileMap",
@@ -72,9 +65,7 @@ export default {
   },
   data() {
     return {
-      incrementValue: "",
       open: false,
-      wallet: 0,
       options: [
         {
           icon: "person",
@@ -99,22 +90,8 @@ export default {
       ],
     };
   },
-  methods: {
-    incrementWallet,
-    updMoney() {
-      incrementWallet(parseInt(this.incrementValue));
-      this.wallet = parseInt(this.wallet) + parseInt(this.incrementValue);
-      this.incrementValue = "";
-    },
-    async onCircle() {
-      this.open ? (this.open = false) : (this.open = true);
-      this.wallet = parseInt(await getWalletValue());
-    },
-  },
-  async mounted() {
+  mounted() {
     map(this.city);
-    this.wallet = parseInt(await getWalletValue());
-    console.log("wallet", this.wallet);
   },
 };
 </script>

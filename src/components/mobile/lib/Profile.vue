@@ -13,7 +13,7 @@
   <div class="inputCenter">
     <div class="inputContainer">
       <label for="name" class="inputLabel"> Name </label>
-      <input type="text" value="Jeon Jung-kook" id="name" />
+      <input type="text" placeholder="Jeon Jung-kook" id="name" />
       <div class="inputEditContainer">
         <span class="material-icons input-edit">edit</span>
       </div>
@@ -22,7 +22,7 @@
   <div class="inputCenter">
     <div class="inputContainer">
       <label for="email" class="inputLabel"> Email </label>
-      <input type="email" value="jungkook@bts.ko" id="email" />
+      <input v-model="email" type="email" placeholder="jungkook@bts.ko" id="email" />
       <div class="inputEditContainer">
         <span class="material-icons input-edit">edit</span>
       </div>
@@ -41,15 +41,15 @@
     <div class="walletIconContainer">
       <span class="material-icons wallet-icon">wallet</span>
     </div>
-    <p>100kr</p>
+    <p>{{ this.wallet }} kr</p>
   </div>
   <div class="addFundsContainer">
     <div class="addFunds">
       <label for="money" class="addFundsLabel">Add Funds</label>
-      <input type="number" id="money" />
+      <input v-model="add" type="number" id="money" />
     </div>
     <div class="addContainer">
-      <input type="button" class="add" value="Add" />
+      <input @click="updMoney" type="button" class="add" value="Add" />
     </div>
   </div>
   <div class="deleteContainer">
@@ -58,8 +58,32 @@
 </template>
 
 <script>
+import incrementWallet from "@/requests/incrementWallet";
+import getWalletValue from "@/requests/getWalletValue";
+import { useCookies } from "vue3-cookies";
+
 export default {
   name: "MobileProfile",
+  data() {
+    return {
+      email: "",
+      wallet: 0,
+      add: 0
+    }
+  },
+  methods: {
+    async updMoney() {
+      incrementWallet(parseInt(this.add));
+      this.wallet = parseInt(this.wallet) + parseInt(this.add);
+      this.add = 0;
+    },
+  },
+  async mounted() {
+    const { cookies } = useCookies();
+
+    this.email = cookies.get("user").email;
+    this.wallet = parseInt(await getWalletValue());
+  },
 };
 </script>
 
