@@ -2,9 +2,9 @@ import { useCookies } from "vue3-cookies";
 const { cookies } = useCookies();
 import axios from "axios";
 
-let user = cookies.get("user");
 
 export default async function incrementWallet(incrementValue) {
+  let user = cookies.get("user");
   try {
     // Retrieve the current wallet value
     const response = await axios.get(
