@@ -25,7 +25,7 @@
         <input v-model="pwd" type="password" id="password" placeholder="Password" />
       </div>
       <div class="signin">
-        <input type="submit" value="Sign up" @click="onSubmit(firstname, lastname, email, pwd)" />
+        <input type="submit" value="Sign up" @click="onSubmit" />
       </div>
       <div class="bot">
         <p>
@@ -53,8 +53,8 @@ export default {
     }
   },
   methods: {
-    async onSubmit(firstname, lastname, email, pwd) {
-      let result = await signUpUser(firstname, lastname, email, pwd)
+    async onSubmit() {
+      let result = await signUpUser(this.firstname, this.lastname, this.email, this.pwd)
       if (result.status === 201) {
         swal("Account created");
         this.$emit('alter')

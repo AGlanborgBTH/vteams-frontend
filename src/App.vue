@@ -40,7 +40,8 @@ body {
 }
 
 input,
-button {
+button,
+textarea {
   color: rgb(225, 255, 255);
   font-family: 'Tienne', 'serif';
 }
