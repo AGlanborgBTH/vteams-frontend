@@ -42,7 +42,7 @@ import signUpUser from "./../../../requests/signup";
 import swal from 'sweetalert';
 
 export default {
-  name: "MobileLogin",
+  name: "MobileRegister",
   data()
   {
     return {

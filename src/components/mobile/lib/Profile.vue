@@ -59,7 +59,7 @@
 
 <script>
 export default {
-  name: "MobileMain",
+  name: "MobileProfile",
 };
 </script>
 

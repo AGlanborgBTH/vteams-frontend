@@ -43,7 +43,7 @@
 
 <script>
 export default {
-  name: "MobileLogin",
+  name: "MobileSelect",
   data() {
     return {
       cities: [ ],

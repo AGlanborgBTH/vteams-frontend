@@ -66,7 +66,7 @@ import incrementWallet from "../../../requests/incrementWallet";
 import getWalletValue from "./../../../requests/getWalletValue";
 
 export default {
-  name: "MobileLogin",
+  name: "MobileMap",
   props: {
     city: String,
   },
@@ -94,6 +94,7 @@ export default {
         {
           icon: "contact_support",
           text: "Contact",
+          func: () => this.$emit("contact")
         },
       ],
     };
