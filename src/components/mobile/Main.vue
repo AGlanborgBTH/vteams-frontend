@@ -4,15 +4,18 @@
     v-else-if="state == 1"
     @profile="onProfile"
     @change="onChange"
+    @about="onAbout"
     :city="city"
   />
   <Profile v-else-if="state == 2" @map="onMap" />
+  <About v-else-if="state == 3" @map="onMap" />
 </template>
 
 <script>
 import Map from "./lib/Map.vue";
 import Select from "./lib/Select.vue";
 import Profile from "./lib/Profile.vue";
+import About from "./lib/About.vue"
 import { useCookies } from "vue3-cookies";
 const { cookies } = useCookies();
 
@@ -22,6 +25,7 @@ export default {
     Map,
     Select,
     Profile,
+    About
   },
   data() {
     return {
@@ -44,6 +48,9 @@ export default {
     onChange() {
       this.state = 0;
     },
+    onAbout() {
+      this.state = 3
+    }
   },
 };
 </script>

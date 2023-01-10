@@ -89,6 +89,7 @@ export default {
         {
           icon: "info",
           text: "About",
+          func: () => this.$emit("about")
         },
         {
           icon: "contact_support",

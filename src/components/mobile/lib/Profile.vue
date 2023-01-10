@@ -1,8 +1,8 @@
 <template>
   <div class="closeContainer">
-    <span class="material-icons close-icon" @click="this.$emit('map')"
-      >close</span
-    >
+    <span class="material-icons close-icon" @click="this.$emit('map')">
+      close
+    </span>
   </div>
   <div class="pictureContainer">
     <div class="picture" />
@@ -49,11 +49,11 @@
       <input type="number" id="money" />
     </div>
     <div class="addContainer">
-      <input type="button" class="add" value="Add"/>
+      <input type="button" class="add" value="Add" />
     </div>
   </div>
   <div class="deleteContainer">
-    <input type="button" class="delete" value="Delete">
+    <input type="button" class="delete" value="Delete" />
   </div>
 </template>
 
@@ -159,7 +159,7 @@ input:focus {
 .walletContainer {
   display: flex;
   justify-content: center;
-  margin-top: 3vh;
+  margin-top: 4vh;
 }
 
 .walletIconContainer {
