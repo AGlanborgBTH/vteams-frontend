@@ -6,6 +6,7 @@
     @change="onChange"
     @about="onAbout"
     @contact="onContact"
+    @logout="onLogout"
     :city="city"
   />
   <Profile v-else-if="state == 2" @map="onMap" />
@@ -24,6 +25,7 @@ const { cookies } = useCookies();
 
 export default {
   name: "MobileMain",
+  emits: ['logOut'],
   components: {
     Map,
     Select,
@@ -57,6 +59,10 @@ export default {
     },
     onContact() {
       this.state = 4
+    },
+    onLogout() {
+      cookies.remove('user')
+      this.$emit('logOut')
     }
   },
 };

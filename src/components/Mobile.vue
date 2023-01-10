@@ -1,6 +1,6 @@
 <template>
   <div class="mobile">
-    <Main v-if="loggedIn" />
+    <Main v-if="loggedIn" @logOut="logOut"/>
     <Form v-else @logIn="logIn" @skip="logIn" />
   </div>
 </template>
@@ -23,6 +23,10 @@ export default {
   methods: {
     logIn() {
       this.loggedIn = true
+    },
+    logOut() {
+      console.log("test")
+      this.loggedIn = false
     }
   }
 };

@@ -40,7 +40,7 @@
       </div>
       <div class="footer">
         <div class="logoutContainer">
-          <input type="button" class="logout" value="Logout" />
+          <input type="button" class="logout" value="Logout"  @click="this.$emit('logout')"/>
         </div>
         <div class="legal">
           <p>Term Of Use</p>
@@ -60,6 +60,7 @@ import map from "@/lib/map.js";
 
 export default {
   name: "MobileMap",
+  emits:['logout'],
   props: {
     city: String,
   },
