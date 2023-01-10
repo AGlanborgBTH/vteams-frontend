@@ -7,7 +7,7 @@
   <div class="pictureContainer">
     <div class="picture" />
     <div class="pictureEditContainer">
-      <span class="material-icons">edit</span>
+      <span class="material-icons picture-edit">edit</span>
     </div>
   </div>
   <div class="inputCenter">
@@ -87,6 +87,10 @@ input[type="number"] {
   border-radius: 10px;
 }
 
+input[type="button"] {
+  cursor: pointer;
+}
+
 input:focus {
   outline: none;
 }
@@ -98,6 +102,7 @@ input:focus {
 }
 
 .close-icon {
+  cursor: pointer;
   font-size: 35px;
 }
 
@@ -118,6 +123,10 @@ input:focus {
   position: absolute;
   margin: 60px 0 0 90px;
   z-index: 0;
+}
+
+.picture-edit {
+  cursor: pointer;
 }
 
 .inputCenter {
@@ -143,6 +152,7 @@ input:focus {
 }
 
 .input-edit {
+  cursor: pointer;
   font-size: 16px;
 }
 

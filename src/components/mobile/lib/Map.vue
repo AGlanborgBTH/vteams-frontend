@@ -79,13 +79,12 @@ export default {
         {
           icon: "person",
           text: "Profile",
-          func: () => {
-            this.$emit("profile");
-          },
+          func: () => this.$emit("profile"),
         },
         {
           icon: "loop",
           text: "Change City",
+          func: () => this.$emit("change"),
         },
         {
           icon: "info",

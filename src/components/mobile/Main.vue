@@ -1,13 +1,18 @@
 <template>
   <Select v-if="state == 0" @select="onSelect" />
-  <Map v-else-if="state == 1" @profile="onProfile" :city="city" />
+  <Map
+    v-else-if="state == 1"
+    @profile="onProfile"
+    @change="onChange"
+    :city="city"
+  />
   <Profile v-else-if="state == 2" @map="onMap" />
 </template>
 
 <script>
 import Map from "./lib/Map.vue";
 import Select from "./lib/Select.vue";
-import Profile from "./lib/Profile.vue"
+import Profile from "./lib/Profile.vue";
 import { useCookies } from "vue3-cookies";
 const { cookies } = useCookies();
 
@@ -16,7 +21,7 @@ export default {
   components: {
     Map,
     Select,
-    Profile
+    Profile,
   },
   data() {
     return {
@@ -35,7 +40,10 @@ export default {
     },
     onProfile() {
       this.state = 2;
-    }
+    },
+    onChange() {
+      this.state = 0;
+    },
   },
 };
 </script>
