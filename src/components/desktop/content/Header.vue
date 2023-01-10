@@ -80,6 +80,7 @@ li {
   transition: .5s ease all;
   padding-bottom: 4px;
   border-bottom: 1px solid transparent;
+  cursor: pointer;
 }
 
 .link:hover {
