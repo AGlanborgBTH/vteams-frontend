@@ -44,15 +44,12 @@ export default {
     async getAddress(location) {
       let data = toRaw(location)
       let address = await getAddressGoogle(data)
-      console.log(address.results, "inne")
       let addressReadable;
       address.results.forEach( part => {
         if(part.types.includes('postal_code')) {
           addressReadable = part.formatted_address
-          console.log(addressReadable)
         }
       })
-      console.log(addressReadable);
       return addressReadable;
     }
   }

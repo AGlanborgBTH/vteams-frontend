@@ -71,7 +71,6 @@ export default {
 		},
     async DeleteUser(id) {
       await deleteOneUser(id)
-			console.log("deletion completed")
 			this.fetchUsers();
     }
 	},

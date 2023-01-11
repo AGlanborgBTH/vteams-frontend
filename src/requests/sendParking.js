@@ -5,7 +5,7 @@ export default async function ToParkingStation(scooterId) {
   const scooter = await axios.get(
     `http://localhost:3000/v1/scooters/${scooterId}`
   );
-  console.log(scooter.data.city);
+
   if (scooter.data.city === "Göteborg") {
     await axios.patch(`http://localhost:3000/v1/scooters/${scooterId}`, {
       status: "Parking",

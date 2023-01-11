@@ -5,7 +5,6 @@ const { cookies } = useCookies();
 export default async function createLog(scooterId, name, location) {
     let cityId = cookies.get("city");
     let user = cookies.get("user");
-    console.log(name)
 
     let response = await fetch ("http://localhost:3000/v1/logs/", {
         method: "POST",
