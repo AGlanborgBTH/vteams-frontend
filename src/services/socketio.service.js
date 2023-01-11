@@ -2,7 +2,7 @@ import { io } from 'socket.io-client';
 
 class SocketioService {
   socket;
-  constructor() {}
+  constructor() { }
 
   setupSocketConnection() {
     this.socket = io(process.env.VUE_APP_SOCKET_ENDPOINT);
@@ -11,7 +11,7 @@ class SocketioService {
 
   disconnect() {
     if (this.socket) {
-        this.socket.disconnect();
+      this.socket.disconnect();
     }
   }
 

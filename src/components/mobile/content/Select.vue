@@ -9,30 +9,33 @@
         <h2>Choose City</h2>
       </div>
       <div class="content">
-        <div
-          v-for="city in cities"
-          :key="city._id"
-          class="dropDown"
-        >
+        <div v-for="city in cities" :key="city._id" class="dropDown">
           <div class="buttonContainer">
-            <div class="button" @click="current === city._id ? (current = '') : (current = city._id)">
+            <div
+              class="button"
+              @click="
+                current === city._id ? (current = '') : (current = city._id)
+              "
+            >
               <p>{{ city.name }}</p>
-              <div :class="current === city._id ? 'down' : 'right'" class="arrow">
+              <div
+                :class="current === city._id ? 'down' : 'right'"
+                class="arrow"
+              >
                 <span class="material-icons"> keyboard_arrow_right </span>
               </div>
             </div>
-            <div
-              :class="current === city._id ? 'show' : 'hidden'"
-              class="box"
-            >
-            <div class="boxContent">
-              <p>
-                Available bikes: {{ city.scooters.length }}
-              </p>
-            </div>
-            <div class="boxContent">
-              <input type="button" value="Select" @click="this.$emit('select', city._id)" />
-            </div>
+            <div :class="current === city._id ? 'show' : 'hidden'" class="box">
+              <div class="boxContent">
+                <p>Available bikes: {{ city.scooters.length }}</p>
+              </div>
+              <div class="boxContent">
+                <input
+                  type="button"
+                  value="Select"
+                  @click="this.$emit('select', city._id)"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -46,12 +49,12 @@ export default {
   name: "MobileSelect",
   data() {
     return {
-      cities: [ ],
+      cities: [],
       current: "",
     };
   },
   async mounted() {
-    const apiUrl  = `http://localhost:3000/v1/cities`;
+    const apiUrl = `http://localhost:3000/v1/cities`;
     const response = await fetch(apiUrl);
     const data = await response.json();
     this.cities = data.data;

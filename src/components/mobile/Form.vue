@@ -4,12 +4,11 @@
 </template>
 
 <script>
-import Login from "./lib/Login.vue";
-import Register from "./lib/Register.vue";
+import Login from "./content/Login.vue";
+import Register from "./content/Register.vue";
 import { useCookies } from "vue3-cookies";
 import loginUser from "./../../requests/login";
-import swal from 'sweetalert';
-
+import swal from "sweetalert";
 
 export default {
   name: "MobileLogin",
@@ -34,30 +33,32 @@ export default {
       try {
         let result = await loginUser(email, pwd);
         this.checkToken(result.email, result.id, result.accessToken);
-      } catch(err) {
-        swal("Wrong email or password, try again...")
+      } catch (err) {
+        swal("Wrong email or password, try again...");
       }
     },
     checkToken(email, id, token) {
       if (token) {
-        this.cookies.set("user", {email: email, id: id, token: token});
-        this.$emit('logIn')
+        this.cookies.set("user", { email: email, id: id, token: token });
+        this.$emit("logIn");
       } else {
-        swal("Wrong email or password")
+        swal("Wrong email or password");
       }
     },
     skip() {
-      this.$emit("skip")
-    }
+      this.$emit("skip");
+    },
   },
   async mounted() {
     if (this.cookies.get("GitHubUser")) {
-      let result = await loginUser(this.cookies.get("GitHubUser"), process.env.VUE_APP_GITHUBPWD);
-      this.cookies.remove("GitHubUser")
+      let result = await loginUser(
+        this.cookies.get("GitHubUser"),
+        process.env.VUE_APP_GITHUBPWD
+      );
+      this.cookies.remove("GitHubUser");
       this.checkToken(result.email, result.id, result.accessToken);
     }
   },
-
 };
 </script>
 

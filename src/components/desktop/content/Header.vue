@@ -15,7 +15,9 @@
         <span class="material-icons">pest_control_rodent</span>
       </div>
       <ul class="navigation">
-        <li class="link" @click="this.$emit('changePanel', 1)">Manage scooters</li>
+        <li class="link" @click="this.$emit('changePanel', 1)">
+          Manage scooters
+        </li>
         <li class="link" @click="this.$emit('changePanel', 2)">Manage users</li>
         <li class="link" @click="this.$emit('changePanel', 10)">Log out</li>
       </ul>
@@ -24,11 +26,10 @@
 </template>
 
 <script>
-
 export default {
   name: "HeaderMain",
   emits: ["changePanel"],
-  props: ['user']
+  props: ["user"],
 };
 </script>
 
@@ -54,7 +55,8 @@ nav {
   }
 }
 
-ul, .link {
+ul,
+.link {
   font-weight: 500;
   color: #fff;
   list-style: none;
@@ -67,7 +69,6 @@ li {
   margin-left: 16px;
 }
 
-
 .navigation {
   display: flex;
   align-items: center;
@@ -77,7 +78,7 @@ li {
 
 .link {
   font-size: 14px;
-  transition: .5s ease all;
+  transition: 0.5s ease all;
   padding-bottom: 4px;
   border-bottom: 1px solid transparent;
   cursor: pointer;
@@ -96,5 +97,4 @@ li {
 .material-icons {
   font-size: 50px;
 }
-
 </style>

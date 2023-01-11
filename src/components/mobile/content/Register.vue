@@ -10,11 +10,21 @@
       </div>
       <div class="section">
         <label for="firstname"> Firstname </label>
-        <input v-model="firstname" type="text" id="firstname" placeholder="Firstname" />
+        <input
+          v-model="firstname"
+          type="text"
+          id="firstname"
+          placeholder="Firstname"
+        />
       </div>
       <div class="section">
         <label for="lastname"> Lastname </label>
-        <input v-model="lastname" type="text" id="lastname" placeholder="Lastname" />
+        <input
+          v-model="lastname"
+          type="text"
+          id="lastname"
+          placeholder="Lastname"
+        />
       </div>
       <div class="section">
         <label for="username"> Email </label>
@@ -22,7 +32,12 @@
       </div>
       <div class="section">
         <label for="password"> Password </label>
-        <input v-model="pwd" type="password" id="password" placeholder="Password" />
+        <input
+          v-model="pwd"
+          type="password"
+          id="password"
+          placeholder="Password"
+        />
       </div>
       <div class="signin">
         <input type="submit" value="Sign up" @click="onSubmit" />
@@ -39,30 +54,34 @@
 
 <script>
 import signUpUser from "./../../../requests/signup";
-import swal from 'sweetalert';
+import swal from "sweetalert";
 
 export default {
   name: "MobileRegister",
-  data()
-  {
+  data() {
     return {
-      firstname:"",
-      lastname:"",
-      email:"",
-      pwd:""
-    }
+      firstname: "",
+      lastname: "",
+      email: "",
+      pwd: "",
+    };
   },
   methods: {
     async onSubmit() {
-      let result = await signUpUser(this.firstname, this.lastname, this.email, this.pwd)
+      let result = await signUpUser(
+        this.firstname,
+        this.lastname,
+        this.email,
+        this.pwd
+      );
       if (result.status === 201) {
         swal("Account created");
-        this.$emit('alter')
+        this.$emit("alter");
       } else {
         swal("Email already exist");
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

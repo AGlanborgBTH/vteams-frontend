@@ -1,5 +1,5 @@
 export default async function signUpUser(firstname, lastname, email, pwd) {
-    let response = await fetch ("http://localhost:3000/v1/users/signup", {
+    let response = await fetch("http://localhost:3000/v1/users/signup", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -8,9 +8,10 @@ export default async function signUpUser(firstname, lastname, email, pwd) {
             firstname: firstname,
             surname: lastname,
             email: email,
-            cryptedpassword: pwd})
-      })
+            cryptedpassword: pwd
+        })
+    })
 
-      let result = await response;
-      return result;
+    let result = await response;
+    return result;
 }

@@ -2,7 +2,9 @@
   <form @submit="(event) => event.preventDefault()">
     <div class="titleContainer">
       <h1>Rodent</h1>
-      <span @click="this.$emit('skip')" class="material-icons">pest_control_rodent</span>
+      <span @click="this.$emit('skip')" class="material-icons"
+        >pest_control_rodent</span
+      >
     </div>
     <div class="contentContainer">
       <h2>E-bike Login</h2>
@@ -13,7 +15,12 @@
       </div>
       <div class="section">
         <label for="password"> Password </label>
-        <input v-model="pwd" type="password" id="password" placeholder="Password" />
+        <input
+          v-model="pwd"
+          type="password"
+          id="password"
+          placeholder="Password"
+        />
       </div>
       <div class="sup">
         <div class="rememberContainer">
@@ -22,11 +29,15 @@
         </div>
         <p class="forgot">Forgot Password?</p>
       </div>
-      <input type="submit" value="Sign In" @click="this.$emit('onLogIn', email, pwd)"/>
+      <input
+        type="submit"
+        value="Sign In"
+        @click="this.$emit('onLogIn', email, pwd)"
+      />
       <a
         href="https://github.com/login/oauth/authorize?client_id=6cf1f637f3f432873249&scope=user:email"
       >
-        <input type="button" value="Sign In with Github"/>
+        <input type="button" value="Sign In with Github" />
       </a>
       <div class="bot">
         <p>
@@ -41,13 +52,12 @@
 <script>
 export default {
   name: "MobileLogin",
-  data()
-  {
+  data() {
     return {
-      email:"",
-      pwd:""
-    }
-  }
+      email: "",
+      pwd: "",
+    };
+  },
 };
 </script>
 

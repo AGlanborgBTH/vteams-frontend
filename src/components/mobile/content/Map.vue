@@ -2,7 +2,7 @@
   <div class="container">
     <div class="circleContainer">
       <div
-        @click="this.open ? (this.open = false) : (this.open = true);"
+        @click="this.open ? (this.open = false) : (this.open = true)"
         :class="open ? 'hidden' : 'visible'"
         class="circle"
       >
@@ -40,7 +40,12 @@
       </div>
       <div class="footer">
         <div class="logoutContainer">
-          <input type="button" class="logout" value="Logout"  @click="this.$emit('logout')"/>
+          <input
+            type="button"
+            class="logout"
+            value="Logout"
+            @click="this.$emit('logout')"
+          />
         </div>
         <div class="legal">
           <p>Term Of Use</p>
@@ -60,7 +65,7 @@ import map from "@/lib/map.js";
 
 export default {
   name: "MobileMap",
-  emits:['logout'],
+  emits: ["logout"],
   props: {
     city: String,
   },
@@ -81,12 +86,12 @@ export default {
         {
           icon: "info",
           text: "About",
-          func: () => this.$emit("about")
+          func: () => this.$emit("about"),
         },
         {
           icon: "contact_support",
           text: "Contact",
-          func: () => this.$emit("contact")
+          func: () => this.$emit("contact"),
         },
       ],
     };

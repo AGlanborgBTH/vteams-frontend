@@ -1,12 +1,12 @@
 <template>
   <div>
-      <Header @changePanel="changePanel" user="user"/>
-      <div v-if="userLogs.length">
-        <History :userLogs="userLogs" :userEmail="userEmail"/>
-      </div>
-      <div v-else>
-        <h2>No data for the user</h2>
-      </div>
+    <Header @changePanel="changePanel" user="user" />
+    <div v-if="userLogs.length">
+      <History :userLogs="userLogs" :userEmail="userEmail" />
+    </div>
+    <div v-else>
+      <h2>No data for the user</h2>
+    </div>
   </div>
 </template>
 
@@ -21,7 +21,7 @@ export default {
   emits: ["logOut"],
   components: {
     Header,
-    History
+    History,
   },
   setup() {
     const { cookies } = useCookies();
@@ -30,27 +30,26 @@ export default {
   data() {
     return {
       userLogs: [],
-      userEmail: ""
+      userEmail: "",
     };
   },
   methods: {
     changePanel(status) {
-			if (status === 10) {
-				this.cookies.remove("user")
-				this.$emit("logOut")
-			}
-    }
+      if (status === 10) {
+        this.cookies.remove("user");
+        this.$emit("logOut");
+      }
+    },
   },
   async mounted() {
     let result = await getAllLogs();
-    let userId  = this.cookies.get("user").id
-    this.userLogs = result.data.filter((log) => log.customerID == userId)
-    this.userEmail = this.cookies.get("user").email
-  }
+    let userId = this.cookies.get("user").id;
+    this.userLogs = result.data.filter((log) => log.customerID == userId);
+    this.userEmail = this.cookies.get("user").email;
+  },
 };
 </script>
 
 <style scoped>
-@import '@/../node_modules/leaflet/dist/leaflet.css';
-
+@import "@/../node_modules/leaflet/dist/leaflet.css";
 </style>

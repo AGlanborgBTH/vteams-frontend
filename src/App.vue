@@ -4,46 +4,46 @@
 </template>
 
 <script>
-import Desktop from './components/Desktop.vue'
-import Mobile from './components/Mobile.vue'
-import detectMob from '@/lib/mobile'
+import Desktop from "./components/Desktop.vue";
+import Mobile from "./components/Mobile.vue";
+import detectMob from "@/lib/mobile";
 import { useCookies } from "vue3-cookies";
 const { cookies } = useCookies();
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     Desktop,
-    Mobile
+    Mobile,
   },
   data() {
     return {
-      mobile: false
-    }
+      mobile: false,
+    };
   },
   mounted() {
-    this.mobile = detectMob()
-    cookies.remove("city")
-  }
-}
+    this.mobile = detectMob();
+    cookies.remove("city");
+  },
+};
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Tienne&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Tienne&display=swap");
 
 body {
   margin: 0;
   padding: 0;
   background-color: rgb(46, 59, 97);
   color: rgb(255, 255, 255);
-  font-family: 'Tienne', 'serif';
+  font-family: "Tienne", "serif";
 }
 
 input,
 button,
 textarea {
   color: rgb(225, 255, 255);
-  font-family: 'Tienne', 'serif';
+  font-family: "Tienne", "serif";
 }
 
 .leaflet-left {
@@ -55,7 +55,8 @@ textarea {
   margin-right: 10px;
 }
 
-.popup .leaflet-popup-content-wrapper, .leaflet-popup-tip {
+.popup .leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
   background: rgba(46, 59, 97, 0.9);
   color: white;
   text-align: center;
@@ -66,8 +67,8 @@ textarea {
 }
 
 .popupButton {
-  background-color: #5429FF;
-  border: 1px solid #5429FF;
+  background-color: #5429ff;
+  border: 1px solid #5429ff;
   border-radius: 8px;
   color: #fff;
   cursor: pointer;
@@ -78,7 +79,7 @@ textarea {
 .popupUpper {
   display: flex;
   align-items: center;
-  justify-content: center
+  justify-content: center;
 }
 
 .batteryIcon {
@@ -99,5 +100,4 @@ textarea {
   max-height: 100%;
   display: block;
 }
-
 </style>

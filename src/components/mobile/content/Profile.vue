@@ -22,7 +22,12 @@
   <div class="inputCenter">
     <div class="inputContainer">
       <label for="email" class="inputLabel"> Email </label>
-      <input v-model="email" type="email" placeholder="jungkook@bts.ko" id="email" />
+      <input
+        v-model="email"
+        type="email"
+        placeholder="jungkook@bts.ko"
+        id="email"
+      />
       <div class="inputEditContainer">
         <span class="material-icons input-edit">edit</span>
       </div>
@@ -68,8 +73,8 @@ export default {
     return {
       email: "",
       wallet: 0,
-      add: 0
-    }
+      add: 0,
+    };
   },
   methods: {
     async updMoney() {

@@ -6,7 +6,7 @@ export default async function createLog(scooterId, name, location) {
     let cityId = cookies.get("city");
     let user = cookies.get("user");
 
-    let response = await fetch ("http://localhost:3000/v1/logs/", {
+    let response = await fetch("http://localhost:3000/v1/logs/", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -21,8 +21,8 @@ export default async function createLog(scooterId, name, location) {
             timeStart: Date.now(),
             locationStart: location
         })
-      })
+    })
 
-      let result = await response;
-      return result;
+    let result = await response;
+    return result;
 }

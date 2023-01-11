@@ -25,7 +25,7 @@ export default async function markers(mapInstance) {
   });
 
   const socket = io(process.env.VUE_APP_SOCKET_ENDPOINT);
-  socket.on("connecting", () => {});
+  socket.on("connecting", () => { });
 
   // let IconMarkerRed = leaflet.icon({
   //   iconUrl: "https://i.imgur.com/Elm3SkQ.png",

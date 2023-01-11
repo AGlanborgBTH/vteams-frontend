@@ -15,23 +15,23 @@
 </template>
 
 <script>
-import Map from "./lib/Map.vue";
-import Select from "./lib/Select.vue";
-import Profile from "./lib/Profile.vue";
-import About from "./lib/About.vue"
-import Contact from "./lib/Contact.vue"
+import Map from "./content/Map.vue";
+import Select from "./content/Select.vue";
+import Profile from "./content/Profile.vue";
+import About from "./content/About.vue";
+import Contact from "./content/Contact.vue";
 import { useCookies } from "vue3-cookies";
 const { cookies } = useCookies();
 
 export default {
   name: "MobileMain",
-  emits: ['logOut'],
+  emits: ["logOut"],
   components: {
     Map,
     Select,
     Profile,
     About,
-    Contact
+    Contact,
   },
   data() {
     return {
@@ -55,15 +55,15 @@ export default {
       this.state = 0;
     },
     onAbout() {
-      this.state = 3
+      this.state = 3;
     },
     onContact() {
-      this.state = 4
+      this.state = 4;
     },
     onLogout() {
-      cookies.remove('user')
-      this.$emit('logOut')
-    }
+      cookies.remove("user");
+      this.$emit("logOut");
+    },
   },
 };
 </script>
